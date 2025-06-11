@@ -18,7 +18,7 @@ app_request_processing_time_seconds 0.256
 
 # HELP app_memory_usage_bytes Current memory usage in bytes
 # TYPE app_memory_usage_bytes gauge
-app_memory_usage_bytes 512000000
+app_memory_usage_bytes 512
 
 # HELP app_cpu_load_ratio CPU load (0-1)
 # TYPE app_cpu_load_ratio gauge
