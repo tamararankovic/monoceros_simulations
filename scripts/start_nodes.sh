@@ -11,17 +11,16 @@
 
 set -euo pipefail
 
-if [[ $# -ne 6 ]]; then
-  echo "Usage: $0 <number_of_nodes> <region> <global-network-contact-id> <global-network-contact-address> <port_offset> <index>"
+if [[ $# -ne 5 ]]; then
+  echo "Usage: $0 <start_index> <number_of_nodes> <region> <gn_region> <port_offset>"
   exit 1
 fi
 
-COUNT="$1"
-REGION="$2"
-GN_CONTACT_NODE_ID="$3"
-GN_CONTACT_NODE_ADDR="$4"
+INDEX="$1"
+COUNT="$2"
+REGION="$3"
+GN_REGION="$4"
 PORT_OFFSET="$5"
-INDEX="$6"
 NETWORK="p2pnet"
 IMAGE="monoceros-all"
 
@@ -35,15 +34,10 @@ if ! docker network ls --format '{{.Name}}' | grep -q "^$NETWORK$"; then
   docker network create "$NETWORK"
 fi
 
-PREV_NODE_NAME="${REGION}_node_1"
-RN_CONTACT_NODE_ID="$PREV_NODE_NAME"
-RN_CONTACT_NODE_ADDR="${PREV_NODE_NAME}:6001"
-GN_CONTACT_NODE_ID="$PREV_NODE_NAME"
-GN_CONTACT_NODE_ADDR="${PREV_NODE_NAME}:7001"
-
-echo $PREV_NODE_NAME
-echo $RN_CONTACT_NODE_ID
-echo $RN_CONTACT_NODE_ADDR
+RN_CONTACT_NODE_ID="${REGION}_node_1"
+RN_CONTACT_NODE_ADDR="${REGION}_node_1:6001"
+GN_CONTACT_NODE_ID="${GN_REGION}_node_1"
+GN_CONTACT_NODE_ADDR="${GN_REGION}_node_1:7001"
 
 for i in $(seq "$(($INDEX))" "$(($INDEX + $COUNT -1))"); do
   NAME="${REGION}_node_$i"
@@ -79,16 +73,20 @@ for i in $(seq "$(($INDEX))" "$(($INDEX + $COUNT -1))"); do
     "$IMAGE"
 
   sleep 0.5
-  rand=$((1 + RANDOM % i))
-  PREV_NODE_NAME="${REGION}_node_$((rand))"
-  RN_CONTACT_NODE_ID="$PREV_NODE_NAME"
-  RN_CONTACT_NODE_ADDR="${PREV_NODE_NAME}:6001"
-  GN_CONTACT_NODE_ID="$PREV_NODE_NAME"
-  GN_CONTACT_NODE_ADDR="${PREV_NODE_NAME}:7001"
-  # if [[ "$i" -eq 1 ]]; then
-  #   sleep 10
-  # fi
-  # sleep 5
+  count_gn=$(docker ps --format '{{.Names}}' | grep -c "^$GN_REGION")
+  rand_gn=$((1 + RANDOM % count_gn))
+
+  count_rn=$(docker ps --format '{{.Names}}' | grep -c "^$REGION")
+  rand_rn=$((1 + RANDOM % count_rn))
+
+  GN_PREV_NODE_NAME="${GN_REGION}_node_$((rand_gn))"
+  RN_PREV_NODE_NAME="${REGION}_node_$((rand_rn))"
+
+  RN_CONTACT_NODE_ID="$RN_PREV_NODE_NAME"
+  RN_CONTACT_NODE_ADDR="${RN_PREV_NODE_NAME}:6001"
+
+  GN_CONTACT_NODE_ID="$GN_PREV_NODE_NAME"
+  GN_CONTACT_NODE_ADDR="${GN_PREV_NODE_NAME}:7001"
 done
 
 echo "✅ Started $COUNT containers with REGION=$REGION."
