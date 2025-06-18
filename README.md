@@ -13,9 +13,9 @@ sh start_nodes.sh 1 10 r7 r6 60
 sh start_nodes.sh 1 10 r8 r7 70
 sh start_nodes.sh 1 10 r9 r8 80
 
-sh start_nodes.sh 1 10 r1 r1 0
-sh start_nodes.sh 1 30 r2 r1 10
-sh start_nodes.sh 1 30 r3 r2 40
+sh start_nodes.sh 1 20 r1 r1 0
+sh start_nodes.sh 1 20 r2 r1 20
+sh start_nodes.sh 1 20 r3 r2 40
 
 helper commands
 - print container logs to .log file

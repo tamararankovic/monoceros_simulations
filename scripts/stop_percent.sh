@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
 # stop_percent.sh — Stops N% of running Docker containers whose names start with a given prefix.
 #
 # USAGE:
@@ -32,7 +32,7 @@ else
 fi
 
 # Shuffle
-CONTAINERS=( $(printf "%s\n" "${CONTAINERS[@]}" | shuf) )
+CONTAINERS=( $(printf "%s\n" "${CONTAINERS[@]}" | gshuf) )
 
 TOTAL=${#CONTAINERS[@]}
 
