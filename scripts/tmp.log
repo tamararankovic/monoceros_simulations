@@ -1,0 +1,1440 @@
+Starting generator...
+Starting monoceros...
+Starting Prometheus...
+2025/06/26 10:05:51 Metrics generator listening on :9100/metrics
+2025/06/26 10:05:51 {r1_node_1 r1 r1_node_1:5001 r1_node_1:7001 r1_node_1:6001 r1_node_1:8001 r1_node_1 r1_node_1:7001 r1_node_1 r1_node_1:6001 {5} /var/log/monoceros}
+GLOBAL HV2025/06/26 10:05:51 hyparview.go:57: HyParView node r1_node_1 initialized at r1_node_1:7001
+GLOBAL HV2025/06/26 10:05:51 hyparview.go:166: try lock
+REGION HV2025/06/26 10:05:51 hyparview.go:57: HyParView node r1_node_1 initialized at r1_node_1:6001
+REGION HV2025/06/26 10:05:51 hyparview.go:156: try lock
+REGION PT2025/06/26 10:05:51 plumtree.go:302: r1_node_1 - Message subscription started
+REGION HV2025/06/26 10:05:51 hyparview.go:166: try lock
+REGION PT2025/06/26 10:05:51 plumtree.go:68: r1_node_1 - Plumtree initialized peers []
+RRN HV2025/06/26 10:05:51 hyparview.go:57: HyParView node r1_node_1 initialized at r1_node_1:8001
+RRN HV2025/06/26 10:05:51 hyparview.go:156: try lock
+RRN PT2025/06/26 10:05:51 plumtree.go:302: r1_node_1 - Message subscription started
+RRN HV2025/06/26 10:05:51 hyparview.go:166: try lock
+RRN PT2025/06/26 10:05:51 plumtree.go:68: r1_node_1 - Plumtree initialized peers []
+GLOBAL HV2025/06/26 10:05:51 hyparview.go:74: r1_node_1 attempting to join via r1_node_1 (r1_node_1:7001)
+GLOBAL HV2025/06/26 10:05:51 hyparview.go:76: try lock
+GLOBAL HV2025/06/26 10:05:51 conn_tcp.go:133: Server listening on 0.0.0.0:7001
+REGION HV2025/06/26 10:05:51 hyparview.go:74: r1_node_1 attempting to join via r1_node_1 (r1_node_1:6001)
+REGION HV2025/06/26 10:05:51 hyparview.go:76: try lock
+REGION HV2025/06/26 10:05:51 conn_tcp.go:133: Server listening on 0.0.0.0:6001
+GLOBAL HV2025/06/26 10:05:51 hyparview.go:156: try lock
+Waiting for quit signal...
+ts=2025-06-26T10:05:51.897Z caller=main.go:589 level=info msg="No time or size retention was set so using the default time retention" duration=15d
+ts=2025-06-26T10:05:51.897Z caller=main.go:633 level=info msg="Starting Prometheus Server" mode=server version="(version=2.53.3, branch=HEAD, revision=1491d29fb1e8f8acbab29fd54fd4ce9be2cbd7bc)"
+ts=2025-06-26T10:05:51.898Z caller=main.go:638 level=info build_context="(go=go1.22.8, platform=linux/amd64, user=root@c6939e39a10c, date=20241105-12:18:07, tags=netgo,builtinassets,stringlabels)"
+ts=2025-06-26T10:05:51.898Z caller=main.go:639 level=info host_details="(Linux 6.5.11-linuxkit #1 SMP PREEMPT_DYNAMIC Mon Dec  4 10:03:25 UTC 2023 x86_64 r1_node_1 (none))"
+ts=2025-06-26T10:05:51.898Z caller=main.go:640 level=info fd_limits="(soft=1048576, hard=1048576)"
+ts=2025-06-26T10:05:51.898Z caller=main.go:641 level=info vm_limits="(soft=unlimited, hard=unlimited)"
+ts=2025-06-26T10:05:51.900Z caller=web.go:568 level=info component=web msg="Start listening for connections" address=0.0.0.0:9090
+ts=2025-06-26T10:05:51.901Z caller=main.go:1148 level=info msg="Starting TSDB ..."
+ts=2025-06-26T10:05:51.903Z caller=tls_config.go:313 level=info component=web msg="Listening on" address=[::]:9090
+ts=2025-06-26T10:05:51.903Z caller=tls_config.go:316 level=info component=web msg="TLS is disabled." http2=false address=[::]:9090
+ts=2025-06-26T10:05:51.905Z caller=head.go:626 level=info component=tsdb msg="Replaying on-disk memory mappable chunks if any"
+ts=2025-06-26T10:05:51.905Z caller=head.go:713 level=info component=tsdb msg="On-disk memory mappable chunks replay completed" duration=1.246µs
+ts=2025-06-26T10:05:51.905Z caller=head.go:721 level=info component=tsdb msg="Replaying WAL, this may take a while"
+ts=2025-06-26T10:05:51.905Z caller=head.go:793 level=info component=tsdb msg="WAL segment loaded" segment=0 maxSegment=0
+ts=2025-06-26T10:05:51.905Z caller=head.go:830 level=info component=tsdb msg="WAL replay completed" checkpoint_replay_duration=27.1µs wal_replay_duration=276.67µs wbl_replay_duration=154ns chunk_snapshot_load_duration=0s mmap_chunk_replay_duration=1.246µs total_replay_duration=327.195µs
+ts=2025-06-26T10:05:51.907Z caller=main.go:1169 level=info fs_type=EXT4_SUPER_MAGIC
+ts=2025-06-26T10:05:51.907Z caller=main.go:1172 level=info msg="TSDB started"
+ts=2025-06-26T10:05:51.907Z caller=main.go:1354 level=info msg="Loading configuration file" filename=/etc/prometheus/prometheus.yml
+ts=2025-06-26T10:05:51.907Z caller=main.go:1391 level=info msg="updated GOGC" old=100 new=75
+ts=2025-06-26T10:05:51.907Z caller=main.go:1402 level=info msg="Completed loading of configuration file" filename=/etc/prometheus/prometheus.yml totalDuration=543.252µs db_storage=831ns remote_storage=1.03µs web_handler=214ns query_engine=597ns scrape=271.291µs scrape_sd=13.24µs notify=981ns notify_sd=372ns rules=987ns tracing=4.393µs
+ts=2025-06-26T10:05:51.907Z caller=main.go:1133 level=info msg="Server is ready to receive web requests."
+ts=2025-06-26T10:05:51.908Z caller=manager.go:164 level=info component="rule manager" msg="Starting rule manager..."
+GLOBAL HV2025/06/26 10:05:52 conn_tcp.go:143: new TCP connection 172.26.0.3:35908
+GLOBAL HV2025/06/26 10:05:52 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:52 msg_handlers.go:12: try lock
+GLOBAL HV2025/06/26 10:05:52 msg_handlers.go:23: received Join message self r1_node_1 from r1_node_2 listenAddress r1_node_2:7001
+GLOBAL HV2025/06/26 10:05:52 msg_handlers.go:43: added peer to active view peerID r1_node_2 address r1_node_2:7001
+MONOCEROS2025/06/26 10:05:52 monoceros.go:764: try lock
+MONOCEROS2025/06/26 10:05:52 monoceros.go:767: global network peer up
+MONOCEROS2025/06/26 10:05:52 monoceros.go:769: already synced, no need to send sync req
+2025/06/26 10:05:52 nothing to send to peer
+GLOBAL HV2025/06/26 10:05:52 hyparview.go:214: try lock
+2025/06/26 10:05:52 received gossip msg [128 27 93 104 0 0 0 0 2]
+2025/06/26 10:05:52 Received: [2]
+MONOCEROS2025/06/26 10:05:52 monoceros.go:442: try lock
+MONOCEROS2025/06/26 10:05:52 monoceros.go:445: received global network msg [2]
+MONOCEROS2025/06/26 10:05:52 monoceros.go:474: received sync req
+MONOCEROS2025/06/26 10:05:52 monoceros.go:485: sending sync resp [3 123 34 82 101 103 105 111 110 97 108 82 111 111 116 65 100 100 114 101 115 115 101 115 34 58 123 125 44 34 82 101 103 105 111 110 97 108 82 111 111 116 82 101 103 105 111 110 115 34 58 123 125 125]
+2025/06/26 10:05:52 gn sending msg to peer
+2025/06/26 10:05:52 quit broadcasting signal ...
+REGION HV2025/06/26 10:05:52 conn_tcp.go:143: new TCP connection 172.26.0.3:60530
+REGION HV2025/06/26 10:05:52 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:52 msg_handlers.go:12: try lock
+REGION HV2025/06/26 10:05:52 msg_handlers.go:23: received Join message self r1_node_1 from r1_node_2 listenAddress r1_node_2:6001
+REGION HV2025/06/26 10:05:52 msg_handlers.go:43: added peer to active view peerID r1_node_2 address r1_node_2:6001
+REGION PT2025/06/26 10:05:52 plumtree.go:325: r1_node_1 - Processing onPeerUp peer: r1_node_2
+REGION PT2025/06/26 10:05:52 plumtree.go:326: try lock
+REGION PT2025/06/26 10:05:52 plumtree.go:334: r1_node_1 - Added peer r1_node_2 to peers
+GLOBAL HV2025/06/26 10:05:53 conn_tcp.go:143: new TCP connection 172.26.0.4:36716
+GLOBAL HV2025/06/26 10:05:53 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:53 msg_handlers.go:12: try lock
+GLOBAL HV2025/06/26 10:05:53 msg_handlers.go:23: received Join message self r1_node_1 from r1_node_3 listenAddress r1_node_3:7001
+GLOBAL HV2025/06/26 10:05:53 msg_handlers.go:43: added peer to active view peerID r1_node_3 address r1_node_3:7001
+MONOCEROS2025/06/26 10:05:53 monoceros.go:764: try lock
+MONOCEROS2025/06/26 10:05:53 monoceros.go:767: global network peer up
+MONOCEROS2025/06/26 10:05:53 monoceros.go:769: already synced, no need to send sync req
+2025/06/26 10:05:53 nothing to send to peer
+GLOBAL HV2025/06/26 10:05:53 hyparview.go:214: try lock
+2025/06/26 10:05:53 received gossip msg [129 27 93 104 0 0 0 0 2]
+2025/06/26 10:05:53 Received: [2]
+MONOCEROS2025/06/26 10:05:53 monoceros.go:442: try lock
+MONOCEROS2025/06/26 10:05:53 monoceros.go:445: received global network msg [2]
+MONOCEROS2025/06/26 10:05:53 monoceros.go:474: received sync req
+MONOCEROS2025/06/26 10:05:53 monoceros.go:485: sending sync resp [3 123 34 82 101 103 105 111 110 97 108 82 111 111 116 65 100 100 114 101 115 115 101 115 34 58 123 125 44 34 82 101 103 105 111 110 97 108 82 111 111 116 82 101 103 105 111 110 115 34 58 123 125 125]
+2025/06/26 10:05:53 gn sending msg to peer
+2025/06/26 10:05:53 quit broadcasting signal ...
+REGION HV2025/06/26 10:05:53 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:53 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:53 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_3 TTL 3
+REGION HV2025/06/26 10:05:53 msg_handlers.go:138: added peer to active view via forward join peerID r1_node_3 address r1_node_3:6001
+REGION PT2025/06/26 10:05:53 plumtree.go:325: r1_node_1 - Processing onPeerUp peer: r1_node_3
+REGION PT2025/06/26 10:05:53 plumtree.go:326: try lock
+REGION PT2025/06/26 10:05:53 plumtree.go:334: r1_node_1 - Added peer r1_node_3 to peers
+MONOCEROS2025/06/26 10:05:53 monoceros.go:172: try lock
+MONOCEROS2025/06/26 10:05:53 monoceros.go:172: try lock
+GLOBAL HV2025/06/26 10:05:54 conn_tcp.go:143: new TCP connection 172.26.0.5:54662
+GLOBAL HV2025/06/26 10:05:54 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:54 msg_handlers.go:12: try lock
+GLOBAL HV2025/06/26 10:05:54 msg_handlers.go:23: received Join message self r1_node_1 from r1_node_4 listenAddress r1_node_4:7001
+GLOBAL HV2025/06/26 10:05:54 msg_handlers.go:43: added peer to active view peerID r1_node_4 address r1_node_4:7001
+MONOCEROS2025/06/26 10:05:54 monoceros.go:764: try lock
+MONOCEROS2025/06/26 10:05:54 monoceros.go:767: global network peer up
+MONOCEROS2025/06/26 10:05:54 monoceros.go:769: already synced, no need to send sync req
+2025/06/26 10:05:54 nothing to send to peer
+GLOBAL HV2025/06/26 10:05:54 hyparview.go:214: try lock
+2025/06/26 10:05:54 received gossip msg [130 27 93 104 0 0 0 0 2]
+2025/06/26 10:05:54 Received: [2]
+MONOCEROS2025/06/26 10:05:54 monoceros.go:442: try lock
+MONOCEROS2025/06/26 10:05:54 monoceros.go:445: received global network msg [2]
+MONOCEROS2025/06/26 10:05:54 monoceros.go:474: received sync req
+MONOCEROS2025/06/26 10:05:54 monoceros.go:485: sending sync resp [3 123 34 82 101 103 105 111 110 97 108 82 111 111 116 65 100 100 114 101 115 115 101 115 34 58 123 125 44 34 82 101 103 105 111 110 97 108 82 111 111 116 82 101 103 105 111 110 115 34 58 123 125 125]
+2025/06/26 10:05:54 gn sending msg to peer
+2025/06/26 10:05:54 quit broadcasting signal ...
+GLOBAL HV2025/06/26 10:05:54 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:54 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:05:54 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_4 TTL 1
+GLOBAL HV2025/06/26 10:05:54 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:54 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:05:54 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_4 TTL 1
+REGION HV2025/06/26 10:05:54 conn_tcp.go:143: new TCP connection 172.26.0.5:38062
+REGION HV2025/06/26 10:05:54 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:54 msg_handlers.go:12: try lock
+REGION HV2025/06/26 10:05:54 msg_handlers.go:23: received Join message self r1_node_1 from r1_node_4 listenAddress r1_node_4:6001
+REGION HV2025/06/26 10:05:54 msg_handlers.go:43: added peer to active view peerID r1_node_4 address r1_node_4:6001
+REGION PT2025/06/26 10:05:54 plumtree.go:325: r1_node_1 - Processing onPeerUp peer: r1_node_4
+REGION PT2025/06/26 10:05:54 plumtree.go:326: try lock
+REGION PT2025/06/26 10:05:54 plumtree.go:334: r1_node_1 - Added peer r1_node_4 to peers
+REGION HV2025/06/26 10:05:54 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:54 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:54 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_4 TTL 1
+REGION HV2025/06/26 10:05:54 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:54 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:54 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_4 TTL 1
+MONOCEROS2025/06/26 10:05:55 monoceros.go:172: try lock
+MONOCEROS2025/06/26 10:05:55 monoceros.go:172: try lock
+GLOBAL HV2025/06/26 10:05:56 conn_tcp.go:143: new TCP connection 172.26.0.6:54258
+GLOBAL HV2025/06/26 10:05:56 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:56 msg_handlers.go:12: try lock
+GLOBAL HV2025/06/26 10:05:56 msg_handlers.go:23: received Join message self r1_node_1 from r1_node_5 listenAddress r1_node_5:7001
+GLOBAL HV2025/06/26 10:05:56 msg_handlers.go:43: added peer to active view peerID r1_node_5 address r1_node_5:7001
+MONOCEROS2025/06/26 10:05:56 monoceros.go:764: try lock
+MONOCEROS2025/06/26 10:05:56 monoceros.go:767: global network peer up
+MONOCEROS2025/06/26 10:05:56 monoceros.go:769: already synced, no need to send sync req
+2025/06/26 10:05:56 nothing to send to peer
+REGION HV2025/06/26 10:05:56 conn_tcp.go:143: new TCP connection 172.26.0.6:57490
+REGION HV2025/06/26 10:05:56 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:56 msg_handlers.go:12: try lock
+REGION HV2025/06/26 10:05:56 msg_handlers.go:23: received Join message self r1_node_1 from r1_node_5 listenAddress r1_node_5:6001
+REGION HV2025/06/26 10:05:56 msg_handlers.go:43: added peer to active view peerID r1_node_5 address r1_node_5:6001
+REGION PT2025/06/26 10:05:56 plumtree.go:325: r1_node_1 - Processing onPeerUp peer: r1_node_5
+REGION PT2025/06/26 10:05:56 plumtree.go:326: try lock
+REGION PT2025/06/26 10:05:56 plumtree.go:334: r1_node_1 - Added peer r1_node_5 to peers
+GLOBAL HV2025/06/26 10:05:56 hyparview.go:214: try lock
+2025/06/26 10:05:56 received gossip msg [132 27 93 104 0 0 0 0 2]
+2025/06/26 10:05:56 Received: [2]
+MONOCEROS2025/06/26 10:05:56 monoceros.go:442: try lock
+MONOCEROS2025/06/26 10:05:56 monoceros.go:445: received global network msg [2]
+MONOCEROS2025/06/26 10:05:56 monoceros.go:474: received sync req
+MONOCEROS2025/06/26 10:05:56 monoceros.go:485: sending sync resp [3 123 34 82 101 103 105 111 110 97 108 82 111 111 116 65 100 100 114 101 115 115 101 115 34 58 123 125 44 34 82 101 103 105 111 110 97 108 82 111 111 116 82 101 103 105 111 110 115 34 58 123 125 125]
+2025/06/26 10:05:56 gn sending msg to peer
+2025/06/26 10:05:56 quit broadcasting signal ...
+REGION HV2025/06/26 10:05:56 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:56 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:56 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_5 TTL 1
+GLOBAL HV2025/06/26 10:05:56 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:56 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:05:56 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_5 TTL 1
+GLOBAL HV2025/06/26 10:05:56 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:56 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:05:56 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_5 TTL 0
+REGION HV2025/06/26 10:05:56 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:56 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:56 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_5 TTL 1
+REGION HV2025/06/26 10:05:56 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:56 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:56 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_5 TTL 0
+GLOBAL HV2025/06/26 10:05:56 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:56 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:05:56 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_5 TTL 1
+MONOCEROS2025/06/26 10:05:56 monoceros.go:270: try lock
+MONOCEROS2025/06/26 10:05:56 monoceros.go:276: try promote
+REGION PT2025/06/26 10:05:56 plumtree.go:216: try lock
+REGION PT2025/06/26 10:05:56 plumtree.go:219: r1_node_1 - Get peers num
+MONOCEROS2025/06/26 10:05:56 monoceros.go:270: try lock
+REGION PT2025/06/26 10:05:56 plumtree.go:220: r1_node_1 - [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180}]
+MONOCEROS2025/06/26 10:05:56 monoceros.go:284: peers num 4 now time 1750932356 expected aggregation time 10
+MONOCEROS2025/06/26 10:05:56 monoceros.go:294: promoting RN
+REGION PT2025/06/26 10:05:56 plumtree.go:95: try lock
+REGION PT2025/06/26 10:05:56 plumtree.go:105: r1_node_1 - tree created RN_r1_node_1
+MONOCEROS2025/06/26 10:05:56 monoceros.go:302: try lock
+MONOCEROS2025/06/26 10:05:56 monoceros.go:777: try lock
+MONOCEROS2025/06/26 10:05:56 monoceros.go:780: tree constructed in RN, should join RRN {RN_r1_node_1 r1_node_1}
+GLOBAL HV2025/06/26 10:05:57 conn_tcp.go:143: new TCP connection 172.26.0.7:53346
+GLOBAL HV2025/06/26 10:05:57 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:57 msg_handlers.go:12: try lock
+GLOBAL HV2025/06/26 10:05:57 msg_handlers.go:23: received Join message self r1_node_1 from r1_node_6 listenAddress r1_node_6:7001
+GLOBAL HV2025/06/26 10:05:57 msg_handlers.go:43: added peer to active view peerID r1_node_6 address r1_node_6:7001
+MONOCEROS2025/06/26 10:05:57 monoceros.go:764: try lock
+MONOCEROS2025/06/26 10:05:57 monoceros.go:767: global network peer up
+MONOCEROS2025/06/26 10:05:57 monoceros.go:769: already synced, no need to send sync req
+2025/06/26 10:05:57 nothing to send to peer
+GLOBAL HV2025/06/26 10:05:57 hyparview.go:214: try lock
+2025/06/26 10:05:57 received gossip msg [133 27 93 104 0 0 0 0 2]
+2025/06/26 10:05:57 Received: [2]
+MONOCEROS2025/06/26 10:05:57 monoceros.go:442: try lock
+MONOCEROS2025/06/26 10:05:57 monoceros.go:445: received global network msg [2]
+MONOCEROS2025/06/26 10:05:57 monoceros.go:474: received sync req
+MONOCEROS2025/06/26 10:05:57 monoceros.go:485: sending sync resp [3 123 34 82 101 103 105 111 110 97 108 82 111 111 116 65 100 100 114 101 115 115 101 115 34 58 123 125 44 34 82 101 103 105 111 110 97 108 82 111 111 116 82 101 103 105 111 110 115 34 58 123 125 125]
+2025/06/26 10:05:57 gn sending msg to peer
+2025/06/26 10:05:57 quit broadcasting signal ...
+GLOBAL HV2025/06/26 10:05:57 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:57 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:57 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:57 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:57 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_6 TTL 3
+REGION HV2025/06/26 10:05:57 msg_handlers.go:143: added peer to passive view via forward join peerID r1_node_6
+REGION HV2025/06/26 10:05:57 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:57 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:57 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_6 TTL 2
+GLOBAL HV2025/06/26 10:05:57 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_6 TTL 1
+REGION HV2025/06/26 10:05:57 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:57 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:57 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_6 TTL 1
+GLOBAL HV2025/06/26 10:05:57 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:57 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:05:57 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_6 TTL 0
+MONOCEROS2025/06/26 10:05:57 monoceros.go:172: try lock
+MONOCEROS2025/06/26 10:05:57 monoceros.go:172: try lock
+MONOCEROS2025/06/26 10:05:58 metric.go:246: /metrics request
+MONOCEROS2025/06/26 10:05:58 metric.go:248: try lock
+GLOBAL HV2025/06/26 10:05:58 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:58 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:05:58 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_7 TTL 3
+GLOBAL HV2025/06/26 10:05:58 msg_handlers.go:143: added peer to passive view via forward join peerID r1_node_7
+REGION HV2025/06/26 10:05:58 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:58 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:58 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_7 TTL 3
+REGION HV2025/06/26 10:05:58 msg_handlers.go:143: added peer to passive view via forward join peerID r1_node_7
+REGION HV2025/06/26 10:05:58 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:58 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:58 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_7 TTL 1
+REGION HV2025/06/26 10:05:58 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:58 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:58 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_7 TTL 0
+REGION HV2025/06/26 10:05:58 msg_handlers.go:138: added peer to active view via forward join peerID r1_node_7 address r1_node_7:6001
+REGION PT2025/06/26 10:05:58 plumtree.go:325: r1_node_1 - Processing onPeerUp peer: r1_node_7
+REGION PT2025/06/26 10:05:58 plumtree.go:326: try lock
+REGION PT2025/06/26 10:05:58 plumtree.go:334: r1_node_1 - Added peer r1_node_7 to peers
+REGION PT2025/06/26 10:05:58 tree.go:192: r1_node_1 - Processing onPeerUp peer: r1_node_7
+REGION PT2025/06/26 10:05:58 tree.go:193: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180}] lazy push peers []
+REGION PT2025/06/26 10:05:58 tree.go:198: r1_node_1 - Added peer r1_node_7 to eager push peers
+REGION PT2025/06/26 10:05:58 tree.go:200: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140}] lazy push peers []
+GLOBAL HV2025/06/26 10:05:59 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:59 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:05:59 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_8 TTL 3
+GLOBAL HV2025/06/26 10:05:59 msg_handlers.go:143: added peer to passive view via forward join peerID r1_node_8
+GLOBAL HV2025/06/26 10:05:59 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:59 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:05:59 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_8 TTL 0
+REGION HV2025/06/26 10:05:59 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:59 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:59 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_8 TTL 3
+REGION HV2025/06/26 10:05:59 msg_handlers.go:143: added peer to passive view via forward join peerID r1_node_8
+REGION HV2025/06/26 10:05:59 hyparview.go:214: try lock
+REGION HV2025/06/26 10:05:59 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:05:59 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_8 TTL 2
+GLOBAL HV2025/06/26 10:05:59 msg_handlers.go:138: added peer to active view via forward join peerID r1_node_8 address r1_node_8:7001
+GLOBAL HV2025/06/26 10:05:59 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:59 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:05:59 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_8 TTL 1
+MONOCEROS2025/06/26 10:05:59 monoceros.go:764: try lock
+GLOBAL HV2025/06/26 10:05:59 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:05:59 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:05:59 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_8 TTL 0
+MONOCEROS2025/06/26 10:05:59 monoceros.go:767: global network peer up
+MONOCEROS2025/06/26 10:05:59 monoceros.go:769: already synced, no need to send sync req
+2025/06/26 10:05:59 nothing to send to peer
+MONOCEROS2025/06/26 10:05:59 monoceros.go:172: try lock
+MONOCEROS2025/06/26 10:05:59 monoceros.go:172: try lock
+GLOBAL HV2025/06/26 10:06:01 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:06:01 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:06:01 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_9 TTL 1
+GLOBAL HV2025/06/26 10:06:01 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:06:01 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:06:01 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_9 TTL 3
+GLOBAL HV2025/06/26 10:06:01 msg_handlers.go:143: added peer to passive view via forward join peerID r1_node_9
+REGION HV2025/06/26 10:06:01 hyparview.go:214: try lock
+REGION HV2025/06/26 10:06:01 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:06:01 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_9 TTL 3
+REGION HV2025/06/26 10:06:01 msg_handlers.go:143: added peer to passive view via forward join peerID r1_node_9
+REGION HV2025/06/26 10:06:01 hyparview.go:214: try lock
+REGION HV2025/06/26 10:06:01 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:06:01 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_9 TTL 0
+GLOBAL HV2025/06/26 10:06:01 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:06:01 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:06:01 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_9 TTL 1
+REGION HV2025/06/26 10:06:01 msg_handlers.go:138: added peer to active view via forward join peerID r1_node_9 address r1_node_9:6001
+REGION HV2025/06/26 10:06:01 hyparview.go:214: try lock
+REGION HV2025/06/26 10:06:01 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:06:01 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_9 TTL 1
+REGION PT2025/06/26 10:06:01 plumtree.go:325: r1_node_1 - Processing onPeerUp peer: r1_node_9
+REGION PT2025/06/26 10:06:01 plumtree.go:326: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:334: r1_node_1 - Added peer r1_node_9 to peers
+REGION PT2025/06/26 10:06:01 tree.go:192: r1_node_1 - Processing onPeerUp peer: r1_node_9
+REGION PT2025/06/26 10:06:01 tree.go:193: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140}] lazy push peers []
+REGION PT2025/06/26 10:06:01 tree.go:198: r1_node_1 - Added peer r1_node_9 to eager push peers
+REGION PT2025/06/26 10:06:01 tree.go:200: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_9 r1_node_9:6001} 0xc00039c080}] lazy push peers []
+MONOCEROS2025/06/26 10:06:01 monoceros.go:270: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:323: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:270: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:332: init aggregation {1750932361}
+MONOCEROS2025/06/26 10:06:01 monoceros.go:172: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:140: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:143: r1_node_1 - Gossiping message
+REGION PT2025/06/26 10:06:01 tree.go:57: r1_node_1 - Gossiping message
+MONOCEROS2025/06/26 10:06:01 monoceros.go:379: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:382: received aggregation msg {RN_r1_node_1 r1_node_1} A_REQ {"Timestamp":1750932361} from r1_node_1
+MONOCEROS2025/06/26 10:06:01 monoceros.go:172: try lock
+2025/06/26 10:06:01 metrics get
+2025/06/26 10:06:01 # HELP app_request_processing_time_seconds Average request processing time
+# TYPE app_request_processing_time_seconds gauge
+app_request_processing_time_seconds 0.256
+
+# HELP app_memory_usage_bytes Current memory usage in bytes
+# TYPE app_memory_usage_bytes gauge
+app_memory_usage_bytes 512
+
+# HELP app_cpu_load_ratio CPU load (0-1)
+# TYPE app_cpu_load_ratio gauge
+app_cpu_load_ratio 0.13
+
+# HELP app_active_sessions Current active user sessions
+# TYPE app_active_sessions gauge
+app_active_sessions 42
+
+# HELP app_queue_depth_pending_jobs Jobs waiting in queue
+# TYPE app_queue_depth_pending_jobs gauge
+app_queue_depth_pending_jobs 7
+
+# HELP app_cache_hit_ratio Cache hit ratio
+# TYPE app_cache_hit_ratio gauge
+app_cache_hit_ratio 0.82
+
+# HELP app_current_goroutines Goroutine count
+# TYPE app_current_goroutines gauge
+app_current_goroutines 33
+
+# HELP app_last_backup_timestamp_seconds Unix timestamp of last successful backup
+# TYPE app_last_backup_timestamp_seconds gauge
+app_last_backup_timestamp_seconds 1.700000e+09
+
+# HELP app_http_requests_total Total HTTP requests processed
+# TYPE app_http_requests_total counter
+app_http_requests_total 12890
+
+# HELP app_errors_total Total errors encountered
+# TYPE app_errors_total counter
+app_errors_total 17
+
+# EOF
+
+MONOCEROS2025/06/26 10:06:01 metric.go:83: metrics received
+MONOCEROS2025/06/26 10:06:01 metric.go:84: # HELP app_request_processing_time_seconds Average request processing time
+# TYPE app_request_processing_time_seconds gauge
+app_request_processing_time_seconds 0.256
+
+# HELP app_memory_usage_bytes Current memory usage in bytes
+# TYPE app_memory_usage_bytes gauge
+app_memory_usage_bytes 512
+
+# HELP app_cpu_load_ratio CPU load (0-1)
+# TYPE app_cpu_load_ratio gauge
+app_cpu_load_ratio 0.13
+
+# HELP app_active_sessions Current active user sessions
+# TYPE app_active_sessions gauge
+app_active_sessions 42
+
+# HELP app_queue_depth_pending_jobs Jobs waiting in queue
+# TYPE app_queue_depth_pending_jobs gauge
+app_queue_depth_pending_jobs 7
+
+# HELP app_cache_hit_ratio Cache hit ratio
+# TYPE app_cache_hit_ratio gauge
+app_cache_hit_ratio 0.82
+
+# HELP app_current_goroutines Goroutine count
+# TYPE app_current_goroutines gauge
+app_current_goroutines 33
+
+# HELP app_last_backup_timestamp_seconds Unix timestamp of last successful backup
+# TYPE app_last_backup_timestamp_seconds gauge
+app_last_backup_timestamp_seconds 1.700000e+09
+
+# HELP app_http_requests_total Total HTTP requests processed
+# TYPE app_http_requests_total counter
+app_http_requests_total 12890
+
+# HELP app_errors_total Total errors encountered
+# TYPE app_errors_total counter
+app_errors_total 17
+
+# EOF
+
+REGION PT2025/06/26 10:06:01 plumtree.go:226: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:663: children to send req [{r1_node_2 r1_node_2:6001} {r1_node_3 r1_node_3:6001} {r1_node_4 r1_node_4:6001} {r1_node_5 r1_node_5:6001} {r1_node_7 r1_node_7:6001} {r1_node_9 r1_node_9:6001}]
+REGION PT2025/06/26 10:06:01 plumtree.go:205: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:208: r1_node_1 - Get parent [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_9 r1_node_9:6001} 0xc00039c080}]
+MONOCEROS2025/06/26 10:06:01 monoceros.go:664: has parent false
+REGION PT2025/06/26 10:06:01 tree.go:60: try lock
+REGION PT2025/06/26 10:06:01 tree.go:87: r1_node_1 - Eager push - sending
+REGION PT2025/06/26 10:06:01 tree.go:90: r1_node_1 - peer {{r1_node_2 r1_node_2:6001} 0xc0001306c0}
+REGION PT2025/06/26 10:06:01 tree.go:94: r1_node_1 - Sending gossip msg to peer: r1_node_2
+MONOCEROS2025/06/26 10:06:01 monoceros.go:179: should clean up active request {{RN_r1_node_1 r1_node_1} 1750932361 [{r1_node_2 r1_node_2:6001} {r1_node_3 r1_node_3:6001} {r1_node_4 r1_node_4:6001} {r1_node_5 r1_node_5:6001} {r1_node_7 r1_node_7:6001} {r1_node_9 r1_node_9:6001}] [{{total_app_memory_usage_bytes map[func:sum]} {512}} {{avg_app_memory_usage_bytes map[func:avg]} {512 1}}] map[r1_node_1:1]}
+REGION PT2025/06/26 10:06:01 plumtree.go:226: try lock
+REGION PT2025/06/26 10:06:01 tree.go:90: r1_node_1 - peer {{r1_node_3 r1_node_3:6001} 0xc00039c000}
+REGION PT2025/06/26 10:06:01 tree.go:94: r1_node_1 - Sending gossip msg to peer: r1_node_3
+REGION PT2025/06/26 10:06:01 tree.go:90: r1_node_1 - peer {{r1_node_4 r1_node_4:6001} 0xc000130900}
+REGION PT2025/06/26 10:06:01 tree.go:94: r1_node_1 - Sending gossip msg to peer: r1_node_4
+REGION PT2025/06/26 10:06:01 tree.go:90: r1_node_1 - peer {{r1_node_5 r1_node_5:6001} 0xc000214180}
+REGION PT2025/06/26 10:06:01 tree.go:94: r1_node_1 - Sending gossip msg to peer: r1_node_5
+REGION PT2025/06/26 10:06:01 tree.go:90: r1_node_1 - peer {{r1_node_7 r1_node_7:6001} 0xc00040a140}
+REGION PT2025/06/26 10:06:01 tree.go:94: r1_node_1 - Sending gossip msg to peer: r1_node_7
+REGION PT2025/06/26 10:06:01 tree.go:90: r1_node_1 - peer {{r1_node_9 r1_node_9:6001} 0xc00039c080}
+REGION PT2025/06/26 10:06:01 tree.go:94: r1_node_1 - Sending gossip msg to peer: r1_node_9
+REGION PT2025/06/26 10:06:01 tree.go:113: r1_node_1 - Lazy push - sending
+REGION PT2025/06/26 10:06:01 tree.go:69: r1_node_1 - Message gossiped successfully
+MONOCEROS2025/06/26 10:06:01 monoceros.go:187: should not
+REGION HV2025/06/26 10:06:01 hyparview.go:214: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:277: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:279: r1_node_1 - Custom message handler invoked
+REGION PT2025/06/26 10:06:01 plumtree.go:281: r1_node_1 - sender &{172.26.0.3:60530 0xc00011a1c0 0xc000116ee0 0xc000116f50 0x682880 0xc00012d4a0}
+REGION PT2025/06/26 10:06:01 plumtree.go:295: r1_node_1 - received from r1_node_2
+REGION HV2025/06/26 10:06:01 hyparview.go:214: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:304: r1_node_1 - Received message in subscription handler [1 123 34 77 101 116 97 100 97 116 97 34 58 123 34 73 100 34 58 34 82 78 95 114 49 95 110 111 100 101 95 49 34 44 34 83 99 111 114 101 34 58 34 114 49 95 110 111 100 101 95 49 34 125 44 34 77 115 103 84 121 112 101 34 58 34 65 66 79 82 84 95 82 69 83 80 34 44 34 77 115 103 34 58 34 101 121 74 85 97 87 49 108 99 51 82 104 98 88 65 105 79 106 69 51 78 84 65 53 77 122 73 122 78 106 70 57 34 44 34 77 115 103 73 100 34 58 34 119 114 112 83 106 114 110 106 116 84 111 61 34 44 34 82 111 117 110 100 34 58 48 125]
+REGION PT2025/06/26 10:06:01 plumtree.go:277: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:279: r1_node_1 - Custom message handler invoked
+REGION PT2025/06/26 10:06:01 plumtree.go:281: r1_node_1 - sender &{172.26.0.5:38062 0xc000394018 0xc000117260 0xc0001172d0 0x682880 0xc00012d4a0}
+REGION PT2025/06/26 10:06:01 plumtree.go:295: r1_node_1 - received from r1_node_4
+REGION PT2025/06/26 10:06:01 plumtree.go:305: try lock
+REGION PT2025/06/26 10:06:01 msg_handlers.go:136: r1_node_1 - Processing direct message
+REGION PT2025/06/26 10:06:01 plumtree.go:304: r1_node_1 - Received message in subscription handler [1 123 34 77 101 116 97 100 97 116 97 34 58 123 34 73 100 34 58 34 82 78 95 114 49 95 110 111 100 101 95 49 34 44 34 83 99 111 114 101 34 58 34 114 49 95 110 111 100 101 95 49 34 125 44 34 77 115 103 84 121 112 101 34 58 34 65 66 79 82 84 95 82 69 83 80 34 44 34 77 115 103 34 58 34 101 121 74 85 97 87 49 108 99 51 82 104 98 88 65 105 79 106 69 51 78 84 65 53 77 122 73 122 78 106 70 57 34 44 34 77 115 103 73 100 34 58 34 50 77 86 57 103 85 99 69 113 113 119 61 34 44 34 82 111 117 110 100 34 58 48 125]
+REGION PT2025/06/26 10:06:01 plumtree.go:305: try lock
+REGION PT2025/06/26 10:06:01 msg_handlers.go:136: r1_node_1 - Processing direct message
+MONOCEROS2025/06/26 10:06:01 monoceros.go:412: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:415: received direct msg {RN_r1_node_1 r1_node_1} ABORT_RESP {"Timestamp":1750932361} from r1_node_4
+MONOCEROS2025/06/26 10:06:01 monoceros.go:681: complete aggregation req &{RN 0xc000192180 1750932361 0 0xc000116bd0 0xc00012aba0 0 [] true 0x787ea0 map[regionID:r1]} {RN_r1_node_1 r1_node_1}
+MONOCEROS2025/06/26 10:06:01 monoceros.go:682: &{RN_r1_node_1 r1_node_1}
+MONOCEROS2025/06/26 10:06:01 monoceros.go:683: RN_r1_node_1
+REGION PT2025/06/26 10:06:01 plumtree.go:205: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:208: r1_node_1 - Get parent [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_9 r1_node_9:6001} 0xc00039c080}]
+MONOCEROS2025/06/26 10:06:01 monoceros.go:714: req done
+MONOCEROS2025/06/26 10:06:01 monoceros.go:716: should destroy local tree
+REGION PT2025/06/26 10:06:01 plumtree.go:118: destroying tree {RN_r1_node_1 r1_node_1}
+REGION PT2025/06/26 10:06:01 plumtree.go:119: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:125: r1_node_1 - trees map[RN_r1_node_1:0xc000124960]
+MONOCEROS2025/06/26 10:06:01 monoceros.go:236: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:239: clean up tree RN {RN_r1_node_1 r1_node_1}
+MONOCEROS2025/06/26 10:06:01 monoceros.go:240: active requests
+MONOCEROS2025/06/26 10:06:01 monoceros.go:251: active requests
+MONOCEROS2025/06/26 10:06:01 monoceros.go:262: local tree removed
+MONOCEROS2025/06/26 10:06:01 monoceros.go:853: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:856: tree destroyed in RN, should leave RRN {RN_r1_node_1 r1_node_1}
+MONOCEROS2025/06/26 10:06:01 monoceros.go:871: dosao do leave
+RRN PT2025/06/26 10:06:01 plumtree.go:80: pt leave
+RRN HV2025/06/26 10:06:01 hyparview.go:131: r1_node_1 already left the network
+RRN PT2025/06/26 10:06:01 plumtree.go:82: pt left
+MONOCEROS2025/06/26 10:06:01 monoceros.go:873: prosao leave
+MONOCEROS2025/06/26 10:06:01 monoceros.go:412: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:888: sending rrn update [1 123 34 74 111 105 110 101 100 34 58 102 97 108 115 101 44 34 78 111 100 101 73 110 102 111 34 58 123 34 73 68 34 58 34 114 49 95 110 111 100 101 95 49 34 44 34 76 105 115 116 101 110 65 100 100 114 101 115 115 34 58 34 114 49 95 110 111 100 101 95 49 58 56 48 48 49 34 125 44 34 82 101 103 105 111 110 34 58 34 114 49 34 125]
+REGION HV2025/06/26 10:06:01 hyparview.go:214: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:442: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:277: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:279: r1_node_1 - Custom message handler invoked
+REGION PT2025/06/26 10:06:01 plumtree.go:281: r1_node_1 - sender &{172.26.0.6:57490 0xc00021e020 0xc00022a0e0 0xc00022a150 0x682880 0xc00012d4a0}
+REGION PT2025/06/26 10:06:01 plumtree.go:295: r1_node_1 - received from r1_node_5
+REGION HV2025/06/26 10:06:01 hyparview.go:214: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:277: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:279: r1_node_1 - Custom message handler invoked
+REGION PT2025/06/26 10:06:01 plumtree.go:281: r1_node_1 - sender &{172.26.0.4:6001 0xc000394008 0xc00038e070 0xc00038e0e0 0x682880 0xc00012d4a0}
+REGION PT2025/06/26 10:06:01 plumtree.go:295: r1_node_1 - received from r1_node_3
+MONOCEROS2025/06/26 10:06:01 monoceros.go:445: received global network msg [1 123 34 74 111 105 110 101 100 34 58 102 97 108 115 101 44 34 78 111 100 101 73 110 102 111 34 58 123 34 73 68 34 58 34 114 49 95 110 111 100 101 95 49 34 44 34 76 105 115 116 101 110 65 100 100 114 101 115 115 34 58 34 114 49 95 110 111 100 101 95 49 58 56 48 48 49 34 125 44 34 82 101 103 105 111 110 34 58 34 114 49 34 125]
+MONOCEROS2025/06/26 10:06:01 monoceros.go:448: received regional root update
+MONOCEROS2025/06/26 10:06:01 monoceros.go:470: map[]
+MONOCEROS2025/06/26 10:06:01 monoceros.go:471: map[]
+REGION PT2025/06/26 10:06:01 plumtree.go:304: r1_node_1 - Received message in subscription handler [1 123 34 77 101 116 97 100 97 116 97 34 58 123 34 73 100 34 58 34 82 78 95 114 49 95 110 111 100 101 95 49 34 44 34 83 99 111 114 101 34 58 34 114 49 95 110 111 100 101 95 49 34 125 44 34 77 115 103 84 121 112 101 34 58 34 65 66 79 82 84 95 82 69 83 80 34 44 34 77 115 103 34 58 34 101 121 74 85 97 87 49 108 99 51 82 104 98 88 65 105 79 106 69 51 78 84 65 53 77 122 73 122 78 106 70 57 34 44 34 77 115 103 73 100 34 58 34 76 56 66 80 80 49 48 78 106 71 85 61 34 44 34 82 111 117 110 100 34 58 48 125]
+REGION PT2025/06/26 10:06:01 plumtree.go:305: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:415: received direct msg {RN_r1_node_1 r1_node_1} ABORT_RESP {"Timestamp":1750932361} from r1_node_2
+REGION PT2025/06/26 10:06:01 msg_handlers.go:136: r1_node_1 - Processing direct message
+MONOCEROS2025/06/26 10:06:01 monoceros.go:607: could not find active request for response {1750932361} active requests []
+GLOBAL HV2025/06/26 10:06:01 hyparview.go:156: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:304: r1_node_1 - Received message in subscription handler [1 123 34 77 101 116 97 100 97 116 97 34 58 123 34 73 100 34 58 34 82 78 95 114 49 95 110 111 100 101 95 49 34 44 34 83 99 111 114 101 34 58 34 114 49 95 110 111 100 101 95 49 34 125 44 34 77 115 103 84 121 112 101 34 58 34 65 66 79 82 84 95 82 69 83 80 34 44 34 77 115 103 34 58 34 101 121 74 85 97 87 49 108 99 51 82 104 98 88 65 105 79 106 69 51 78 84 65 53 77 122 73 122 78 106 70 57 34 44 34 77 115 103 73 100 34 58 34 67 49 90 116 117 101 117 43 57 106 115 61 34 44 34 82 111 117 110 100 34 58 48 125]
+REGION PT2025/06/26 10:06:01 plumtree.go:305: try lock
+REGION PT2025/06/26 10:06:01 msg_handlers.go:136: r1_node_1 - Processing direct message
+MONOCEROS2025/06/26 10:06:01 monoceros.go:412: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:415: received direct msg {RN_r1_node_1 r1_node_1} ABORT_RESP {"Timestamp":1750932361} from r1_node_3
+MONOCEROS2025/06/26 10:06:01 monoceros.go:607: could not find active request for response {1750932361} active requests []
+MONOCEROS2025/06/26 10:06:01 monoceros.go:412: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:415: received direct msg {RN_r1_node_1 r1_node_1} ABORT_RESP {"Timestamp":1750932361} from r1_node_5
+MONOCEROS2025/06/26 10:06:01 monoceros.go:607: could not find active request for response {1750932361} active requests []
+MONOCEROS2025/06/26 10:06:01 monoceros.go:891: try lock
+REGION HV2025/06/26 10:06:01 hyparview.go:214: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:129: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:133: r1_node_1 - trees map[RN_r1_node_1:0xc000124960]
+MONOCEROS2025/06/26 10:06:01 monoceros.go:719: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:277: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:279: r1_node_1 - Custom message handler invoked
+REGION PT2025/06/26 10:06:01 plumtree.go:281: r1_node_1 - sender &{172.26.0.8:6001 0xc00041e018 0xc000442150 0xc0004421c0 0x682880 0xc00012d4a0}
+REGION PT2025/06/26 10:06:01 plumtree.go:295: r1_node_1 - received from r1_node_7
+REGION PT2025/06/26 10:06:01 plumtree.go:304: r1_node_1 - Received message in subscription handler [1 123 34 77 101 116 97 100 97 116 97 34 58 123 34 73 100 34 58 34 82 78 95 114 49 95 110 111 100 101 95 49 34 44 34 83 99 111 114 101 34 58 34 114 49 95 110 111 100 101 95 49 34 125 44 34 77 115 103 84 121 112 101 34 58 34 65 66 79 82 84 95 82 69 83 80 34 44 34 77 115 103 34 58 34 101 121 74 85 97 87 49 108 99 51 82 104 98 88 65 105 79 106 69 51 78 84 65 53 77 122 73 122 78 106 70 57 34 44 34 77 115 103 73 100 34 58 34 70 89 109 69 82 120 74 78 54 105 56 61 34 44 34 82 111 117 110 100 34 58 48 125]
+REGION PT2025/06/26 10:06:01 plumtree.go:305: try lock
+REGION PT2025/06/26 10:06:01 msg_handlers.go:136: r1_node_1 - Processing direct message
+MONOCEROS2025/06/26 10:06:01 monoceros.go:412: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:415: received direct msg {RN_r1_node_1 r1_node_1} ABORT_RESP {"Timestamp":1750932361} from r1_node_7
+MONOCEROS2025/06/26 10:06:01 monoceros.go:607: could not find active request for response {1750932361} active requests []
+REGION HV2025/06/26 10:06:01 hyparview.go:214: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:277: try lock
+REGION PT2025/06/26 10:06:01 plumtree.go:279: r1_node_1 - Custom message handler invoked
+REGION PT2025/06/26 10:06:01 plumtree.go:281: r1_node_1 - sender &{172.26.0.10:6001 0xc000394020 0xc00038e150 0xc00038e1c0 0x682880 0xc00012d4a0}
+REGION PT2025/06/26 10:06:01 plumtree.go:295: r1_node_1 - received from r1_node_9
+REGION PT2025/06/26 10:06:01 plumtree.go:304: r1_node_1 - Received message in subscription handler [1 123 34 77 101 116 97 100 97 116 97 34 58 123 34 73 100 34 58 34 82 78 95 114 49 95 110 111 100 101 95 49 34 44 34 83 99 111 114 101 34 58 34 114 49 95 110 111 100 101 95 49 34 125 44 34 77 115 103 84 121 112 101 34 58 34 65 66 79 82 84 95 82 69 83 80 34 44 34 77 115 103 34 58 34 101 121 74 85 97 87 49 108 99 51 82 104 98 88 65 105 79 106 69 51 78 84 65 53 77 122 73 122 78 106 70 57 34 44 34 77 115 103 73 100 34 58 34 102 109 110 51 104 43 88 86 109 112 107 61 34 44 34 82 111 117 110 100 34 58 48 125]
+REGION PT2025/06/26 10:06:01 plumtree.go:305: try lock
+REGION PT2025/06/26 10:06:01 msg_handlers.go:136: r1_node_1 - Processing direct message
+MONOCEROS2025/06/26 10:06:01 monoceros.go:412: try lock
+MONOCEROS2025/06/26 10:06:01 monoceros.go:415: received direct msg {RN_r1_node_1 r1_node_1} ABORT_RESP {"Timestamp":1750932361} from r1_node_9
+MONOCEROS2025/06/26 10:06:01 monoceros.go:607: could not find active request for response {1750932361} active requests []
+GLOBAL HV2025/06/26 10:06:02 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:06:02 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:06:02 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_10 TTL 1
+REGION HV2025/06/26 10:06:02 conn_tcp.go:143: new TCP connection 172.26.0.11:40476
+GLOBAL HV2025/06/26 10:06:02 hyparview.go:214: try lock
+GLOBAL HV2025/06/26 10:06:02 msg_handlers.go:89: try lock
+GLOBAL HV2025/06/26 10:06:02 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_10 TTL 2
+REGION HV2025/06/26 10:06:02 hyparview.go:214: try lock
+REGION HV2025/06/26 10:06:02 msg_handlers.go:12: try lock
+REGION HV2025/06/26 10:06:02 msg_handlers.go:23: received Join message self r1_node_1 from r1_node_10 listenAddress r1_node_10:6001
+REGION HV2025/06/26 10:06:02 hyparview.go:238: r1_node_1 is disconnecting random peer r1_node_9
+REGION HV2025/06/26 10:06:02 conn_tcp.go:96: tcp read error: read tcp 172.26.0.2:41100->172.26.0.10:6001: use of closed network connection
+REGION HV2025/06/26 10:06:02 hyparview.go:174: r1_node_1 - conn 172.26.0.10:6001 down
+REGION HV2025/06/26 10:06:02 hyparview.go:175: try lock
+REGION HV2025/06/26 10:06:02 msg_handlers.go:43: added peer to active view peerID r1_node_10 address r1_node_10:6001
+REGION HV2025/06/26 10:06:02 conn_tcp.go:64: write tcp 172.26.0.2:41100->172.26.0.10:6001: use of closed network connection
+REGION HV2025/06/26 10:06:02 msg_handlers.go:59: failed to send ForwardJoin message to r1_node_9 error write tcp 172.26.0.2:41100->172.26.0.10:6001: use of closed network connection
+REGION HV2025/06/26 10:06:02 hyparview.go:178: lock acquired
+REGION HV2025/06/26 10:06:02 hyparview.go:180: r1_node_1 - peer r1_node_9 down
+REGION PT2025/06/26 10:06:02 plumtree.go:325: r1_node_1 - Processing onPeerUp peer: r1_node_10
+REGION PT2025/06/26 10:06:02 plumtree.go:326: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:334: r1_node_1 - Added peer r1_node_10 to peers
+REGION PT2025/06/26 10:06:02 tree.go:192: r1_node_1 - Processing onPeerUp peer: r1_node_10
+REGION PT2025/06/26 10:06:02 tree.go:193: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_9 r1_node_9:6001} 0xc00039c080}] lazy push peers []
+REGION PT2025/06/26 10:06:02 tree.go:198: r1_node_1 - Added peer r1_node_10 to eager push peers
+REGION HV2025/06/26 10:06:02 hyparview.go:174: r1_node_1 - conn 172.26.0.10:6001 down
+REGION HV2025/06/26 10:06:02 hyparview.go:175: try lock
+REGION HV2025/06/26 10:06:02 hyparview.go:178: lock acquired
+REGION PT2025/06/26 10:06:02 tree.go:200: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_9 r1_node_9:6001} 0xc00039c080} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}] lazy push peers []
+REGION PT2025/06/26 10:06:02 plumtree.go:345: r1_node_1 - Processing onPeerDown peer: r1_node_9
+REGION PT2025/06/26 10:06:02 plumtree.go:346: try lock
+REGION PT2025/06/26 10:06:02 tree.go:205: r1_node_1 - Processing onPeerDown peer: r1_node_9
+REGION PT2025/06/26 10:06:02 tree.go:206: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_9 r1_node_9:6001} 0xc00039c080} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}] lazy push peers []
+REGION PT2025/06/26 10:06:02 tree.go:213: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}] lazy push peers []
+REGION HV2025/06/26 10:06:02 hyparview.go:214: try lock
+REGION HV2025/06/26 10:06:02 msg_handlers.go:89: try lock
+REGION HV2025/06/26 10:06:02 msg_handlers.go:100: received ForwardJoin message self r1_node_1 from r1_node_10 TTL 1
+REGION HV2025/06/26 10:06:02 hyparview.go:214: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:277: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:279: r1_node_1 - Custom message handler invoked
+REGION PT2025/06/26 10:06:02 plumtree.go:281: r1_node_1 - sender &{172.26.0.3:60530 0xc00011a1c0 0xc000116ee0 0xc000116f50 0x682880 0xc00012d4a0}
+REGION PT2025/06/26 10:06:02 plumtree.go:295: r1_node_1 - received from r1_node_2
+REGION PT2025/06/26 10:06:02 plumtree.go:304: r1_node_1 - Received message in subscription handler [0 123 34 77 101 116 97 100 97 116 97 34 58 123 34 73 100 34 58 34 82 78 95 114 49 95 110 111 100 101 95 50 34 44 34 83 99 111 114 101 34 58 34 114 49 95 110 111 100 101 95 50 34 125 44 34 77 115 103 84 121 112 101 34 58 34 65 95 82 69 81 34 44 34 77 115 103 34 58 34 101 121 74 85 97 87 49 108 99 51 82 104 98 88 65 105 79 106 69 51 78 84 65 53 77 122 73 122 78 106 74 57 34 44 34 77 115 103 73 100 34 58 34 76 87 110 90 74 80 53 53 69 68 119 61 34 44 34 82 111 117 110 100 34 58 48 125]
+REGION PT2025/06/26 10:06:02 plumtree.go:305: try lock
+REGION PT2025/06/26 10:06:02 msg_handlers.go:21: r1_node_1 - tree with id=RN_r1_node_2 not found
+REGION PT2025/06/26 10:06:02 msg_handlers.go:23: r1_node_1 - tree created RN_r1_node_2
+REGION PT2025/06/26 10:06:02 msg_handlers.go:97: r1_node_1 - Processing gossip message
+REGION PT2025/06/26 10:06:02 msg_handlers.go:101: r1_node_1 - message [45 105 217 36 254 121 16 60] received for the first time add sender to eager push peers {r1_node_2 r1_node_2:6001}
+MONOCEROS2025/06/26 10:06:02 monoceros.go:379: try lock
+MONOCEROS2025/06/26 10:06:02 monoceros.go:382: received aggregation msg {RN_r1_node_2 r1_node_2} A_REQ {"Timestamp":1750932362} from r1_node_2
+2025/06/26 10:06:02 metrics get
+2025/06/26 10:06:02 # HELP app_request_processing_time_seconds Average request processing time
+# TYPE app_request_processing_time_seconds gauge
+app_request_processing_time_seconds 0.256
+
+# HELP app_memory_usage_bytes Current memory usage in bytes
+# TYPE app_memory_usage_bytes gauge
+app_memory_usage_bytes 512
+
+# HELP app_cpu_load_ratio CPU load (0-1)
+# TYPE app_cpu_load_ratio gauge
+app_cpu_load_ratio 0.13
+
+# HELP app_active_sessions Current active user sessions
+# TYPE app_active_sessions gauge
+app_active_sessions 42
+
+# HELP app_queue_depth_pending_jobs Jobs waiting in queue
+# TYPE app_queue_depth_pending_jobs gauge
+app_queue_depth_pending_jobs 7
+
+# HELP app_cache_hit_ratio Cache hit ratio
+# TYPE app_cache_hit_ratio gauge
+app_cache_hit_ratio 0.82
+
+# HELP app_current_goroutines Goroutine count
+# TYPE app_current_goroutines gauge
+app_current_goroutines 33
+
+# HELP app_last_backup_timestamp_seconds Unix timestamp of last successful backup
+# TYPE app_last_backup_timestamp_seconds gauge
+app_last_backup_timestamp_seconds 1.700000e+09
+
+# HELP app_http_requests_total Total HTTP requests processed
+# TYPE app_http_requests_total counter
+app_http_requests_total 12890
+
+# HELP app_errors_total Total errors encountered
+# TYPE app_errors_total counter
+app_errors_total 17
+
+# EOF
+
+MONOCEROS2025/06/26 10:06:02 monoceros.go:777: try lock
+MONOCEROS2025/06/26 10:06:02 metric.go:83: metrics received
+MONOCEROS2025/06/26 10:06:02 metric.go:84: # HELP app_request_processing_time_seconds Average request processing time
+# TYPE app_request_processing_time_seconds gauge
+app_request_processing_time_seconds 0.256
+
+# HELP app_memory_usage_bytes Current memory usage in bytes
+# TYPE app_memory_usage_bytes gauge
+app_memory_usage_bytes 512
+
+# HELP app_cpu_load_ratio CPU load (0-1)
+# TYPE app_cpu_load_ratio gauge
+app_cpu_load_ratio 0.13
+
+# HELP app_active_sessions Current active user sessions
+# TYPE app_active_sessions gauge
+app_active_sessions 42
+
+# HELP app_queue_depth_pending_jobs Jobs waiting in queue
+# TYPE app_queue_depth_pending_jobs gauge
+app_queue_depth_pending_jobs 7
+
+# HELP app_cache_hit_ratio Cache hit ratio
+# TYPE app_cache_hit_ratio gauge
+app_cache_hit_ratio 0.82
+
+# HELP app_current_goroutines Goroutine count
+# TYPE app_current_goroutines gauge
+app_current_goroutines 33
+
+# HELP app_last_backup_timestamp_seconds Unix timestamp of last successful backup
+# TYPE app_last_backup_timestamp_seconds gauge
+app_last_backup_timestamp_seconds 1.700000e+09
+
+# HELP app_http_requests_total Total HTTP requests processed
+# TYPE app_http_requests_total counter
+app_http_requests_total 12890
+
+# HELP app_errors_total Total errors encountered
+# TYPE app_errors_total counter
+app_errors_total 17
+
+# EOF
+
+REGION PT2025/06/26 10:06:02 plumtree.go:226: try lock
+MONOCEROS2025/06/26 10:06:02 monoceros.go:663: children to send req [{r1_node_3 r1_node_3:6001} {r1_node_4 r1_node_4:6001} {r1_node_5 r1_node_5:6001} {r1_node_7 r1_node_7:6001} {r1_node_10 r1_node_10:6001}]
+REGION PT2025/06/26 10:06:02 plumtree.go:205: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:208: r1_node_1 - Get parent [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}]
+MONOCEROS2025/06/26 10:06:02 monoceros.go:664: has parent true
+REGION PT2025/06/26 10:06:02 msg_handlers.go:112: try lock
+REGION PT2025/06/26 10:06:02 tree.go:87: r1_node_1 - Eager push - sending
+REGION PT2025/06/26 10:06:02 tree.go:90: r1_node_1 - peer {{r1_node_2 r1_node_2:6001} 0xc0001306c0}
+REGION PT2025/06/26 10:06:02 tree.go:90: r1_node_1 - peer {{r1_node_3 r1_node_3:6001} 0xc00039c000}
+REGION PT2025/06/26 10:06:02 tree.go:94: r1_node_1 - Sending gossip msg to peer: r1_node_3
+REGION PT2025/06/26 10:06:02 tree.go:90: r1_node_1 - peer {{r1_node_4 r1_node_4:6001} 0xc000130900}
+REGION PT2025/06/26 10:06:02 tree.go:94: r1_node_1 - Sending gossip msg to peer: r1_node_4
+MONOCEROS2025/06/26 10:06:02 monoceros.go:780: tree constructed in RN, should join RRN {RN_r1_node_2 r1_node_2}
+REGION PT2025/06/26 10:06:02 tree.go:90: r1_node_1 - peer {{r1_node_5 r1_node_5:6001} 0xc000214180}
+REGION PT2025/06/26 10:06:02 tree.go:94: r1_node_1 - Sending gossip msg to peer: r1_node_5
+REGION PT2025/06/26 10:06:02 tree.go:90: r1_node_1 - peer {{r1_node_7 r1_node_7:6001} 0xc00040a140}
+REGION PT2025/06/26 10:06:02 tree.go:94: r1_node_1 - Sending gossip msg to peer: r1_node_7
+REGION PT2025/06/26 10:06:02 tree.go:90: r1_node_1 - peer {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}
+REGION PT2025/06/26 10:06:02 tree.go:94: r1_node_1 - Sending gossip msg to peer: r1_node_10
+MONOCEROS2025/06/26 10:06:02 monoceros.go:782: should not
+REGION PT2025/06/26 10:06:02 tree.go:113: r1_node_1 - Lazy push - sending
+GLOBAL HV2025/06/26 10:06:02 hyparview.go:214: try lock
+2025/06/26 10:06:02 received gossip msg [138 27 93 104 0 0 0 0 1 123 34 74 111 105 110 101 100 34 58 102 97 108 115 101 44 34 78 111 100 101 73 110 102 111 34 58 123 34 73 68 34 58 34 114 49 95 110 111 100 101 95 50 34 44 34 76 105 115 116 101 110 65 100 100 114 101 115 115 34 58 34 114 49 95 110 111 100 101 95 50 58 56 48 48 49 34 125 44 34 82 101 103 105 111 110 34 58 34 114 49 34 125]
+2025/06/26 10:06:02 Received: [1 123 34 74 111 105 110 101 100 34 58 102 97 108 115 101 44 34 78 111 100 101 73 110 102 111 34 58 123 34 73 68 34 58 34 114 49 95 110 111 100 101 95 50 34 44 34 76 105 115 116 101 110 65 100 100 114 101 115 115 34 58 34 114 49 95 110 111 100 101 95 50 58 56 48 48 49 34 125 44 34 82 101 103 105 111 110 34 58 34 114 49 34 125]
+MONOCEROS2025/06/26 10:06:02 monoceros.go:442: try lock
+MONOCEROS2025/06/26 10:06:02 monoceros.go:445: received global network msg [1 123 34 74 111 105 110 101 100 34 58 102 97 108 115 101 44 34 78 111 100 101 73 110 102 111 34 58 123 34 73 68 34 58 34 114 49 95 110 111 100 101 95 50 34 44 34 76 105 115 116 101 110 65 100 100 114 101 115 115 34 58 34 114 49 95 110 111 100 101 95 50 58 56 48 48 49 34 125 44 34 82 101 103 105 111 110 34 58 34 114 49 34 125]
+MONOCEROS2025/06/26 10:06:02 monoceros.go:448: received regional root update
+MONOCEROS2025/06/26 10:06:02 monoceros.go:470: map[]
+MONOCEROS2025/06/26 10:06:02 monoceros.go:471: map[]
+GLOBAL HV2025/06/26 10:06:02 hyparview.go:156: try lock
+REGION HV2025/06/26 10:06:02 hyparview.go:214: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:277: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:279: r1_node_1 - Custom message handler invoked
+REGION PT2025/06/26 10:06:02 plumtree.go:281: r1_node_1 - sender &{172.26.0.5:38062 0xc000394018 0xc000117260 0xc0001172d0 0x682880 0xc00012d4a0}
+REGION PT2025/06/26 10:06:02 plumtree.go:295: r1_node_1 - received from r1_node_4
+REGION PT2025/06/26 10:06:02 plumtree.go:304: r1_node_1 - Received message in subscription handler [2 123 34 77 101 116 97 100 97 116 97 34 58 123 34 73 100 34 58 34 82 78 95 114 49 95 110 111 100 101 95 50 34 44 34 83 99 111 114 101 34 58 34 114 49 95 110 111 100 101 95 50 34 125 125]
+REGION PT2025/06/26 10:06:02 plumtree.go:305: try lock
+REGION PT2025/06/26 10:06:02 msg_handlers.go:142: r1_node_1 - Processing prune message from peer: r1_node_4
+REGION PT2025/06/26 10:06:02 msg_handlers.go:143: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}] lazy push peers []
+REGION PT2025/06/26 10:06:02 msg_handlers.go:145: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}] lazy push peers [{{r1_node_4 r1_node_4:6001} 0xc000130900}]
+REGION HV2025/06/26 10:06:02 hyparview.go:214: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:277: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:279: r1_node_1 - Custom message handler invoked
+REGION PT2025/06/26 10:06:02 plumtree.go:281: r1_node_1 - sender &{172.26.0.6:57490 0xc00021e020 0xc00022a0e0 0xc00022a150 0x682880 0xc00012d4a0}
+REGION PT2025/06/26 10:06:02 plumtree.go:295: r1_node_1 - received from r1_node_5
+REGION HV2025/06/26 10:06:02 hyparview.go:214: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:277: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:279: r1_node_1 - Custom message handler invoked
+REGION PT2025/06/26 10:06:02 plumtree.go:281: r1_node_1 - sender &{172.26.0.8:6001 0xc00041e018 0xc000442150 0xc0004421c0 0x682880 0xc00012d4a0}
+REGION PT2025/06/26 10:06:02 plumtree.go:295: r1_node_1 - received from r1_node_7
+GLOBAL HV2025/06/26 10:06:02 hyparview.go:214: try lock
+2025/06/26 10:06:02 received gossip msg [138 27 93 104 0 0 0 0 1 123 34 74 111 105 110 101 100 34 58 102 97 108 115 101 44 34 78 111 100 101 73 110 102 111 34 58 123 34 73 68 34 58 34 114 49 95 110 111 100 101 95 50 34 44 34 76 105 115 116 101 110 65 100 100 114 101 115 115 34 58 34 114 49 95 110 111 100 101 95 50 58 56 48 48 49 34 125 44 34 82 101 103 105 111 110 34 58 34 114 49 34 125]
+REGION PT2025/06/26 10:06:02 plumtree.go:304: r1_node_1 - Received message in subscription handler [2 123 34 77 101 116 97 100 97 116 97 34 58 123 34 73 100 34 58 34 82 78 95 114 49 95 110 111 100 101 95 50 34 44 34 83 99 111 114 101 34 58 34 114 49 95 110 111 100 101 95 50 34 125 125]
+2025/06/26 10:06:02 msg already seen: [138 27 93 104 0 0 0 0 1 123 34 74 111 105 110 101 100 34 58 102 97 108 115 101 44 34 78 111 100 101 73 110 102 111 34 58 123 34 73 68 34 58 34 114 49 95 110 111 100 101 95 50 34 44 34 76 105 115 116 101 110 65 100 100 114 101 115 115 34 58 34 114 49 95 110 111 100 101 95 50 58 56 48 48 49 34 125 44 34 82 101 103 105 111 110 34 58 34 114 49 34 125]
+REGION PT2025/06/26 10:06:02 plumtree.go:305: try lock
+REGION PT2025/06/26 10:06:02 msg_handlers.go:142: r1_node_1 - Processing prune message from peer: r1_node_5
+REGION PT2025/06/26 10:06:02 msg_handlers.go:143: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}] lazy push peers [{{r1_node_4 r1_node_4:6001} 0xc000130900}]
+REGION PT2025/06/26 10:06:02 msg_handlers.go:145: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}] lazy push peers [{{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180}]
+REGION PT2025/06/26 10:06:02 plumtree.go:304: r1_node_1 - Received message in subscription handler [1 123 34 77 101 116 97 100 97 116 97 34 58 123 34 73 100 34 58 34 82 78 95 114 49 95 110 111 100 101 95 50 34 44 34 83 99 111 114 101 34 58 34 114 49 95 110 111 100 101 95 50 34 125 44 34 77 115 103 84 121 112 101 34 58 34 65 66 79 82 84 95 82 69 83 80 34 44 34 77 115 103 34 58 34 101 121 74 85 97 87 49 108 99 51 82 104 98 88 65 105 79 106 69 51 78 84 65 53 77 122 73 122 78 106 74 57 34 44 34 77 115 103 73 100 34 58 34 119 110 50 120 104 79 88 97 89 110 69 61 34 44 34 82 111 117 110 100 34 58 48 125]
+REGION PT2025/06/26 10:06:02 plumtree.go:305: try lock
+REGION PT2025/06/26 10:06:02 msg_handlers.go:136: r1_node_1 - Processing direct message
+MONOCEROS2025/06/26 10:06:02 monoceros.go:412: try lock
+MONOCEROS2025/06/26 10:06:02 monoceros.go:415: received direct msg {RN_r1_node_2 r1_node_2} ABORT_RESP {"Timestamp":1750932362} from r1_node_7
+GLOBAL HV2025/06/26 10:06:02 hyparview.go:214: try lock
+2025/06/26 10:06:02 received gossip msg [138 27 93 104 0 0 0 0 1 123 34 74 111 105 110 101 100 34 58 102 97 108 115 101 44 34 78 111 100 101 73 110 102 111 34 58 123 34 73 68 34 58 34 114 49 95 110 111 100 101 95 50 34 44 34 76 105 115 116 101 110 65 100 100 114 101 115 115 34 58 34 114 49 95 110 111 100 101 95 50 58 56 48 48 49 34 125 44 34 82 101 103 105 111 110 34 58 34 114 49 34 125]
+2025/06/26 10:06:02 msg already seen: [138 27 93 104 0 0 0 0 1 123 34 74 111 105 110 101 100 34 58 102 97 108 115 101 44 34 78 111 100 101 73 110 102 111 34 58 123 34 73 68 34 58 34 114 49 95 110 111 100 101 95 50 34 44 34 76 105 115 116 101 110 65 100 100 114 101 115 115 34 58 34 114 49 95 110 111 100 101 95 50 58 56 48 48 49 34 125 44 34 82 101 103 105 111 110 34 58 34 114 49 34 125]
+REGION HV2025/06/26 10:06:02 hyparview.go:214: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:277: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:279: r1_node_1 - Custom message handler invoked
+GLOBAL HV2025/06/26 10:06:02 hyparview.go:214: try lock
+2025/06/26 10:06:02 received gossip msg [138 27 93 104 0 0 0 0 1 123 34 74 111 105 110 101 100 34 58 102 97 108 115 101 44 34 78 111 100 101 73 110 102 111 34 58 123 34 73 68 34 58 34 114 49 95 110 111 100 101 95 50 34 44 34 76 105 115 116 101 110 65 100 100 114 101 115 115 34 58 34 114 49 95 110 111 100 101 95 50 58 56 48 48 49 34 125 44 34 82 101 103 105 111 110 34 58 34 114 49 34 125]
+2025/06/26 10:06:02 msg already seen: [138 27 93 104 0 0 0 0 1 123 34 74 111 105 110 101 100 34 58 102 97 108 115 101 44 34 78 111 100 101 73 110 102 111 34 58 123 34 73 68 34 58 34 114 49 95 110 111 100 101 95 50 34 44 34 76 105 115 116 101 110 65 100 100 114 101 115 115 34 58 34 114 49 95 110 111 100 101 95 50 58 56 48 48 49 34 125 44 34 82 101 103 105 111 110 34 58 34 114 49 34 125]
+REGION PT2025/06/26 10:06:02 plumtree.go:281: r1_node_1 - sender &{172.26.0.4:6001 0xc000394008 0xc00038e070 0xc00038e0e0 0x682880 0xc00012d4a0}
+REGION PT2025/06/26 10:06:02 plumtree.go:295: r1_node_1 - received from r1_node_3
+MONOCEROS2025/06/26 10:06:02 monoceros.go:681: complete aggregation req &{RN 0xc000192180 1750932362 0 0xc000116bd0 <nil> 0 [] true 0x787ea0 map[regionID:r1]} {RN_r1_node_2 r1_node_2}
+MONOCEROS2025/06/26 10:06:02 monoceros.go:682: <nil>
+MONOCEROS2025/06/26 10:06:02 monoceros.go:683: RN_r1_node_2
+REGION PT2025/06/26 10:06:02 plumtree.go:304: r1_node_1 - Received message in subscription handler [2 123 34 77 101 116 97 100 97 116 97 34 58 123 34 73 100 34 58 34 82 78 95 114 49 95 110 111 100 101 95 50 34 44 34 83 99 111 114 101 34 58 34 114 49 95 110 111 100 101 95 50 34 125 125]
+REGION PT2025/06/26 10:06:02 plumtree.go:305: try lock
+REGION PT2025/06/26 10:06:02 msg_handlers.go:142: r1_node_1 - Processing prune message from peer: r1_node_3
+REGION PT2025/06/26 10:06:02 msg_handlers.go:143: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}] lazy push peers [{{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180}]
+REGION PT2025/06/26 10:06:02 msg_handlers.go:145: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}] lazy push peers [{{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_3 r1_node_3:6001} 0xc00039c000}]
+REGION PT2025/06/26 10:06:02 plumtree.go:205: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:208: r1_node_1 - Get parent [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}]
+MONOCEROS2025/06/26 10:06:02 monoceros.go:685: has parent
+REGION PT2025/06/26 10:06:02 plumtree.go:165: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:168: r1_node_1 - send to parent [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_7 r1_node_7:6001} 0xc00040a140} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}]
+REGION PT2025/06/26 10:06:02 plumtree.go:183: r1_node_1 - Sending message
+REGION PT2025/06/26 10:06:02 tree.go:75: r1_node_1 - Sending direct message
+REGION PT2025/06/26 10:06:02 tree.go:81: r1_node_1 - Message sent successfully
+MONOCEROS2025/06/26 10:06:02 monoceros.go:708: try lock
+REGION HV2025/06/26 10:06:02 hyparview.go:214: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:277: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:279: r1_node_1 - Custom message handler invoked
+REGION PT2025/06/26 10:06:02 plumtree.go:281: r1_node_1 - sender &{172.26.0.11:40476 0xc000394170 0xc00038e2a0 0xc00038e310 0x682880 0xc00012d4a0}
+REGION PT2025/06/26 10:06:02 plumtree.go:295: r1_node_1 - received from r1_node_10
+REGION PT2025/06/26 10:06:02 plumtree.go:304: r1_node_1 - Received message in subscription handler [0 123 34 77 101 116 97 100 97 116 97 34 58 123 34 73 100 34 58 34 82 78 95 114 49 95 110 111 100 101 95 50 34 44 34 83 99 111 114 101 34 58 34 114 49 95 110 111 100 101 95 50 34 125 44 34 77 115 103 84 121 112 101 34 58 34 65 95 82 69 81 34 44 34 77 115 103 34 58 34 101 121 74 85 97 87 49 108 99 51 82 104 98 88 65 105 79 106 69 51 78 84 65 53 77 122 73 122 78 106 74 57 34 44 34 77 115 103 73 100 34 58 34 76 87 110 90 74 80 53 53 69 68 119 61 34 44 34 82 111 117 110 100 34 58 49 125]
+REGION PT2025/06/26 10:06:02 plumtree.go:305: try lock
+REGION PT2025/06/26 10:06:02 msg_handlers.go:97: r1_node_1 - Processing gossip message
+REGION PT2025/06/26 10:06:02 msg_handlers.go:122: r1_node_1 - Removing peer r1_node_10 from eager push peers due to duplicate message
+REGION HV2025/06/26 10:06:02 hyparview.go:214: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:277: try lock
+REGION PT2025/06/26 10:06:02 plumtree.go:279: r1_node_1 - Custom message handler invoked
+REGION PT2025/06/26 10:06:02 plumtree.go:281: r1_node_1 - sender &{172.26.0.11:40476 0xc000394170 0xc00038e2a0 0xc00038e310 0x682880 0xc00012d4a0}
+REGION PT2025/06/26 10:06:02 plumtree.go:295: r1_node_1 - received from r1_node_10
+REGION PT2025/06/26 10:06:02 plumtree.go:304: r1_node_1 - Received message in subscription handler [2 123 34 77 101 116 97 100 97 116 97 34 58 123 34 73 100 34 58 34 82 78 95 114 49 95 110 111 100 101 95 50 34 44 34 83 99 111 114 101 34 58 34 114 49 95 110 111 100 101 95 50 34 125 125]
+REGION PT2025/06/26 10:06:02 plumtree.go:305: try lock
+REGION PT2025/06/26 10:06:02 msg_handlers.go:142: r1_node_1 - Processing prune message from peer: r1_node_10
+REGION PT2025/06/26 10:06:02 msg_handlers.go:143: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_7 r1_node_7:6001} 0xc00040a140}] lazy push peers [{{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}]
+REGION PT2025/06/26 10:06:02 msg_handlers.go:145: r1_node_1 - eager push peers [{{r1_node_2 r1_node_2:6001} 0xc0001306c0} {{r1_node_7 r1_node_7:6001} 0xc00040a140}] lazy push peers [{{r1_node_4 r1_node_4:6001} 0xc000130900} {{r1_node_5 r1_node_5:6001} 0xc000214180} {{r1_node_3 r1_node_3:6001} 0xc00039c000} {{r1_node_10 r1_node_10:6001} 0xc00039c6c0}]
+MONOCEROS2025/06/26 10:06:02 monoceros.go:792: local rn tree destroyed in the meantime, should not join rrn
+fatal error: sync: unlock of unlocked mutex
+
+goroutine 118 [running]:
+internal/sync.fatal({0x8c99b9?, 0x8e08e8?})
+	/usr/local/go/src/runtime/panic.go:1068 +0x18
+internal/sync.(*Mutex).unlockSlow(0xc000118440, 0xffffffff)
+	/usr/local/go/src/internal/sync/mutex.go:204 +0x35
+internal/sync.(*Mutex).Unlock(...)
+	/usr/local/go/src/internal/sync/mutex.go:198
+sync.(*Mutex).Unlock(...)
+	/usr/local/go/src/sync/mutex.go:65
+github.com/c12s/monoceros.(*Monoceros).joinRRN(0xc000196280, {{0xc000118b70, 0xc}, {0xc000022038, 0x9}})
+	/app/monoceros.go:793 +0x53f
+created by github.com/c12s/plumtree.(*Plumtree).ConstructTree in goroutine 37
+	/plumtree/plumtree.go:109 +0x5c5
+
+goroutine 1 [chan receive]:
+main.main()
+	/app/cmd/main.go:168 +0xf94
+
+goroutine 19 [select]:
+github.com/c12s/hyparview/transport.Subscribe[...].func1()
+	/hyparview/transport/subscription.go:15 +0x96
+created by github.com/c12s/hyparview/transport.Subscribe[...] in goroutine 1
+	/hyparview/transport/subscription.go:13 +0xab
+
+goroutine 20 [chan receive]:
+github.com/c12s/hyparview/hyparview.(*HyParView).OnPeerUp.func1()
+	/hyparview/hyparview/hyparview.go:193 +0x88
+created by github.com/c12s/hyparview/hyparview.(*HyParView).OnPeerUp in goroutine 1
+	/hyparview/hyparview/hyparview.go:192 +0xa9
+
+goroutine 21 [select]:
+github.com/c12s/hyparview/transport.Subscribe[...].func1()
+	/hyparview/transport/subscription.go:15 +0x96
+created by github.com/c12s/hyparview/transport.Subscribe[...] in goroutine 1
+	/hyparview/transport/subscription.go:13 +0xab
+
+goroutine 22 [select]:
+github.com/c12s/hyparview/transport.Subscribe[...].func1()
+	/hyparview/transport/subscription.go:15 +0x165
+created by github.com/c12s/hyparview/transport.Subscribe[...] in goroutine 1
+	/hyparview/transport/subscription.go:13 +0xab
+
+goroutine 23 [chan receive]:
+github.com/c12s/hyparview/hyparview.(*HyParView).OnPeerUp.func1()
+	/hyparview/hyparview/hyparview.go:193 +0x88
+created by github.com/c12s/hyparview/hyparview.(*HyParView).OnPeerUp in goroutine 1
+	/hyparview/hyparview/hyparview.go:192 +0xa9
+
+goroutine 24 [chan receive]:
+github.com/c12s/hyparview/hyparview.(*HyParView).OnPeerDown.func1()
+	/hyparview/hyparview/hyparview.go:203 +0x88
+created by github.com/c12s/hyparview/hyparview.(*HyParView).OnPeerDown in goroutine 1
+	/hyparview/hyparview/hyparview.go:202 +0xa9
+
+goroutine 25 [select]:
+github.com/c12s/hyparview/transport.Subscribe[...].func1()
+	/hyparview/transport/subscription.go:15 +0x96
+created by github.com/c12s/hyparview/transport.Subscribe[...] in goroutine 1
+	/hyparview/transport/subscription.go:13 +0xab
+
+goroutine 26 [select]:
+github.com/c12s/hyparview/transport.Subscribe[...].func1()
+	/hyparview/transport/subscription.go:15 +0x165
+created by github.com/c12s/hyparview/transport.Subscribe[...] in goroutine 1
+	/hyparview/transport/subscription.go:13 +0xab
+
+goroutine 27 [chan receive]:
+github.com/c12s/hyparview/hyparview.(*HyParView).OnPeerUp.func1()
+	/hyparview/hyparview/hyparview.go:193 +0x88
+created by github.com/c12s/hyparview/hyparview.(*HyParView).OnPeerUp in goroutine 1
+	/hyparview/hyparview/hyparview.go:192 +0xa9
+
+goroutine 28 [chan receive]:
+github.com/c12s/hyparview/hyparview.(*HyParView).OnPeerDown.func1()
+	/hyparview/hyparview/hyparview.go:203 +0x88
+created by github.com/c12s/hyparview/hyparview.(*HyParView).OnPeerDown in goroutine 1
+	/hyparview/hyparview/hyparview.go:202 +0xa9
+
+goroutine 29 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47dade0, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000192280?, 0x4b7dbe?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0xc000192280)
+	/usr/local/go/src/internal/poll/fd_unix.go:620 +0x295
+net.(*netFD).accept(0xc000192280)
+	/usr/local/go/src/net/fd_unix.go:172 +0x29
+net.(*TCPListener).accept(0xc0001305c0)
+	/usr/local/go/src/net/tcpsock_posix.go:159 +0x1b
+net.(*TCPListener).Accept(0xc0001305c0)
+	/usr/local/go/src/net/tcpsock.go:380 +0x30
+main.main.AcceptTcpConnsFn.func3.1({0x965550, 0xc0001305c0})
+	/hyparview/transport/conn_tcp.go:138 +0x63
+created by main.main.AcceptTcpConnsFn.func3 in goroutine 1
+	/hyparview/transport/conn_tcp.go:136 +0x185
+
+goroutine 30 [chan receive]:
+main.main.AcceptTcpConnsFn.func3.2(0x0?, {0x965550, 0xc0001305c0})
+	/hyparview/transport/conn_tcp.go:154 +0x35
+created by main.main.AcceptTcpConnsFn.func3 in goroutine 1
+	/hyparview/transport/conn_tcp.go:153 +0x248
+
+goroutine 31 [select]:
+github.com/c12s/hyparview/transport.Subscribe[...].func1()
+	/hyparview/transport/subscription.go:15 +0xf2
+created by github.com/c12s/hyparview/transport.Subscribe[...] in goroutine 1
+	/hyparview/transport/subscription.go:13 +0xab
+
+goroutine 32 [select]:
+github.com/c12s/hyparview/hyparview.(*HyParView).shuffle(0xc0001a6000)
+	/hyparview/hyparview/hyparview.go:336 +0x96
+created by github.com/c12s/hyparview/hyparview.(*HyParView).Join in goroutine 1
+	/hyparview/hyparview/hyparview.go:90 +0x427
+
+goroutine 33 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47dacc8, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000192300?, 0x4b7dbe?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0xc000192300)
+	/usr/local/go/src/internal/poll/fd_unix.go:620 +0x295
+net.(*netFD).accept(0xc000192300)
+	/usr/local/go/src/net/fd_unix.go:172 +0x29
+net.(*TCPListener).accept(0xc000130600)
+	/usr/local/go/src/net/tcpsock_posix.go:159 +0x1b
+net.(*TCPListener).Accept(0xc000130600)
+	/usr/local/go/src/net/tcpsock.go:380 +0x30
+main.main.AcceptTcpConnsFn.func4.1({0x965550, 0xc000130600})
+	/hyparview/transport/conn_tcp.go:138 +0x63
+created by main.main.AcceptTcpConnsFn.func4 in goroutine 1
+	/hyparview/transport/conn_tcp.go:136 +0x185
+
+goroutine 34 [chan receive]:
+main.main.AcceptTcpConnsFn.func4.2(0x0?, {0x965550, 0xc000130600})
+	/hyparview/transport/conn_tcp.go:154 +0x35
+created by main.main.AcceptTcpConnsFn.func4 in goroutine 1
+	/hyparview/transport/conn_tcp.go:153 +0x248
+
+goroutine 35 [select]:
+github.com/c12s/hyparview/transport.Subscribe[...].func1()
+	/hyparview/transport/subscription.go:15 +0xf2
+created by github.com/c12s/hyparview/transport.Subscribe[...] in goroutine 1
+	/hyparview/transport/subscription.go:13 +0xab
+
+goroutine 36 [select]:
+github.com/c12s/hyparview/hyparview.(*HyParView).shuffle(0xc0001a60e0)
+	/hyparview/hyparview/hyparview.go:336 +0x96
+created by github.com/c12s/hyparview/hyparview.(*HyParView).Join in goroutine 1
+	/hyparview/hyparview/hyparview.go:90 +0x427
+
+goroutine 37 [chan receive]:
+github.com/c12s/monoceros.(*Monoceros).tryPromote(0xc000196280, 0xc0001945b0)
+	/app/monoceros.go:269 +0x76
+created by github.com/c12s/monoceros.(*Monoceros).initRN in goroutine 1
+	/app/monoceros.go:221 +0x21a
+
+goroutine 38 [chan receive]:
+github.com/c12s/monoceros.(*Monoceros).initAggregation(0xc000196280, 0xc0001945b0)
+	/app/monoceros.go:322 +0x50
+created by github.com/c12s/monoceros.(*Monoceros).init in goroutine 1
+	/app/monoceros.go:204 +0x78
+
+goroutine 39 [chan receive]:
+github.com/c12s/monoceros.(*Monoceros).tryTriggerAggregation(...)
+	/app/monoceros.go:313
+created by github.com/c12s/monoceros.(*Monoceros).init in goroutine 1
+	/app/monoceros.go:205 +0xd4
+
+goroutine 40 [chan receive]:
+github.com/c12s/monoceros.(*Monoceros).tryPromote(0xc000196280, 0xc000194620)
+	/app/monoceros.go:269 +0x76
+created by github.com/c12s/monoceros.(*Monoceros).initRRN in goroutine 1
+	/app/monoceros.go:231 +0x1b1
+
+goroutine 41 [chan receive]:
+github.com/c12s/monoceros.(*Monoceros).initAggregation(0xc000196280, 0xc000194620)
+	/app/monoceros.go:322 +0x50
+created by github.com/c12s/monoceros.(*Monoceros).init in goroutine 1
+	/app/monoceros.go:208 +0x13a
+
+goroutine 42 [chan receive]:
+github.com/c12s/monoceros.(*Monoceros).tryTriggerAggregation(...)
+	/app/monoceros.go:313
+created by github.com/c12s/monoceros.(*Monoceros).init in goroutine 1
+	/app/monoceros.go:209 +0x196
+
+goroutine 43 [chan receive]:
+github.com/c12s/monoceros.(*Monoceros).Start.func1(0xc0001945b0)
+	/app/monoceros.go:171 +0x72
+created by github.com/c12s/monoceros.(*Monoceros).Start in goroutine 1
+	/app/monoceros.go:198 +0x26d
+
+goroutine 44 [chan receive]:
+github.com/c12s/monoceros.(*Monoceros).Start.func1(0xc000194620)
+	/app/monoceros.go:171 +0x72
+created by github.com/c12s/monoceros.(*Monoceros).Start in goroutine 1
+	/app/monoceros.go:199 +0x2c9
+
+goroutine 45 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47dabb0, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000216080?, 0x9004144be?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0xc000216080)
+	/usr/local/go/src/internal/poll/fd_unix.go:620 +0x295
+net.(*netFD).accept(0xc000216080)
+	/usr/local/go/src/net/fd_unix.go:172 +0x29
+net.(*TCPListener).accept(0xc000214040)
+	/usr/local/go/src/net/tcpsock_posix.go:159 +0x1b
+net.(*TCPListener).Accept(0xc000214040)
+	/usr/local/go/src/net/tcpsock.go:380 +0x30
+net/http.(*Server).Serve(0xc0001c0100, {0x965550, 0xc000214040})
+	/usr/local/go/src/net/http/server.go:3424 +0x30c
+net/http.(*Server).ListenAndServe(0xc0001c0100)
+	/usr/local/go/src/net/http/server.go:3350 +0x71
+main.main.func1()
+	/app/cmd/main.go:159 +0x17
+created by main.main in goroutine 1
+	/app/cmd/main.go:158 +0xedc
+
+goroutine 47 [syscall]:
+os/signal.signal_recv()
+	/usr/local/go/src/runtime/sigqueue.go:152 +0x29
+os/signal.loop()
+	/usr/local/go/src/os/signal/signal_unix.go:23 +0x13
+created by os/signal.Notify.func1.1 in goroutine 1
+	/usr/local/go/src/os/signal/signal.go:152 +0x1f
+
+goroutine 49 [chan receive]:
+github.com/c12s/hyparview/transport.MakeTCPConn.func1()
+	/hyparview/transport/conn_tcp.go:40 +0x31
+created by github.com/c12s/hyparview/transport.MakeTCPConn in goroutine 29
+	/hyparview/transport/conn_tcp.go:39 +0x147
+
+goroutine 50 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47daa98, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00028a000?, 0xc0001af73c?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00028a000, {0xc0001af73c, 0x4, 0x4})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00028a000, {0xc0001af73c?, 0x40c877?, 0xc00029e000?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00028e000, {0xc0001af73c?, 0x0?, 0x0?})
+	/usr/local/go/src/net/net.go:194 +0x45
+github.com/c12s/hyparview/transport.(*TCPConn).read.func1()
+	/hyparview/transport/conn_tcp.go:94 +0x85
+created by github.com/c12s/hyparview/transport.(*TCPConn).read in goroutine 29
+	/hyparview/transport/conn_tcp.go:91 +0x4f
+
+goroutine 86 [chan receive]:
+github.com/c12s/hyparview/transport.MakeTCPConn.func1()
+	/hyparview/transport/conn_tcp.go:40 +0x31
+created by github.com/c12s/hyparview/transport.MakeTCPConn in goroutine 33
+	/hyparview/transport/conn_tcp.go:39 +0x147
+
+goroutine 52 [chan receive]:
+github.com/c12s/hyparview/transport.(*TCPConn).onReceive.func1()
+	/hyparview/transport/conn_tcp.go:84 +0x6c
+created by github.com/c12s/hyparview/transport.(*TCPConn).onReceive in goroutine 51
+	/hyparview/transport/conn_tcp.go:83 +0x67
+
+goroutine 48 [chan receive]:
+github.com/c12s/hyparview/transport.MakeTCPConn.func1()
+	/hyparview/transport/conn_tcp.go:40 +0x31
+created by github.com/c12s/hyparview/transport.MakeTCPConn in goroutine 33
+	/hyparview/transport/conn_tcp.go:39 +0x147
+
+goroutine 65 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47da980, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000192380?, 0xc0001cb73c?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000192380, {0xc0001cb73c, 0x4, 0x4})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000192380, {0xc0001cb73c?, 0x40c877?, 0xc000116ee0?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00011a1c0, {0xc0001cb73c?, 0x0?, 0x0?})
+	/usr/local/go/src/net/net.go:194 +0x45
+github.com/c12s/hyparview/transport.(*TCPConn).read.func1()
+	/hyparview/transport/conn_tcp.go:94 +0x85
+created by github.com/c12s/hyparview/transport.(*TCPConn).read in goroutine 33
+	/hyparview/transport/conn_tcp.go:91 +0x4f
+
+goroutine 98 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47da638, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000390080?, 0xc00030073c?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000390080, {0xc00030073c, 0x4, 0x4})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000390080, {0xc00030073c?, 0x40c877?, 0xc00038e070?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc000394008, {0xc00030073c?, 0x0?, 0x0?})
+	/usr/local/go/src/net/net.go:194 +0x45
+github.com/c12s/hyparview/transport.(*TCPConn).read.func1()
+	/hyparview/transport/conn_tcp.go:94 +0x85
+created by github.com/c12s/hyparview/transport.(*TCPConn).read in goroutine 35
+	/hyparview/transport/conn_tcp.go:91 +0x4f
+
+goroutine 67 [chan receive]:
+github.com/c12s/hyparview/transport.(*TCPConn).onReceive.func1()
+	/hyparview/transport/conn_tcp.go:84 +0x6c
+created by github.com/c12s/hyparview/transport.(*TCPConn).onReceive in goroutine 66
+	/hyparview/transport/conn_tcp.go:83 +0x67
+
+goroutine 81 [chan receive]:
+github.com/c12s/hyparview/transport.MakeTCPConn.func1()
+	/hyparview/transport/conn_tcp.go:40 +0x31
+created by github.com/c12s/hyparview/transport.MakeTCPConn in goroutine 29
+	/hyparview/transport/conn_tcp.go:39 +0x147
+
+goroutine 82 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47da868, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000216100?, 0xc0001c8f3c?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000216100, {0xc0001c8f3c, 0x4, 0x4})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000216100, {0xc0001c8f3c?, 0x40c877?, 0xc00022a000?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00021e008, {0xc0001c8f3c?, 0x0?, 0x0?})
+	/usr/local/go/src/net/net.go:194 +0x45
+github.com/c12s/hyparview/transport.(*TCPConn).read.func1()
+	/hyparview/transport/conn_tcp.go:94 +0x85
+created by github.com/c12s/hyparview/transport.(*TCPConn).read in goroutine 29
+	/hyparview/transport/conn_tcp.go:91 +0x4f
+
+goroutine 87 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47da2f0, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000216180?, 0xc0001c973c?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000216180, {0xc0001c973c, 0x4, 0x4})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000216180, {0xc0001c973c?, 0x40c877?, 0xc00022a0e0?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00021e020, {0xc0001c973c?, 0x871580?, 0xc000204090?})
+	/usr/local/go/src/net/net.go:194 +0x45
+github.com/c12s/hyparview/transport.(*TCPConn).read.func1()
+	/hyparview/transport/conn_tcp.go:94 +0x85
+created by github.com/c12s/hyparview/transport.(*TCPConn).read in goroutine 33
+	/hyparview/transport/conn_tcp.go:91 +0x4f
+
+goroutine 84 [chan receive]:
+github.com/c12s/hyparview/transport.(*TCPConn).onReceive.func1()
+	/hyparview/transport/conn_tcp.go:84 +0x6c
+created by github.com/c12s/hyparview/transport.(*TCPConn).onReceive in goroutine 83
+	/hyparview/transport/conn_tcp.go:83 +0x67
+
+goroutine 97 [chan receive]:
+github.com/c12s/hyparview/transport.MakeTCPConn.func1()
+	/hyparview/transport/conn_tcp.go:40 +0x31
+created by github.com/c12s/hyparview/transport.MakeTCPConn in goroutine 35
+	/hyparview/transport/conn_tcp.go:39 +0x147
+
+goroutine 99 [chan receive]:
+github.com/c12s/hyparview/transport.(*TCPConn).onReceive.func1()
+	/hyparview/transport/conn_tcp.go:84 +0x6c
+created by github.com/c12s/hyparview/transport.(*TCPConn).onReceive in goroutine 35
+	/hyparview/transport/conn_tcp.go:83 +0x67
+
+goroutine 72 [chan receive]:
+github.com/c12s/hyparview/transport.MakeTCPConn.func1()
+	/hyparview/transport/conn_tcp.go:40 +0x31
+created by github.com/c12s/hyparview/transport.MakeTCPConn in goroutine 29
+	/hyparview/transport/conn_tcp.go:39 +0x147
+
+goroutine 73 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47da750, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000192500?, 0xc000304f3c?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000192500, {0xc000304f3c, 0x4, 0x4})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000192500, {0xc000304f3c?, 0x40c877?, 0xc000117180?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00011a1f8, {0xc000304f3c?, 0x0?, 0x0?})
+	/usr/local/go/src/net/net.go:194 +0x45
+github.com/c12s/hyparview/transport.(*TCPConn).read.func1()
+	/hyparview/transport/conn_tcp.go:94 +0x85
+created by github.com/c12s/hyparview/transport.(*TCPConn).read in goroutine 29
+	/hyparview/transport/conn_tcp.go:91 +0x4f
+
+goroutine 76 [chan receive]:
+github.com/c12s/hyparview/transport.MakeTCPConn.func1()
+	/hyparview/transport/conn_tcp.go:40 +0x31
+created by github.com/c12s/hyparview/transport.MakeTCPConn in goroutine 33
+	/hyparview/transport/conn_tcp.go:39 +0x147
+
+goroutine 75 [chan receive]:
+github.com/c12s/hyparview/transport.(*TCPConn).onReceive.func1()
+	/hyparview/transport/conn_tcp.go:84 +0x6c
+created by github.com/c12s/hyparview/transport.(*TCPConn).onReceive in goroutine 74
+	/hyparview/transport/conn_tcp.go:83 +0x67
+
+goroutine 77 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47da520, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000390100?, 0xc00030673c?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000390100, {0xc00030673c, 0x4, 0x4})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000390100, {0xc00030673c?, 0x40c877?, 0xc000117260?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc000394018, {0xc00030673c?, 0x0?, 0x0?})
+	/usr/local/go/src/net/net.go:194 +0x45
+github.com/c12s/hyparview/transport.(*TCPConn).read.func1()
+	/hyparview/transport/conn_tcp.go:94 +0x85
+created by github.com/c12s/hyparview/transport.(*TCPConn).read in goroutine 33
+	/hyparview/transport/conn_tcp.go:91 +0x4f
+
+goroutine 113 [chan receive]:
+github.com/c12s/hyparview/transport.MakeTCPConn.func1()
+	/hyparview/transport/conn_tcp.go:40 +0x31
+created by github.com/c12s/hyparview/transport.MakeTCPConn in goroutine 29
+	/hyparview/transport/conn_tcp.go:39 +0x147
+
+goroutine 79 [chan receive]:
+github.com/c12s/hyparview/transport.(*TCPConn).onReceive.func1()
+	/hyparview/transport/conn_tcp.go:84 +0x6c
+created by github.com/c12s/hyparview/transport.(*TCPConn).onReceive in goroutine 78
+	/hyparview/transport/conn_tcp.go:83 +0x67
+
+goroutine 114 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47da408, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000192580?, 0xc000307f3c?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000192580, {0xc000307f3c, 0x4, 0x4})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000192580, {0xc000307f3c?, 0x40c877?, 0xc000117340?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00011a208, {0xc000307f3c?, 0x0?, 0x0?})
+	/usr/local/go/src/net/net.go:194 +0x45
+github.com/c12s/hyparview/transport.(*TCPConn).read.func1()
+	/hyparview/transport/conn_tcp.go:94 +0x85
+created by github.com/c12s/hyparview/transport.(*TCPConn).read in goroutine 29
+	/hyparview/transport/conn_tcp.go:91 +0x4f
+
+goroutine 116 [chan receive]:
+github.com/c12s/hyparview/transport.(*TCPConn).onReceive.func1()
+	/hyparview/transport/conn_tcp.go:84 +0x6c
+created by github.com/c12s/hyparview/transport.(*TCPConn).onReceive in goroutine 115
+	/hyparview/transport/conn_tcp.go:83 +0x67
+
+goroutine 132 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b4716e20, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00041c180?, 0xc000426f3c?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00041c180, {0xc000426f3c, 0x4, 0x4})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00041c180, {0xc000426f3c?, 0x40c877?, 0xc000442150?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00041e018, {0xc000426f3c?, 0x0?, 0x0?})
+	/usr/local/go/src/net/net.go:194 +0x45
+github.com/c12s/hyparview/transport.(*TCPConn).read.func1()
+	/hyparview/transport/conn_tcp.go:94 +0x85
+created by github.com/c12s/hyparview/transport.(*TCPConn).read in goroutine 35
+	/hyparview/transport/conn_tcp.go:91 +0x4f
+
+goroutine 89 [chan receive]:
+github.com/c12s/hyparview/transport.(*TCPConn).onReceive.func1()
+	/hyparview/transport/conn_tcp.go:84 +0x6c
+created by github.com/c12s/hyparview/transport.(*TCPConn).onReceive in goroutine 88
+	/hyparview/transport/conn_tcp.go:83 +0x67
+
+goroutine 5 [chan receive]:
+github.com/c12s/hyparview/transport.MakeTCPConn.func1()
+	/hyparview/transport/conn_tcp.go:40 +0x31
+created by github.com/c12s/hyparview/transport.MakeTCPConn in goroutine 29
+	/hyparview/transport/conn_tcp.go:39 +0x147
+
+goroutine 6 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47da1d8, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000034080?, 0xc000066f3c?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000034080, {0xc000066f3c, 0x4, 0x4})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000034080, {0xc000066f3c?, 0x40c877?, 0xc0000a6000?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc000068008, {0xc000066f3c?, 0x0?, 0x0?})
+	/usr/local/go/src/net/net.go:194 +0x45
+github.com/c12s/hyparview/transport.(*TCPConn).read.func1()
+	/hyparview/transport/conn_tcp.go:94 +0x85
+created by github.com/c12s/hyparview/transport.(*TCPConn).read in goroutine 29
+	/hyparview/transport/conn_tcp.go:91 +0x4f
+
+goroutine 13 [chan receive]:
+github.com/c12s/hyparview/transport.(*TCPConn).onReceive.func1()
+	/hyparview/transport/conn_tcp.go:84 +0x6c
+created by github.com/c12s/hyparview/transport.(*TCPConn).onReceive in goroutine 31
+	/hyparview/transport/conn_tcp.go:83 +0x67
+
+goroutine 8 [chan receive]:
+github.com/c12s/hyparview/transport.(*TCPConn).onReceive.func1()
+	/hyparview/transport/conn_tcp.go:84 +0x6c
+created by github.com/c12s/hyparview/transport.(*TCPConn).onReceive in goroutine 7
+	/hyparview/transport/conn_tcp.go:83 +0x67
+
+goroutine 129 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47da0c0, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc00041c000?, 0xc000430000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc00041c000, {0xc000430000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc00041c000, {0xc000430000?, 0xc000351ad0?, 0x4d1125?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc00041e000, {0xc000430000?, 0x0?, 0x0?})
+	/usr/local/go/src/net/net.go:194 +0x45
+net/http.(*connReader).Read(0xc000402180, {0xc000430000, 0x1000, 0x1000})
+	/usr/local/go/src/net/http/server.go:798 +0x159
+bufio.(*Reader).fill(0xc0004040c0)
+	/usr/local/go/src/bufio/bufio.go:113 +0x103
+bufio.(*Reader).Peek(0xc0004040c0, 0x4)
+	/usr/local/go/src/bufio/bufio.go:152 +0x53
+net/http.(*conn).serve(0xc000414090, {0x965a30, 0xc00020e210})
+	/usr/local/go/src/net/http/server.go:2137 +0x785
+created by net/http.(*Server).Serve in goroutine 45
+	/usr/local/go/src/net/http/server.go:3454 +0x485
+
+goroutine 131 [chan receive]:
+github.com/c12s/hyparview/transport.MakeTCPConn.func1()
+	/hyparview/transport/conn_tcp.go:40 +0x31
+created by github.com/c12s/hyparview/transport.MakeTCPConn in goroutine 35
+	/hyparview/transport/conn_tcp.go:39 +0x147
+
+goroutine 133 [chan receive]:
+github.com/c12s/hyparview/transport.(*TCPConn).onReceive.func1()
+	/hyparview/transport/conn_tcp.go:84 +0x6c
+created by github.com/c12s/hyparview/transport.(*TCPConn).onReceive in goroutine 35
+	/hyparview/transport/conn_tcp.go:83 +0x67
+
+goroutine 11 [chan receive]:
+github.com/c12s/hyparview/transport.MakeTCPConn.func1()
+	/hyparview/transport/conn_tcp.go:40 +0x31
+created by github.com/c12s/hyparview/transport.MakeTCPConn in goroutine 31
+	/hyparview/transport/conn_tcp.go:39 +0x147
+
+goroutine 12 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b47d9fa8, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000034180?, 0xc00042273c?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000034180, {0xc00042273c, 0x4, 0x4})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000034180, {0xc00042273c?, 0x40c877?, 0xc0000a60e0?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc000068010, {0xc00042273c?, 0x0?, 0x0?})
+	/usr/local/go/src/net/net.go:194 +0x45
+github.com/c12s/hyparview/transport.(*TCPConn).read.func1()
+	/hyparview/transport/conn_tcp.go:94 +0x85
+created by github.com/c12s/hyparview/transport.(*TCPConn).read in goroutine 31
+	/hyparview/transport/conn_tcp.go:91 +0x4f
+
+goroutine 100 [chan receive]:
+github.com/c12s/hyparview/transport.MakeTCPConn.func1()
+	/hyparview/transport/conn_tcp.go:40 +0x31
+created by github.com/c12s/hyparview/transport.MakeTCPConn in goroutine 35
+	/hyparview/transport/conn_tcp.go:39 +0x147
+
+goroutine 102 [chan receive]:
+github.com/c12s/hyparview/transport.(*TCPConn).onReceive.func1()
+	/hyparview/transport/conn_tcp.go:84 +0x6c
+created by github.com/c12s/hyparview/transport.(*TCPConn).onReceive in goroutine 35
+	/hyparview/transport/conn_tcp.go:83 +0x67
+
+goroutine 16 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b4716bf0, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000034300?, 0xc0000ca000?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000034300, {0xc0000ca000, 0x1000, 0x1000})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000034300, {0xc0000ca000?, 0x404ef4?, 0x0?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc000068040, {0xc0000ca000?, 0x404cef?, 0xc0000a0600?})
+	/usr/local/go/src/net/net.go:194 +0x45
+net/http.(*persistConn).Read(0xc0000c4120, {0xc0000ca000?, 0x64c8a5?, 0x962100?})
+	/usr/local/go/src/net/http/transport.go:2122 +0x47
+bufio.(*Reader).fill(0xc0000885a0)
+	/usr/local/go/src/bufio/bufio.go:113 +0x103
+bufio.(*Reader).Peek(0xc0000885a0, 0x1)
+	/usr/local/go/src/bufio/bufio.go:152 +0x53
+net/http.(*persistConn).readLoop(0xc0000c4120)
+	/usr/local/go/src/net/http/transport.go:2275 +0x172
+created by net/http.(*Transport).dialConn in goroutine 14
+	/usr/local/go/src/net/http/transport.go:1944 +0x174f
+
+goroutine 145 [select]:
+net/http.(*persistConn).writeLoop(0xc0000c4120)
+	/usr/local/go/src/net/http/transport.go:2590 +0xe7
+created by net/http.(*Transport).dialConn in goroutine 14
+	/usr/local/go/src/net/http/transport.go:1945 +0x17a5
+
+goroutine 106 [chan receive]:
+github.com/c12s/hyparview/transport.MakeTCPConn.func1()
+	/hyparview/transport/conn_tcp.go:40 +0x31
+created by github.com/c12s/hyparview/transport.MakeTCPConn in goroutine 33
+	/hyparview/transport/conn_tcp.go:39 +0x147
+
+goroutine 107 [IO wait]:
+internal/poll.runtime_pollWait(0x7f53b4716ad8, 0x72)
+	/usr/local/go/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000390580?, 0xc000303f3c?, 0x0)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Read(0xc000390580, {0xc000303f3c, 0x4, 0x4})
+	/usr/local/go/src/internal/poll/fd_unix.go:165 +0x27a
+net.(*netFD).Read(0xc000390580, {0xc000303f3c?, 0x40c877?, 0xc00038e2a0?})
+	/usr/local/go/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc000394170, {0xc000303f3c?, 0x0?, 0x0?})
+	/usr/local/go/src/net/net.go:194 +0x45
+github.com/c12s/hyparview/transport.(*TCPConn).read.func1()
+	/hyparview/transport/conn_tcp.go:94 +0x85
+created by github.com/c12s/hyparview/transport.(*TCPConn).read in goroutine 33
+	/hyparview/transport/conn_tcp.go:91 +0x4f
+
+goroutine 109 [chan receive]:
+github.com/c12s/hyparview/transport.(*TCPConn).onReceive.func1()
+	/hyparview/transport/conn_tcp.go:84 +0x6c
+created by github.com/c12s/hyparview/transport.(*TCPConn).onReceive in goroutine 108
+	/hyparview/transport/conn_tcp.go:83 +0x67

@@ -3,16 +3,15 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"net/http"
-	"strings"
-
-	dto "github.com/prometheus/client_model/go"
-	"github.com/prometheus/common/expfmt"
+	"sync"
 )
 
-// Static OpenMetrics payload (10 metrics, ~80 % gauges)
-const metrics = `# HELP app_request_processing_time_seconds Average request processing time
+var lock = &sync.Mutex{}
+
+var metrics = `# HELP app_request_processing_time_seconds Average request processing time
 # TYPE app_request_processing_time_seconds gauge
 app_request_processing_time_seconds 0.256
 
@@ -57,31 +56,33 @@ app_errors_total 17
 
 func metricsHandler(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("Content-Type", "application/openmetrics-text; version=1.0.0; charset=utf-8")
+	lock.Lock()
+	log.Println("metrics get")
+	log.Println(metrics)
 	fmt.Fprint(w, metrics)
+	lock.Unlock()
+}
+
+func setMetricsHandler(w http.ResponseWriter, r *http.Request) {
+	newMetrics, err := io.ReadAll(r.Body)
+	if err != nil {
+		http.Error(w, "Error reading request body", http.StatusInternalServerError)
+		return
+	}
+	defer r.Body.Close()
+	lock.Lock()
+	metrics = string(newMetrics)
+	log.Println("metrics set")
+	log.Println(metrics)
+	lock.Unlock()
+	w.WriteHeader(http.StatusOK)
 }
 
 func main() {
-	// parsed, err := parseMetrics(metrics)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// for k, v := range parsed {
-	// 	log.Println(k)
-	// 	log.Println(v)
-	// 	log.Println()
-	// }
-
-	http.HandleFunc("/metrics", metricsHandler)
+	r := http.NewServeMux()
+	r.HandleFunc("GET /metrics", metricsHandler)
+	r.HandleFunc("POST /metrics", setMetricsHandler)
 	log.Println("Metrics generator listening on :9100/metrics")
 
-	log.Fatal(http.ListenAndServe(":9100", nil))
-}
-
-func parseMetrics(data string) (map[string]*dto.MetricFamily, error) {
-	parser := expfmt.TextParser{}
-	mf, err := parser.TextToMetricFamilies(strings.NewReader(data))
-	if err != nil {
-		return nil, err
-	}
-	return mf, nil
+	log.Fatal(http.ListenAndServe(":9100", r))
 }

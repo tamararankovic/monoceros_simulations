@@ -42,6 +42,7 @@ GN_CONTACT_NODE_ADDR="${GN_REGION}_node_1:7001"
 for i in $(seq "$(($INDEX))" "$(($INDEX + $COUNT -1))"); do
   NAME="${REGION}_node_$i"
   HOST_PROM_PORT=$((9090 + PORT_OFFSET + i))
+  GENERATOR_PORT=$((10000 + PORT_OFFSET + i))
   HOST_MC_PORT=$((5000 + PORT_OFFSET + i))
   LOG="log/${NAME}"
 
@@ -69,6 +70,7 @@ for i in $(seq "$(($INDEX))" "$(($INDEX + $COUNT -1))"); do
     -e RRN_LISTEN_ADDR="$RRN_LISTEN_ADDR" \
     -p "$HOST_PROM_PORT:9090" \
     -p "$HOST_MC_PORT:5001" \
+    -p "$GENERATOR_PORT:9100" \
     -v "$(pwd)/${LOG}:/var/log/monoceros" \
     "$IMAGE"
 
@@ -90,3 +92,4 @@ for i in $(seq "$(($INDEX))" "$(($INDEX + $COUNT -1))"); do
 done
 
 echo "✅ Started $COUNT containers with REGION=$REGION."
+date +%s > ts.txt

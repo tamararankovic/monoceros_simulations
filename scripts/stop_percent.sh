@@ -53,3 +53,4 @@ for name in "${TO_STOP[@]}"; do
 done
 
 echo "✅ Done."
+date +%s > ts.txt

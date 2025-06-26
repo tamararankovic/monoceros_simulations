@@ -21,5 +21,12 @@ helper commands
 - print container logs to .log file
     for name in $(docker ps --format '{{.Names}}'); do docker logs "$name" > "log/tmp_${name}.log"; done
 - check current values
-    docker logs r3_node_1 | grep 'total_app_memory_usage_bytes{'
+    docker logs r1_node_1 | grep 'total_app_memory_usage_bytes{global=\"y\"}'
     docker logs r3_node_1 | grep 'rank'
+
+- nemoj postajati rr dok se prva r agregacija ne zavrsi
+
+plotter - go run min.go 5001 5060
+value extractor - go run min.go 5001 5060
+
+sh stop_percent.sh 70 r1
