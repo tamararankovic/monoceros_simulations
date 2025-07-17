@@ -19,14 +19,23 @@ sh start_nodes.sh 1 20 r3 r2 40
 
 helper commands
 - print container logs to .log file
-    for name in $(docker ps --format '{{.Names}}'); do docker logs "$name" > "log/tmp_${name}.log"; done
+```shell
+for name in $(docker ps --format '{{.Names}}'); do docker logs "$name" > "log/tmp_${name}.log"; done
+```
 - check current values
     docker logs r1_node_1 | grep 'total_app_memory_usage_bytes{global=\"y\"}'
     docker logs r3_node_1 | grep 'rank'
-
-- nemoj postajati rr dok se prva r agregacija ne zavrsi
 
 plotter - go run min.go 5001 5060
 value extractor - go run min.go 5001 5060
 
 sh stop_percent.sh 70 r1
+
+Connect to the clusteer:
+
+    ssh nova_cluster
+    oarsub -I -l {"cluster='moltres'"}/nodes=1
+
+wait time when root is dead
+- last + 2*Tagg - for region promotion
+- prev + wait for first aggregation result to come - for rr promotion

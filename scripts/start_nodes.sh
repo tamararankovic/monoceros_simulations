@@ -51,7 +51,8 @@ for i in $(seq "$(($INDEX))" "$(($INDEX + $COUNT -1))"); do
   GN_LISTEN_ADDR="${NAME}:7001"
   RRN_LISTEN_ADDR="${NAME}:8001"
 
-  mkdir -p $LOG
+  rm -rf $LOG
+  mkdir -p $LOG/results
   echo "🚀 Starting container $NAME from image $IMAGE..."
   docker run -dit \
     --name "$NAME" \

@@ -1,12 +1,13 @@
-#!/usr/bin/env bash
-# chaos_live_links.sh — Disables N random *active* links between containers for X seconds.
+#!/opt/homebrew/bin/bash
+# chaos_live_links.sh — Disables N random *active* TCP links between Docker containers for X seconds.
 #
 # USAGE:
 #   sudo ./chaos_live_links.sh <num_links> <duration_secs> [name_prefix]
 #
-# NOTES:
-#   • Requires link.sh in the same directory.
-#   • Only considers container pairs with established TCP connections.
+# REQUIREMENTS:
+#   • Containers must support netstat (part of net-tools).
+#   • Only affects containers with established TCP connections.
+#   • Must be run with sudo.
 
 set -euo pipefail
 
@@ -17,89 +18,84 @@ fi
 
 NUM_LINKS=$1
 DURATION=$2
-PREFIX="${3:-}"
-LINK_SH="$(dirname "$0")/link.sh"
+PREFIX=${3:-}
 
-[[ -x "$LINK_SH" ]] || { echo "❌ link.sh not found or not executable."; exit 1; }
-
-########################################
-# Get all container names (optionally filtered by prefix)
-########################################
+echo "🔍 Finding containers${PREFIX:+ with prefix '$PREFIX'}..."
 if [[ -n "$PREFIX" ]]; then
-  readarray -t CONTAINERS < <(docker ps --format '{{.Names}}' | grep "^$PREFIX")
+  CONTAINERS=($(docker ps --format '{{.Names}}' | grep "^$PREFIX"))
 else
-  readarray -t CONTAINERS < <(docker ps --format '{{.Names}}')
+  CONTAINERS=($(docker ps --format '{{.Names}}'))
 fi
 
 if (( ${#CONTAINERS[@]} < 2 )); then
-  echo "❌ Need at least 2 containers to find links."
+  echo "❌ Need at least 2 containers to work with."
   exit 1
 fi
 
-########################################
-# Map container name -> IP
-########################################
-declare -A CONTAINER_IPS
+echo "🔌 Mapping container IPs..."
+declare -A IPS
 for c in "${CONTAINERS[@]}"; do
   ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$c")
-  CONTAINER_IPS["$c"]="$ip"
+  IPS["$c"]=$ip
 done
 
-########################################
-# Check for live TCP links (established connections)
-########################################
-declare -A LINKED_PAIRS=()
+echo "🌐 Scanning for active TCP connections using netstat..."
+declare -A LIVE_PAIRS
 for a in "${CONTAINERS[@]}"; do
-  ip_a="${CONTAINER_IPS[$a]}"
+  ip_a="${IPS[$a]}"
   for b in "${CONTAINERS[@]}"; do
     [[ "$a" == "$b" ]] && continue
-    ip_b="${CONTAINER_IPS[$b]}"
-
-    # Does A have any TCP connections to B?
-    if docker exec "$a" ss -tn | awk '{print $5}' | grep -q "^$ip_b:"; then
-      key=$(printf "%s %s\n" "$a" "$b" | sort)  # sort to avoid duplicates (unordered pair)
-      LINKED_PAIRS["$key"]=1
+    ip_b="${IPS[$b]}"
+    # Check if netstat output in container $a includes destination $ip_b
+    if docker exec "$a" netstat -tn | awk '{print $5}' | grep -q "^$ip_b:"; then
+      key=$(echo -e "$a\n$b" | sort | tr '\n' ' ')
+      LIVE_PAIRS["$key"]=1
     fi
   done
 done
 
-LINKS=("${!LINKED_PAIRS[@]}")
+LINKS=("${!LIVE_PAIRS[@]}")
 TOTAL_LINKS=${#LINKS[@]}
 
 if (( TOTAL_LINKS == 0 )); then
-  echo "❌ No active connections found between containers."
+  echo "❌ No live TCP connections between containers."
   exit 0
 fi
 
 if (( NUM_LINKS > TOTAL_LINKS )); then
-  echo "⚠️  Requested $NUM_LINKS links but only $TOTAL_LINKS active connections found."
+  echo "⚠️  Requested $NUM_LINKS links, but only $TOTAL_LINKS available. Reducing..."
   NUM_LINKS=$TOTAL_LINKS
 fi
 
-########################################
-# Randomly pick N links
-########################################
 readarray -t SELECTED < <(printf '%s\n' "${LINKS[@]}" | shuf -n "$NUM_LINKS")
+
+block_links () {
+  for pair in "${SELECTED[@]}"; do
+    read -r a b <<< "$pair"
+    ip_a="${IPS[$a]}"
+    ip_b="${IPS[$b]}"
+    echo "⛔ Blocking TCP: $a ↔ $b"
+    docker exec "$a" iptables -A OUTPUT -d "$ip_b" -p tcp -j DROP
+    docker exec "$b" iptables -A OUTPUT -d "$ip_a" -p tcp -j DROP
+  done
+}
 
 restore_links () {
   echo "🔄 Restoring links..."
   for pair in "${SELECTED[@]}"; do
-    set -- $pair
-    "$LINK_SH" on "$1" "$2" || true
+    read -r a b <<< "$pair"
+    ip_a="${IPS[$a]}"
+    ip_b="${IPS[$b]}"
+    docker exec "$a" iptables -D OUTPUT -d "$ip_b" -p tcp -j DROP || true
+    docker exec "$b" iptables -D OUTPUT -d "$ip_a" -p tcp -j DROP || true
   done
 }
+
 trap restore_links EXIT
 
-echo "⛔ Cutting ${#SELECTED[@]} active links for $DURATION seconds:"
-for pair in "${SELECTED[@]}"; do
-  set -- $pair
-  echo "   • $1 ↔ $2"
-  "$LINK_SH" off "$1" "$2"
-done
-
+block_links
+echo "🕒 Waiting $DURATION seconds..."
 sleep "$DURATION"
-
-echo "⏰ Time's up."
+echo "✅ Time's up. Restoring connectivity."
 restore_links
 trap - EXIT
-echo "✅ All links restored."
