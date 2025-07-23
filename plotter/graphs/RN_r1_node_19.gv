@@ -1,0 +1,26 @@
+strict digraph {
+
+
+	"r1_node_7" [  weight=0 ];
+
+	"r1_node_6" [  weight=0 ];
+
+	"r1_node_19" [  weight=0 ];
+
+	"r1_node_19" -> "r1_node_9" [  weight=0 ];
+
+	"r1_node_19" -> "r1_node_7" [  weight=0 ];
+
+	"r1_node_19" -> "r1_node_6" [  weight=0 ];
+
+	"r1_node_19" -> "r1_node_15" [  weight=0 ];
+
+	"r1_node_19" -> "r1_node_10" [  weight=0 ];
+
+	"r1_node_15" [  weight=0 ];
+
+	"r1_node_10" [  weight=0 ];
+
+	"r1_node_9" [  weight=0 ];
+
+}

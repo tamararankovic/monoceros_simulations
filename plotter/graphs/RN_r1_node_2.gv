@@ -1,0 +1,104 @@
+strict digraph {
+
+
+	"r1_node_5" [  weight=0 ];
+
+	"r1_node_5" -> "r1_node_10" [  weight=0 ];
+
+	"r1_node_5" -> "r1_node_11" [  weight=0 ];
+
+	"r1_node_5" -> "r1_node_7" [  weight=0 ];
+
+	"r1_node_5" -> "r1_node_8" [  weight=0 ];
+
+	"r1_node_5" -> "r1_node_1" [  weight=0 ];
+
+	"r1_node_13" [  weight=0 ];
+
+	"r1_node_11" [  weight=0 ];
+
+	"r1_node_1" [  weight=0 ];
+
+	"r1_node_1" -> "r1_node_8" [  weight=0 ];
+
+	"r1_node_1" -> "r1_node_5" [  weight=0 ];
+
+	"r1_node_1" -> "r1_node_12" [  weight=0 ];
+
+	"r1_node_1" -> "r1_node_2" [  weight=0 ];
+
+	"r1_node_7" [  weight=0 ];
+
+	"r1_node_17" [  weight=0 ];
+
+	"r1_node_19" [  weight=0 ];
+
+	"r1_node_10" [  weight=0 ];
+
+	"r1_node_14" [  weight=0 ];
+
+	"r1_node_3" [  weight=0 ];
+
+	"r1_node_3" -> "r1_node_18" [  weight=0 ];
+
+	"r1_node_3" -> "r1_node_6" [  weight=0 ];
+
+	"r1_node_3" -> "r1_node_11" [  weight=0 ];
+
+	"r1_node_3" -> "r1_node_14" [  weight=0 ];
+
+	"r1_node_3" -> "r1_node_16" [  weight=0 ];
+
+	"r1_node_3" -> "r1_node_13" [  weight=0 ];
+
+	"r1_node_15" [  weight=0 ];
+
+	"r1_node_8" [  weight=0 ];
+
+	"r1_node_12" [  weight=0 ];
+
+	"r1_node_20" [  weight=0 ];
+
+	"r1_node_16" [  weight=0 ];
+
+	"r1_node_4" [  weight=0 ];
+
+	"r1_node_4" -> "r1_node_17" [  weight=0 ];
+
+	"r1_node_4" -> "r1_node_7" [  weight=0 ];
+
+	"r1_node_4" -> "r1_node_12" [  weight=0 ];
+
+	"r1_node_4" -> "r1_node_15" [  weight=0 ];
+
+	"r1_node_4" -> "r1_node_16" [  weight=0 ];
+
+	"r1_node_2" [  weight=0 ];
+
+	"r1_node_2" -> "r1_node_17" [  weight=0 ];
+
+	"r1_node_2" -> "r1_node_20" [  weight=0 ];
+
+	"r1_node_2" -> "r1_node_1" [  weight=0 ];
+
+	"r1_node_2" -> "r1_node_8" [  weight=0 ];
+
+	"r1_node_2" -> "r1_node_10" [  weight=0 ];
+
+	"r1_node_2" -> "r1_node_14" [  weight=0 ];
+
+	"r1_node_6" [  weight=0 ];
+
+	"r1_node_6" -> "r1_node_13" [  weight=0 ];
+
+	"r1_node_6" -> "r1_node_19" [  weight=0 ];
+
+	"r1_node_6" -> "r1_node_20" [  weight=0 ];
+
+	"r1_node_6" -> "r1_node_3" [  weight=0 ];
+
+	"r1_node_6" -> "r1_node_8" [  weight=0 ];
+
+	"r1_node_18" [  weight=0 ];
+
+}

@@ -41,3 +41,5 @@ wait time when root is dead
 - prev + wait for first aggregation result to come - for rr promotion
 
 docker stop r1_node_9 && echo "Stopped at: $(date +%s)"
+
+scp -r nova_cluster:/home/tamara/monoceros_simulations/plotter/graphs ~/Documents/monitoring/impl/exported
