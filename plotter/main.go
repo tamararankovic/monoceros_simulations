@@ -108,19 +108,19 @@ func main() {
 		if err != nil {
 			log.Printf("Failed to draw graph %s: %v", treeID, err)
 		} else {
-			cmd := exec.Command("dot", "-Tsvg", "-O", gvFileName)
-			err := cmd.Run()
-			if err != nil {
-				log.Println("Error executing command:", err)
-			}
-			log.Printf("Graph %s written to %s.svg", treeID, treeID)
+			// cmd := exec.Command("dot", "-Tsvg", "-O", gvFileName)
+			// err := cmd.Run()
+			// if err != nil {
+			// 	log.Println("Error executing command:", err)
+			// }
+			// log.Printf("Graph %s written to %s.svg", treeID, treeID)
 		}
 	}
 
-	err = removeGVFiles("graphs")
-	if err != nil {
-		log.Fatalf("Failed to remove .gv files: %v", err)
-	}
+	// err = removeGVFiles("graphs")
+	// if err != nil {
+	// 	log.Fatalf("Failed to remove .gv files: %v", err)
+	// }
 }
 
 func removeGVFiles(dir string) error {
