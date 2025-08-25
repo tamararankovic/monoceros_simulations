@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+echo "Starting resource tracker..."
+sh /record_resources.sh &
+
 echo "Starting generator..."
 /usr/local/bin/generator/generator &
 

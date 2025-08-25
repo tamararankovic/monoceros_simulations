@@ -34,7 +34,8 @@ sh stop_percent.sh 70 r1
 Connect to the clusteer:
 
     ssh nova_cluster
-    oarsub -I -l {"cluster='moltres'"}/nodes=1,walltime=2:30
+    oarsub -I -l {"cluster='moltres'"}/nodes=2,walltime=2:30
+    oarsub -I -l nodes=2,walltime=2:30
 
 wait time when root is dead
 - last + 2*Tagg - for region promotion

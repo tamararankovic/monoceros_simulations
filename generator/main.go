@@ -57,8 +57,8 @@ app_errors_total 17
 func metricsHandler(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("Content-Type", "application/openmetrics-text; version=1.0.0; charset=utf-8")
 	lock.Lock()
-	log.Println("metrics get")
-	log.Println(metrics)
+	// log.Println("metrics get")
+	// log.Println(metrics)
 	fmt.Fprint(w, metrics)
 	lock.Unlock()
 }

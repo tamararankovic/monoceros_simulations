@@ -60,6 +60,7 @@ RUN mkdir -p /var/log/monoceros
 
 # Copy entrypoint script
 COPY ./monoceros_simulations/entrypoint.sh /entrypoint.sh
+COPY ./monoceros_simulations/record_resources.sh /record_resources.sh
 RUN chmod 0777 /entrypoint.sh
 
 # Expose relevant ports
