@@ -68,7 +68,7 @@ export FRONTEND_HOSTNAME=nova_cluster
 export HOSTNAME=tamara
 
 cd ../latency
-rm latency.txt
+rm -f latency.txt
 go run main.go $NODES $INTRA_LATENCY $REGIONS $INTER_LATENCY
 oar-p2p net up --addresses $NODES --latency-matrix latency.txt
 
@@ -144,7 +144,6 @@ for ((i=0; i<NODES; i++)); do
 
     ssh "$MACHINE" bash -s <<EOF
 cd ./monoceros_simulations/scripts
-pwd
 rm -rf $LOG
 mkdir -p $LOG/results
 docker run -dit \
@@ -161,7 +160,7 @@ docker run -dit \
     -e RN_LISTEN_ADDR="$RN_LA" \
     -e GN_LISTEN_ADDR="$GN_LA" \
     -e RRN_LISTEN_ADDR="$RRN_LA" \
-    -v "$(pwd)/${LOG}:/var/log/monoceros" \
+    -v "/home/tamara/monoceros_simulations/scripts/${LOG}:/var/log/monoceros" \
     "$IMAGE"
 EOF
 
