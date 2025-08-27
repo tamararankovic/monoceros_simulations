@@ -44,3 +44,9 @@ wait time when root is dead
 docker stop r1_node_9 && echo "Stopped at: $(date +%s)"
 
 scp -r nova_cluster:/home/tamara/monoceros_simulations/plotter/graphs ~/Documents/monitoring/impl/exported
+
+CLUSTER EXPERIMENTS:
+
+export OAR_JOB_ID={JOB_ID}
+bash start_nodes_cluster.sh 4 2 100 200
+bash cleanup_nodes_cluster.sh

@@ -1,7 +1,7 @@
 ########################
 # -- 1. Build monoceros
 ########################
-FROM golang:latest as monoceros_builder
+FROM golang:latest AS monoceros_builder
 
 WORKDIR /app
 
@@ -19,7 +19,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /monoceros ./cmd
 ########################
 # -- 2. Build generator
 ########################
-FROM golang:latest as generator_builder
+FROM golang:latest AS generator_builder
 
 WORKDIR /app
 
@@ -53,7 +53,7 @@ RUN chmod 0777 /usr/local/bin/monoceros/monoceros \
 # RUN chown -R nobody:nobody /usr/local/bin/monoceros /usr/local/bin/generator
 
 # Make log directory
-RUN mkdir -p /var/log/monoceros
+RUN mkdir -p /var/log/monoceros/results
 
 # Copy Prometheus configuration
 # COPY ./monoceros_simulations/prometheus /etc/prometheus

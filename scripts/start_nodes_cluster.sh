@@ -144,6 +144,7 @@ for ((i=0; i<NODES; i++)); do
 
     ssh "$MACHINE" bash -s <<EOF
 cd ./monoceros_simulations/scripts
+pwd
 rm -rf $LOG
 mkdir -p $LOG/results
 docker run -dit \
