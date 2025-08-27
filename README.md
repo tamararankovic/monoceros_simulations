@@ -35,7 +35,7 @@ Connect to the clusteer:
 
     ssh nova_cluster
     oarsub -I -l {"cluster='moltres'"}/nodes=2,walltime=2:30
-    oarsub -I -l nodes=2,walltime=2:30
+    oarsub -I -l nodes=2,walltime=3:00
 
 wait time when root is dead
 - last + 2*Tagg - for region promotion
