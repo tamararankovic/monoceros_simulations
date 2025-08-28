@@ -6,72 +6,104 @@ if [[ $# -ne 4 ]]; then
   exit 1
 fi
 
-add_ssh_config() {
-    local host="$1"
-    local user="$2"
-    local jump="$3"
-    local config="$HOME/.ssh/config"
+NODES="$1"
+REGIONS="$2"
+INTRA_LATENCY="$3"
+INTER_LATENCY="$4"
 
-    # check if "Host {host}" already exists
-    if ! grep -q -E "^Host[[:space:]]+$host\$" "$config"; then
-        {
-            echo ""
-            echo "Host $host"
-            echo "    User $user"
-            echo "    ProxyJump $jump"
-        } >> "$config"
-        echo "Added ssh config for $host"
-    else
-        echo "ssh config for $host already exists, skipping"
+export FRONTEND_HOSTNAME=nova_cluster
+export HOSTNAME=tamara
+
+declare -A container_info  # key: container name, value: host,NODE_ID,RN_LISTEN_ADDR,GN_LISTEN_ADDR
+
+add_ssh_hosts_for_job() {
+    local job_id="$1"
+    local frontend_host="$2"
+    local ssh_config="$HOME/.ssh/config"
+    local user_name="tamara"
+    local proxy="tamara@nova_cluster"
+
+    if [ -z "$job_id" ]; then
+        echo "Error: job ID not provided"
+        return 1
     fi
+
+    if [ -z "$frontend_host" ]; then
+        echo "Error: FRONTEND_HOSTNAME is not set"
+        return 1
+    fi
+
+    # Get assigned_hostnames remotely
+    local host_line
+    host_line=$(ssh -o BatchMode=yes -o StrictHostKeyChecking=no "$frontend_host" \
+        "oarstat -f nodename -j $job_id" 2>/dev/null | grep 'assigned_hostnames' || true)
+
+    if [ -z "$host_line" ]; then
+        echo "No assigned hostnames found for job $job_id"
+        return 0
+    fi
+
+    local hostnames
+    hostnames=$(echo "$host_line" | awk -F'= ' '{print $2}' | tr '+' '\n')
+
+    while read -r host; do
+        [ -z "$host" ] && continue
+        if ! grep -q "Host $host" "$ssh_config"; then
+            echo -e "\nHost $host\n    User $user_name\n    ProxyJump $proxy" >> "$ssh_config"
+            echo "Added $host to $ssh_config"
+        else
+            echo "$host already exists in $ssh_config"
+        fi
+    done <<< "$hostnames"
 }
 
 select_random_container() {
-    local hostnames=($1)
-    local prefix="$2"
-    local fallback_node_id="$3"
-    local fallback_gn="$4"
-    local fallback_rn="$5"
-    local -a containers=()
-    local -a hosts=()
+    local prefix="$1"
+    local fallback_node_id="$2"
+    local fallback_gn="$3"
+    local fallback_rn="$4"
 
-    # Collect all containers matching the prefix
-    for host in "${hostnames[@]}"; do
-        while read -r cname; do
-            containers+=("$cname")
-            hosts+=("$host")
-        done < <(ssh "$host" "docker ps --format '{{.Names}}' | grep '^$prefix' || true")
+    local keys=("${!container_info[@]}")
+    local matches=()
+
+    for key in "${keys[@]}"; do
+        if [[ "$key" == "$prefix"* ]]; then
+            matches+=("$key")
+        fi
     done
 
-    # Fallback if no containers found
-    if [ ${#containers[@]} -eq 0 ]; then
+    if [ ${#matches[@]} -eq 0 ]; then
         echo "NODE_ID=$fallback_node_id"
         echo "GN_LISTEN_ADDR=$fallback_gn"
         echo "RN_LISTEN_ADDR=$fallback_rn"
         return 0
     fi
 
-    # Pick a random container
-    local rand_index=$(( RANDOM % ${#containers[@]} ))
-    local selected_container="${containers[$rand_index]}"
-    local selected_host="${hosts[$rand_index]}"
+    local rand_index=$(( RANDOM % ${#matches[@]} ))
+    local selected="${matches[$rand_index]}"
+    IFS=',' read -r selected_host NODE_ID RN_LISTEN_ADDR GN_LISTEN_ADDR <<< "${container_info[$selected]}"
 
-    # Retrieve environment variables inside the container
-    ssh "$selected_host" "docker exec '$selected_container' env | grep -E '^(NODE_ID|GN_LISTEN_ADDR|RN_LISTEN_ADDR)='"
+    echo "NODE_ID=$NODE_ID"
+    echo "RN_LISTEN_ADDR=$RN_LISTEN_ADDR"
+    echo "GN_LISTEN_ADDR=$GN_LISTEN_ADDR"
 }
 
-NODES="$1"
-REGIONS="$2"
-INTRA_LATENCY="$3"
-INTER_LATENCY="$4"
-export FRONTEND_HOSTNAME=nova_cluster
-export HOSTNAME=tamara
+# Make sure $OAR_JOB_ID is set
+if [ -z "${OAR_JOB_ID:-}" ]; then
+    echo "Error: OAR_JOB_ID is not set"
+    exit 1
+fi
 
+# Add SSH hosts for the job
+add_ssh_hosts_for_job "$OAR_JOB_ID" "$FRONTEND_HOSTNAME"
+
+# Generate latency
 cd ../latency
 rm -f latency.txt
-go run main.go $NODES $INTRA_LATENCY $REGIONS $INTER_LATENCY
-oar-p2p net up --addresses $NODES --latency-matrix latency.txt
+go run main.go "$NODES" "$INTRA_LATENCY" "$REGIONS" "$INTER_LATENCY"
+oar-p2p net up --addresses "$NODES" --latency-matrix latency.txt
 
+# Get unique hostnames from oar-p2p net show
 OUTPUT=$(oar-p2p net show)
 HOSTNAMES=$(echo "$OUTPUT" | awk '{print $1}' | sort -u)
 
@@ -79,15 +111,12 @@ USER="tamara"
 JUMP_HOST="tamara@nova_cluster"
 IMAGE="monoceros-all"
 
+# Build Docker images on each host
 for host in $HOSTNAMES; do
-    add_ssh_config "$host" "$USER" "$JUMP_HOST"
     ssh "$host" bash -s <<EOF
-cd hyparview
-git pull
-cd ../plumtree
-git pull
-cd ../monoceros
-git pull
+cd hyparview && git pull
+cd ../plumtree && git pull
+cd ../monoceros && git pull
 cd ../
 docker build -t "$IMAGE" -f monoceros_simulations/Dockerfile .
 EOF
@@ -95,8 +124,13 @@ done
 
 per_region=$((NODES / REGIONS))
 
+NET_SHOW_LINES=()
+while IFS= read -r line; do
+    NET_SHOW_LINES+=("$line")
+done < <(oar-p2p net show)
+
+# Start containers
 for ((i=0; i<NODES; i++)); do
-    # determine node region, region to contact in the global network, and name
     REGION_NUM=$(((i / per_region)+1))
     if (( REGION_NUM == 1 )); then
         GN_REGION_NUM=1
@@ -108,9 +142,7 @@ for ((i=0; i<NODES; i++)); do
     REGION_IDX=$(((i % per_region)+1))
     NAME="${REGION}_node_$REGION_IDX"
 
-    # listen and connect sockets
-    line_num=$((i+1))
-    line=$(oar-p2p net show | sed -n "${line_num}p")
+    line="${NET_SHOW_LINES[$i]}"
     MACHINE=$(echo "$line" | awk '{print $1}')
     IP=$(echo "$line" | awk '{print $2}')
     HTTP_LA="${IP}:5001"
@@ -118,15 +150,16 @@ for ((i=0; i<NODES; i++)); do
     GN_LA="${IP}:7001"
     RRN_LA="${IP}:8001"
 
-    result=$(select_random_container "$HOSTNAMES" "$REGION" "$NAME" "$GN_LA", "$RN_LA")
+    # Select RN and GN containers
+    result=$(select_random_container "$REGION" "$NAME" "$GN_LA" "$RN_LA")
     eval "$result"
     RN_CONTACT_NODE_ID="$NODE_ID"
     RN_CONTACT_NODE_ADDR="$RN_LISTEN_ADDR"
-    result=$(select_random_container "$HOSTNAMES" "$GN_REGION" "$NAME" "$GN_LA", "$RN_LA")
+    result=$(select_random_container "$GN_REGION" "$NAME" "$GN_LA" "$RN_LA")
     eval "$result"
     GN_CONTACT_NODE_ID="$NODE_ID"
     GN_CONTACT_NODE_ADDR="$GN_LISTEN_ADDR"
-    
+
     LOG="log/${NAME}"
 
     echo "Node ID: ${NAME}"
@@ -144,8 +177,8 @@ for ((i=0; i<NODES; i++)); do
 
     ssh "$MACHINE" bash -s <<EOF
 cd ./monoceros_simulations/scripts
-rm -rf $LOG
-mkdir -p $LOG/results
+rm -rf "$LOG"
+mkdir -p "$LOG/results"
 docker run -dit \
     --name "$NAME" \
     --network=host \
@@ -163,6 +196,5 @@ docker run -dit \
     -v "/home/tamara/monoceros_simulations/scripts/${LOG}:/var/log/monoceros" \
     "$IMAGE"
 EOF
-
-    sleep 0.5
+    container_info["$NAME"]="$MACHINE,$NAME,$RN_LA,$GN_LA"
 done

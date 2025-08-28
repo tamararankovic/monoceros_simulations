@@ -84,5 +84,5 @@ func main() {
 	r.HandleFunc("POST /metrics", setMetricsHandler)
 	log.Println("Metrics generator listening on :9100/metrics")
 
-	log.Fatal(http.ListenAndServe(":9100", r))
+	log.Fatal(http.ListenAndServe(":9200", r))
 }

@@ -35,9 +35,9 @@ Connect to the clusteer:
 
     ssh nova_cluster
     oarsub -I -l {"cluster='moltres'"}/nodes=2,walltime=2:30
-    oarsub -I -l nodes=2,walltime=3:00
+    oarsub -I -l nodes=5,walltime=3:00
 
-wait time when root is dead
+wait time when root is deadc
 - last + 2*Tagg - for region promotion
 - prev + wait for first aggregation result to come - for rr promotion
 
@@ -48,5 +48,5 @@ scp -r nova_cluster:/home/tamara/monoceros_simulations/plotter/graphs ~/Document
 CLUSTER EXPERIMENTS:
 
 export OAR_JOB_ID={JOB_ID}
-bash start_nodes_cluster.sh 4 2 100 200
+bash start_nodes_cluster.sh 500 1 50 150
 bash cleanup_nodes_cluster.sh
