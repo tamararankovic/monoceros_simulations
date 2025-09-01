@@ -34,8 +34,8 @@ sh stop_percent.sh 70 r1
 Connect to the clusteer:
 
     ssh nova_cluster
-    oarsub -I -l {"cluster='moltres'"}/nodes=2,walltime=2:30
-    oarsub -I -l nodes=5,walltime=3:00
+    oarsub -I -l {"cluster='alakazam'"}/nodes=1,walltime=3:00
+    oarsub -I -l nodes=8,walltime=3:00
 
 wait time when root is deadc
 - last + 2*Tagg - for region promotion
@@ -43,10 +43,19 @@ wait time when root is deadc
 
 docker stop r1_node_9 && echo "Stopped at: $(date +%s)"
 
-scp -r nova_cluster:/home/tamara/monoceros_simulations/plotter/graphs ~/Documents/monitoring/impl/exported
+scp -r nova_cluster:/home/tamara/monoceros_simulations/scripts/log ~/Documents/monitoring/impl/exported
 
 CLUSTER EXPERIMENTS:
 
 export OAR_JOB_ID={JOB_ID}
-bash start_nodes_cluster.sh 500 1 50 150
+bash start_nodes_cluster.sh 100 2 50 150
 bash cleanup_nodes_cluster.sh
+
+check who was promoted as root:
+
+docker ps --format '{{.Names}}' | xargs -I{} sh -c "echo '=== {} ==='; docker logs {} 2>&1 | grep 'still join rrn'"
+
+resource usage:
+
+top -bn1 | grep "Cpu(s)"
+free -h

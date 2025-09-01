@@ -113,6 +113,7 @@ IMAGE="monoceros-all"
 
 # Build Docker images on each host
 for host in $HOSTNAMES; do
+    echo "Setting up $host"
     ssh "$host" bash -s <<EOF
 cd hyparview && git pull
 cd ../plumtree && git pull
@@ -130,6 +131,8 @@ while IFS= read -r line; do
 done < <(oar-p2p net show)
 
 # Start containers
+# problem je to sto se startuju o nepravilnom redosledu, retry on join dok ne uspe?
+declare -A host_cmds
 for ((i=0; i<NODES; i++)); do
     REGION_NUM=$(((i / per_region)+1))
     if (( REGION_NUM == 1 )); then
@@ -175,7 +178,8 @@ for ((i=0; i<NODES; i++)); do
     echo "GN contact node ID: ${GN_CONTACT_NODE_ID}"
     echo "GN contact node addr: ${GN_CONTACT_NODE_ADDR}"
 
-    ssh "$MACHINE" bash -s <<EOF
+    host_cmds["$MACHINE"]+=$(cat <<EOF
+
 cd ./monoceros_simulations/scripts
 rm -rf "$LOG"
 mkdir -p "$LOG/results"
@@ -195,6 +199,17 @@ docker run -dit \
     -e RRN_LISTEN_ADDR="$RRN_LA" \
     -v "/home/tamara/monoceros_simulations/scripts/${LOG}:/var/log/monoceros" \
     "$IMAGE"
+cd ../../
+sleep 0.3
+
 EOF
+)
     container_info["$NAME"]="$MACHINE,$NAME,$RN_LA,$GN_LA"
+done
+
+# now execute per host
+for host in $HOSTNAMES; do
+    echo "Starting containers on $host..."
+    ssh "$host" bash -s <<< "${host_cmds[$host]}"
+    sleep 0.3
 done

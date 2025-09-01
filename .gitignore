@@ -2,3 +2,6 @@ log
 ts.txt
 .DS_Store
 latency.txt
+venv
+all_states.json
+graphs
