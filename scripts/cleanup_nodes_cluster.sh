@@ -15,6 +15,7 @@ for host in $HOSTNAMES; do
     
     # List all container IDs and remove them
     ssh "$host" "docker ps -aq | xargs -r docker rm -f"
+    ssh "$host" rm -rf /home/tamara/signal/*
 done
 
 # Step 3: Bring down the P2P network

@@ -17,7 +17,7 @@ import (
 
 type State struct {
 	ID              string          `json:"Id"`
-	RegionalNetwork RegionalNetwork `json:"RegionalNetwork"`
+	RegionalNetwork RegionalNetwork `json:"RegionalRootsNetwork"`
 }
 
 type RegionalNetwork struct {

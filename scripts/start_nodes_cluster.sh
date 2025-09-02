@@ -198,6 +198,7 @@ docker run -dit \
     -e GN_LISTEN_ADDR="$GN_LA" \
     -e RRN_LISTEN_ADDR="$RRN_LA" \
     -v "/home/tamara/monoceros_simulations/scripts/${LOG}:/var/log/monoceros" \
+    -v "/home/tamara/signal:/var/log/signal" \
     "$IMAGE"
 cd ../../
 sleep 0.3
@@ -212,4 +213,10 @@ for host in $HOSTNAMES; do
     echo "Starting containers on $host..."
     ssh "$host" bash -s <<< "${host_cmds[$host]}"
     sleep 0.3
+done
+
+for hsot in $HOSTNAMES; do
+    echo "Signaling nodes to start ..."
+    ssh "$host" touch /home/tamara/signal/start
+    # break
 done

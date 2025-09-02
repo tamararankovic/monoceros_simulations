@@ -8,6 +8,8 @@ sleep $SLEEP_BEFORE_START
 
 PID=$(netstat -tulpn | grep :$PORT | awk '{split($7,a,"/"); print a[1]}' | head -n 1)
 
+echo "PID = $PID"
+
 if [ -z "$PID" ]; then
   echo "No process found listening on port $PORT"
   exit 1

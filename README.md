@@ -34,7 +34,7 @@ sh stop_percent.sh 70 r1
 Connect to the clusteer:
 
     ssh nova_cluster
-    oarsub -I -l {"cluster='alakazam'"}/nodes=1,walltime=3:00
+    oarsub -I -l {"cluster='alakazam'"}/nodes=3,walltime=12:00
     oarsub -I -l nodes=8,walltime=3:00
 
 wait time when root is deadc
@@ -44,6 +44,8 @@ wait time when root is deadc
 docker stop r1_node_9 && echo "Stopped at: $(date +%s)"
 
 scp -r nova_cluster:/home/tamara/monoceros_simulations/scripts/log ~/Documents/monitoring/impl/exported
+scp -r nova_cluster:/home/tamara/visualize/plots ~/Documents/monitoring/impl/exported
+scp ~/Documents/monitoring/impl/visualize/msg_count.py nova_cluster:/home/tamara/visualize/msg_count.py
 
 CLUSTER EXPERIMENTS:
 
@@ -59,3 +61,7 @@ resource usage:
 
 top -bn1 | grep "Cpu(s)"
 free -h
+
+zaustavljanje kontejnera:
+
+docker stop $(printf "r3_node_%s " $(seq 101 200))
