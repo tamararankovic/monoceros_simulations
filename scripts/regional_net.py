@@ -1,6 +1,7 @@
 import json
 import networkx as nx
 import os
+import sys
 
 # --- Load JSON ---
 with open("all_states.json", "r") as f:
@@ -18,11 +19,32 @@ for node in states:
     for peer_id in active_view:
         G.add_edge(node_id, peer_id)
 
+# Count connected components
+# Since it's a directed graph, we need to use weakly connected components
+# (ignoring edge direction) or strongly connected components
+weakly_connected_components = list(nx.weakly_connected_components(G))
+# strongly_connected_components = list(nx.strongly_connected_components(G))
+
+print(f"Number of weakly connected components: {len(weakly_connected_components)}")
+# print(f"Number of strongly connected components: {len(strongly_connected_components)}")
+
+if len(sys.argv) < 2:
+    exit(0)
+
+# # Print sizes of each component
+# print("\nWeakly connected component sizes:")
+# for i, component in enumerate(weakly_connected_components):
+#     print(f"Component {i+1}: {len(component)} nodes")
+
+# print("\nStrongly connected component sizes:")
+# for i, component in enumerate(strongly_connected_components):
+#     print(f"Component {i+1}: {len(component)} nodes")
+
 dot_file = "graphs/hyparview_graph.dot"
 nx.nx_agraph.write_dot(G, dot_file)
 os.system(f"sfdp -Tpng {dot_file} -Gsize=20,20 -Gdpi=150 -o graphs/hyparview_graph.png")
 
-print("HyParView graph rendered as hyparview_graph.png")
+print("\nHyParView graph rendered as hyparview_graph.png")
 
 # --- Plumtree graphs (per tree ID) ---
 # Dictionary: tree_id -> graph

@@ -3,8 +3,8 @@
 - metrics generator
 - simulation scripts
 
-sh start_nodes.sh 1 10 r1 r1 0
-sh start_nodes.sh 1 10 r2 r1 10
+sh start_nodes.sh 1 40 r1 r1 0
+sh start_nodes.sh 1 40 r2 r1 40
 sh start_nodes.sh 1 10 r3 r2 20
 sh start_nodes.sh 1 10 r4 r3 30
 sh start_nodes.sh 1 10 r5 r4 40
@@ -34,7 +34,7 @@ sh stop_percent.sh 70 r1
 Connect to the clusteer:
 
     ssh nova_cluster
-    oarsub -I -l {"cluster='alakazam'"}/nodes=3,walltime=12:00
+    oarsub -I -l {"cluster='moltres'"}/nodes=4,walltime=12:00
     oarsub -I -l nodes=8,walltime=3:00
 
 wait time when root is deadc
@@ -44,18 +44,21 @@ wait time when root is deadc
 docker stop r1_node_9 && echo "Stopped at: $(date +%s)"
 
 scp -r nova_cluster:/home/tamara/monoceros_simulations/scripts/log ~/Documents/monitoring/impl/exported
-scp -r nova_cluster:/home/tamara/visualize/plots ~/Documents/monitoring/impl/exported
+scp -r nova_cluster:/home/tamara/visualize/plots ~/Documents/monitoring/impl/exported/exp2
 scp ~/Documents/monitoring/impl/visualize/msg_count.py nova_cluster:/home/tamara/visualize/msg_count.py
+
+
+scp ~/Documents/monitoring/impl/experiments/analyze/root_fail.py nova_cluster:/home/tamara/experiments/analyze/root_fail.py
 
 CLUSTER EXPERIMENTS:
 
 export OAR_JOB_ID={JOB_ID}
-bash start_nodes_cluster.sh 100 2 50 150
+bash start_nodes_cluster.sh 900 2 50 200
 bash cleanup_nodes_cluster.sh
 
 check who was promoted as root:
 
-docker ps --format '{{.Names}}' | xargs -I{} sh -c "echo '=== {} ==='; docker logs {} 2>&1 | grep 'still join rrn'"
+docker ps --format '{{.Names}}' | xargs -I{} sh -c "echo '=== {} ==='; docker logs {} 2>&1 | grep -a 'still join rrn'"
 
 resource usage:
 

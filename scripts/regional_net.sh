@@ -9,8 +9,8 @@ HOSTNAMES=$(echo "$OUTPUT" | awk '{print $1}' | sort -u)
 
 # File to store all JSONs in current directory
 JSON_FILE="./all_states.json"
-# Initialize empty array
-echo "[]" > "$JSON_FILE"
+# Initialize empty file
+> "$JSON_FILE"
 
 for host in $HOSTNAMES; do
     echo "Processing host: $host"
