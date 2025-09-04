@@ -13,7 +13,7 @@ FIRST_HOST=${HOSTS_ARRAY[0]}
 echo "First host for cleanup and logs: $FIRST_HOST"
 
 echo "Emptying experiments dir on remote host ..."
-ssh "$FIRST_HOST" "rm -rf /home/tamara/experiments/results/*"
+# ssh "$FIRST_HOST" "rm -rf /home/tamara/experiments/results/*"
 
 while IFS=',' read -r exp_name nodes_count regions_count latency_local latency_global repeat stabilization_wait event_wait event end_wait || [[ -n $exp_name ]]
 do

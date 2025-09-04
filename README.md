@@ -48,7 +48,9 @@ scp -r nova_cluster:/home/tamara/visualize/plots ~/Documents/monitoring/impl/exp
 scp ~/Documents/monitoring/impl/visualize/msg_count.py nova_cluster:/home/tamara/visualize/msg_count.py
 
 
-scp ~/Documents/monitoring/impl/experiments/analyze/root_fail.py nova_cluster:/home/tamara/experiments/analyze/root_fail.py
+scp ~/Documents/monitoring/impl/monoceros_simulations/experiments/analyze/root_fail.py nova_cluster:/home/tamara/experiments/analyze/root_fail.py
+
+scp nova_cluster:/home/tamara/experiments/plot/msg_rate.svg ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/msg_rate2.svg
 
 CLUSTER EXPERIMENTS:
 

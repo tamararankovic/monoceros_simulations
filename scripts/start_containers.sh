@@ -54,16 +54,16 @@ HOSTNAMES=$(echo "$OUTPUT" | awk '{print $1}' | sort -u)
 IMAGE="monoceros-all"
 
 # Build Docker images on each host
-# for host in $HOSTNAMES; do
-#     echo "Setting up $host"
-#     ssh "$host" bash -s <<EOF
-# cd hyparview && git pull
-# cd ../plumtree && git pull
-# cd ../monoceros && git pull
-# cd ../
-# docker build -t "$IMAGE" -f monoceros_simulations/Dockerfile .
-# EOF
-# done
+for host in $HOSTNAMES; do
+    echo "Setting up $host"
+    ssh "$host" bash -s <<EOF
+cd hyparview && git pull
+cd ../plumtree && git pull
+cd ../monoceros && git pull
+cd ../
+docker build -t "$IMAGE" -f monoceros_simulations/Dockerfile .
+EOF
+done
 
 per_region=$((NODES / REGIONS))
 

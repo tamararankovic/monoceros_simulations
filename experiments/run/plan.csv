@@ -1,2 +1,2 @@
 exp_name,nodes_count,regions_count,latency_local,latency_global,repeat,stabilization_wait,event_wait,event,end_wait
-root_fail,4,2,50,200,2,20,5,kill_root,5
+root_fail_no_scores,500,1,50,200,5,120,60,kill_root,140

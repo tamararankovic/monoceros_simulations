@@ -5,3 +5,4 @@ latency.txt
 venv
 all_states.json
 graphs
+*.svg
