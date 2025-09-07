@@ -4,6 +4,8 @@ import json
 import sys
 from typing import Tuple
 
+pd.set_option('display.float_format', '{:.0f}'.format)
+
 def load_node_csv(node_csv_path: Path) -> pd.DataFrame:
     df = pd.read_csv(node_csv_path, header=None, names=["from", "ts_sent", "ts_rcvd", "value"])
     df = df.drop(columns=["from"])
@@ -11,11 +13,13 @@ def load_node_csv(node_csv_path: Path) -> pd.DataFrame:
     df = df.set_index("ts_rcvd").sort_index()
     df.index = df.index / 1_000_000
     df = df[~df.index.duplicated(keep='last')]
+    df.attrs["tmp_path"] = node_csv_path
     return df
 
 def normalize_index(df: pd.DataFrame, min_ts: int, max_ts: int) -> pd.DataFrame:
     df = df.loc[(df.index >= min_ts) & (df.index <= max_ts)]
-    df.index = df.index - df.index.min()
+    df.index = df.index - min_ts
+    # df.index = df.index / 1_000_000
     return df
 
 def get_full_index(dfs: list[pd.DataFrame]) -> list[any]:
@@ -34,41 +38,101 @@ def average_nodes(rep_dir: Path, min_ts, max_ts) -> pd.DataFrame:
         raise ValueError(f"No node CSVs found in {rep_dir}")
     node_dfs = [normalize_index(df, min_ts=min_ts, max_ts=max_ts) for df in node_dfs]
     node_dfs = [reindex(df, get_full_index(node_dfs)) for df in node_dfs]
+    # for df in node_dfs:
+    #     if df["value"].iloc[-1] != 153600:
+    #         print(df.attrs["tmp_path"])
+            # print(df)
+            # break
     combined = pd.concat(node_dfs)
     averaged = combined.groupby(combined.index).mean()
     return averaged
 
+# def average_repetitions(exp_dir: Path) -> Tuple[pd.DataFrame, pd.DataFrame]:
+#     rep_dfs = []
+#     event_ts_normalized = 0
+#     expected_before = 0
+#     expected_after = 0
+#     for rep_dir in exp_dir.glob("exp_*"):
+#         metadata_file = rep_dir / "metadata.json"
+#         with metadata_file.open() as f:
+#             metadata = json.load(f)
+#         event_ts = metadata["event_data"]["timestamp_ns"] / 1_000_000
+#         event_wait = int(metadata["plan"]["event_wait"])
+#         end_wait = int(metadata["plan"]["end_wait"])
+#         min_ts = event_ts - (event_wait * 1_000)
+#         max_ts = event_ts + (end_wait * 1_000)
+#         print(rep_dir.name)
+#         print(max_ts)
+#         event_ts_normalized = event_wait * 1_000
+#         expected_before = metadata["event_data"]["expected_before"]
+#         expected_after = metadata["event_data"]["expected_after"]
+#         rep_avg = average_nodes(rep_dir, min_ts, max_ts)
+#         rep_dfs.append(rep_avg)
+#     # Align repetitions by index and average
+#     rep_dfs = [reindex(df, get_full_index(rep_dfs)) for df in rep_dfs]
+#     combined = pd.concat(rep_dfs)
+#     averaged = combined.groupby(combined.index).mean()
+#     expected_df = pd.DataFrame({
+#         "ts_rcvd": [0, event_ts_normalized],
+#         "value": [expected_before, expected_after]
+#     }).set_index("ts_rcvd")
+#     full_index = get_full_index([averaged] + [expected_df])
+#     averaged = reindex(averaged, full_index)
+#     expected_df = reindex(expected_df, full_index)
+#     return averaged, expected_df
+
 def average_repetitions(exp_dir: Path) -> Tuple[pd.DataFrame, pd.DataFrame]:
     rep_dfs = []
-    event_ts_normalized = 0
-    expected_before = 0
-    expected_after = 0
+    expected_dfs = []
+
     for rep_dir in exp_dir.glob("exp_*"):
         metadata_file = rep_dir / "metadata.json"
         with metadata_file.open() as f:
             metadata = json.load(f)
-        event_ts = metadata["event_data"]["timestamp_ns"] / 1_000_000
+
+        event_data = metadata["event_data"]
+        events = event_data["events"]
+
         event_wait = int(metadata["plan"]["event_wait"])
         end_wait = int(metadata["plan"]["end_wait"])
-        min_ts = event_ts - (event_wait * 1_000)
-        max_ts = event_ts + (end_wait * 1_000)
-        event_ts_normalized = event_wait * 1_000
-        expected_before = metadata["event_data"]["expected_before"]
-        expected_after = metadata["event_data"]["expected_after"]
+
+        # We normalize relative to the *first event timestamp*
+        first_ts = events[0]["timestamp_ns"] / 1_000_000
+        last_ts = events[-1]["timestamp_ns"] / 1_000_000
+        min_ts = first_ts - (event_wait * 1_000)
+        max_ts = last_ts + (end_wait * 1_000)
+
+        print(rep_dir.name)
+        print(max_ts)
+
         rep_avg = average_nodes(rep_dir, min_ts, max_ts)
         rep_dfs.append(rep_avg)
+
+        # --- Build expected_df for this repetition ---
+        expected_records = []
+        # Before event: at t=0
+        expected_records.append({"ts_rcvd": 0, "value": event_data["expected_before"]})
+        # Each event
+        for ev in events:
+            ts_norm = (ev["timestamp_ns"] / 1_000_000) - min_ts
+            expected_records.append({"ts_rcvd": ts_norm, "value": ev["expected"]})
+
+        expected_df = pd.DataFrame(expected_records).set_index("ts_rcvd").sort_index()
+        expected_dfs.append(expected_df)
+
     # Align repetitions by index and average
     rep_dfs = [reindex(df, get_full_index(rep_dfs)) for df in rep_dfs]
     combined = pd.concat(rep_dfs)
     averaged = combined.groupby(combined.index).mean()
-    expected_df = pd.DataFrame({
-        "ts_rcvd": [0, event_ts_normalized],
-        "value": [expected_before, expected_after]
-    }).set_index("ts_rcvd")
-    full_index = get_full_index([averaged] + [expected_df])
+
+    # Merge all expected_dfs
+    full_index = get_full_index([averaged] + expected_dfs)
     averaged = reindex(averaged, full_index)
-    expected_df = reindex(expected_df, full_index)
-    return averaged, expected_df
+    expected_all = pd.concat(expected_dfs).groupby(level=0).mean()
+    expected_all = reindex(expected_all, full_index)
+
+    return averaged, expected_all
+
 
 def main(experiment_name: str, results_dir: Path):
     exp_dir = results_dir / experiment_name

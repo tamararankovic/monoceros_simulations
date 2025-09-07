@@ -34,7 +34,7 @@ sh stop_percent.sh 70 r1
 Connect to the clusteer:
 
     ssh nova_cluster
-    oarsub -I -l {"cluster='moltres'"}/nodes=4,walltime=12:00
+    oarsub -I -l {"cluster='alakazam'"}/nodes=3,walltime=12:00
     oarsub -I -l nodes=8,walltime=3:00
 
 wait time when root is deadc
@@ -50,7 +50,7 @@ scp ~/Documents/monitoring/impl/visualize/msg_count.py nova_cluster:/home/tamara
 
 scp ~/Documents/monitoring/impl/monoceros_simulations/experiments/analyze/root_fail.py nova_cluster:/home/tamara/experiments/analyze/root_fail.py
 
-scp nova_cluster:/home/tamara/experiments/plot/msg_rate.svg ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/msg_rate2.svg
+scp nova_cluster:/home/tamara/experiments/plot/value.svg ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/value6.svg
 
 CLUSTER EXPERIMENTS:
 

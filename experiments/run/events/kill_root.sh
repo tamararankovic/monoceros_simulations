@@ -28,7 +28,7 @@ for host in "${hosts[@]}"; do
 done
 
 if [[ -z "$largest_container" ]]; then
-    echo '{"host": "", "container_name": "", "timestamp_ns": null}'
+    echo '{"expected_before": 0, "events": []}'
     exit 0
 fi
 
@@ -38,12 +38,13 @@ ts_ns=$(ssh "$largest_host" bash -c "'
     date +%s%N
 '")
 
-# Output: host, container_name, timestamp_ns, expected before, expected after
+# Compute values
+expected_before=$(( num_nodes * 512 ))
+expected=$(( (num_nodes - 1) * 512 ))
+
+# Output JSON in new schema
 jq -n \
-    --arg h "$largest_host" \
-    --arg c "$largest_container" \
     --arg t "$ts_ns" \
-    --argjson n "$num_nodes" \
-    '{host: $h, container_name: $c, timestamp_ns: ($t|tonumber),
-      expected_before: ($n * 512),
-      expected_after: (($n - 1) * 512)}'
+    --argjson b "$expected_before" \
+    --argjson e "$expected" \
+    '{expected_before: $b, events: [ {timestamp_ns: ($t|tonumber), expected: $e} ]}'

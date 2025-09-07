@@ -163,7 +163,8 @@ do
             '{plan: $plan, timestamps: $timestamps, event_data: $event_data}')
         METADATA_FILE="$EXP_DIR_BASE/exp_$i/metadata.json"
         # Write metadata to remote host
-        ssh "$FIRST_HOST" "echo '$metadata_json' > $METADATA_FILE"
+        # ssh "$FIRST_HOST" "mkdir -p $(dirname "$METADATA_FILE")"  # ensure directory exists
+        echo "$metadata_json" | ssh "$FIRST_HOST" "cat > '$METADATA_FILE'"
         # Move logs to experiment directory on remote host
         ssh "$FIRST_HOST" "mv /home/tamara/monoceros_simulations/scripts/log/* $EXP_DIR_BASE/exp_$i/"
 

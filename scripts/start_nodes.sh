@@ -71,7 +71,7 @@ for i in $(seq "$(($INDEX))" "$(($INDEX + $COUNT -1))"); do
     -e RRN_LISTEN_ADDR="$RRN_LISTEN_ADDR" \
     -p "$HOST_PROM_PORT:9090" \
     -p "$HOST_MC_PORT:5001" \
-    -p "$GENERATOR_PORT:9100" \
+    -p "$GENERATOR_PORT:9200" \
     -v "$(pwd)/${LOG}:/var/log/monoceros" \
     "$IMAGE"
 

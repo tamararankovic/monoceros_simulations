@@ -12,7 +12,7 @@ def load_node_csv(node_csv_path: Path) -> pd.DataFrame:
 
 def normalize_index(df: pd.DataFrame, min_ts: int, max_ts: int) -> pd.DataFrame:
     df = df.loc[(df.index >= min_ts) & (df.index <= max_ts)]
-    df.index = df.index - df.index.min()
+    df.index = df.index - min_ts
     return df
 
 def get_full_index(dfs: list[pd.DataFrame]) -> list[any]:
@@ -42,11 +42,12 @@ def average_repetitions(exp_dir: Path) -> pd.DataFrame:
         metadata_file = rep_dir / "metadata.json"
         with metadata_file.open() as f:
             metadata = json.load(f)
-        event_ts = round(metadata["event_data"]["timestamp_ns"] / 1_000_000_000)
+        event_ts_min = round(metadata["event_data"]["events"][0]["timestamp_ns"] / 1_000_000_000)
+        event_ts_max = round(metadata["event_data"]["events"][-1]["timestamp_ns"] / 1_000_000_000)
         event_wait = int(metadata["plan"]["event_wait"])
         end_wait = int(metadata["plan"]["end_wait"])
-        min_ts = event_ts - event_wait
-        max_ts = event_ts + end_wait
+        min_ts = event_ts_min - event_wait
+        max_ts = event_ts_max + end_wait
         rep_avg = average_nodes(rep_dir, min_ts, max_ts)
         rep_avg[["sent", "rcvd"]] = rep_avg[["sent", "rcvd"]] - rep_avg[["sent", "rcvd"]].iloc[0]
         rep_dfs.append(rep_avg)
