@@ -6,6 +6,8 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
+	"strings"
 	"sync"
 )
 
@@ -82,7 +84,7 @@ func main() {
 	r := http.NewServeMux()
 	r.HandleFunc("GET /metrics", metricsHandler)
 	r.HandleFunc("POST /metrics", setMetricsHandler)
-	log.Println("Metrics generator listening on :9100/metrics")
+	log.Println("Metrics generator listening on :9200/metrics")
 
-	log.Fatal(http.ListenAndServe(":9200", r))
+	log.Fatal(http.ListenAndServe(strings.Split(os.Getenv("HTTP_SERVER_ADDR"), ":")[0]+":9200", r))
 }

@@ -154,6 +154,5 @@ done
 for host in $HOSTNAMES; do
     echo "Starting containers on $host..."
     ssh "$host" bash -s <<< "${host_cmds[$host]}"
-    # sleep 240
-    read -p "Press Enter to continue to the next host..."
+    sleep 0.3
 done

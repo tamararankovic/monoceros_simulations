@@ -46,8 +46,8 @@ os.system(f"sfdp -Tpng {dot_file} -Gsize=20,20 -Gdpi=150 -o graphs/hyparview_gra
 
 print("\nHyParView graph rendered as hyparview_graph.png")
 
-# --- Plumtree graphs (per tree ID) ---
-# Dictionary: tree_id -> graph
+# # --- Plumtree graphs (per tree ID) ---
+# # Dictionary: tree_id -> graph
 # tree_graphs = {}
 
 # for node in states:
