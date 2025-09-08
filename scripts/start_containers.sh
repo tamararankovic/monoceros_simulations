@@ -125,6 +125,7 @@ cd ./monoceros_simulations/scripts
 rm -rf "$LOG"
 mkdir -p "$LOG/results"
 docker run -dit \
+    --memory 250m \
     --name "$NAME" \
     --network=host \
     --env-file ".env" \
@@ -153,5 +154,6 @@ done
 for host in $HOSTNAMES; do
     echo "Starting containers on $host..."
     ssh "$host" bash -s <<< "${host_cmds[$host]}"
-    sleep 0.3
+    # sleep 240
+    read -p "Press Enter to continue to the next host..."
 done

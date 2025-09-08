@@ -36,6 +36,7 @@ Connect to the clusteer:
     ssh nova_cluster
     oarsub -I -l {"cluster='alakazam'"}/nodes=3,walltime=12:00
     oarsub -I -l nodes=8,walltime=3:00
+    oarsub -I -l {"host in ('moltres-03', 'moltres-07', 'moltres-08', 'moltres-09', 'moltres-10')"}/nodes=5,walltime=12:00
 
 wait time when root is deadc
 - last + 2*Tagg - for region promotion
