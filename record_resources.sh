@@ -1,12 +1,11 @@
 #!/bin/sh
 
-PORT=5001
 OUTPUT_FILE="/var/log/monoceros/results/usage.csv"
 SLEEP_BEFORE_START=5
 
 sleep $SLEEP_BEFORE_START
 
-PID=$(netstat -tulpn | grep :$PORT | awk '{split($7,a,"/"); print a[1]}' | head -n 1)
+PID=$(netstat -tulpn | grep $HTTP_SERVER_ADDR | awk '{split($7,a,"/"); print a[1]}' | head -n 1)
 
 echo "PID = $PID"
 

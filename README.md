@@ -34,7 +34,7 @@ sh stop_percent.sh 70 r1
 Connect to the clusteer:
 
     ssh nova_cluster
-    oarsub -I -l {"cluster='moltres'"}/nodes=1,walltime=2:00
+    oarsub -I -l {"cluster='moltres'"}/nodes=1,walltime=3:00
     oarsub -I -l nodes=8,walltime=3:00
     oarsub -I -l {"host in ('moltres-03', 'moltres-07', 'moltres-08', 'moltres-09', 'moltres-10')"}/nodes=5,walltime=12:00
 

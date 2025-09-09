@@ -1,2 +1,2 @@
 exp_name,nodes_count,regions_count,latency_local,latency_global,repeat,stabilization_wait,event_wait,event,end_wait
-edit_input,300,1,50,200,5,120,60,edit_input,100
+edit_input,1000,1,50,200,5,120,60,edit_input,100
