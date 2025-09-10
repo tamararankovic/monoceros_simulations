@@ -10,12 +10,8 @@ HOSTS_LINE=$(ssh nova_cluster "oarstat -fj $OAR_JOB_ID" | grep 'assigned_hostnam
 HOSTS_STR=$(echo "$HOSTS_LINE" | awk -F'=' '{gsub(/ /,"",$2); print $2}')
 IFS='+' read -r -a HOSTS_ARRAY <<< "$HOSTS_STR"
 FIRST_HOST=${HOSTS_ARRAY[0]}
-echo "First host for cleanup and logs: $FIRST_HOST"
 
-echo "Emptying experiments dir on remote host ..."
-# ssh "$FIRST_HOST" "rm -rf /home/tamara/experiments/results/*"
-
-while IFS=',' read -r exp_name nodes_count regions_count latency_local latency_global repeat stabilization_wait event_wait event end_wait || [[ -n $exp_name ]]
+while IFS=',' read -r protocol exp_name nodes_count regions_count latency_local latency_global repeat stabilization_wait event_wait event end_wait || [[ -n $exp_name ]]
 do
     echo "======================================"
     echo "Running experiment: $exp_name"
@@ -25,7 +21,8 @@ do
     ./start_net.sh "$nodes_count" "$regions_count" "$latency_local" "$latency_global"
     popd > /dev/null
 
-    EXP_DIR_BASE="$BASE_EXP_DIR/${exp_name}_${nodes_count}_${regions_count}"
+    FULL_EXP_NAME="${protocol}_${exp_name}_${nodes_count}_${regions_count}"
+    EXP_DIR_BASE="$BASE_EXP_DIR/$FULL_EXP_NAME"
 
     for ((i=1; i<=repeat; i++)); do
         echo "  Repeat $i/$repeat"
@@ -54,9 +51,17 @@ do
             # Go to scripts directory locally
             pushd ../../scripts > /dev/null
 
-            # Start containers
-            echo "      Starting cluster with nodes=$nodes_count, regions=$regions_count, latencies=$latency_local/$latency_global"
-            ./start_containers.sh "$nodes_count" "$regions_count" "$latency_local" "$latency_global"
+            # Start containers depending on protocol
+            if [[ "$protocol" == "mc" ]]; then
+                echo "      Starting cluster (monoceros) with nodes=$nodes_count, regions=$regions_count, latencies=$latency_local/$latency_global"
+                ./start_containers.sh "$nodes_count" "$regions_count" "$latency_local" "$latency_global" "$FULL_EXP_NAME/exp_$i"
+            elif [[ "$protocol" == "fu" ]]; then
+                echo "      Starting cluster (flow updating) with nodes=$nodes_count, regions=$regions_count, latencies=$latency_local/$latency_global"
+                ./start_fu.sh "$nodes_count" "$regions_count" "$latency_local" "$latency_global" "$FULL_EXP_NAME/exp_$i"
+            else
+                echo "      Unknown protocol: $protocol"
+                exit 1
+            fi
 
             # Wait for stabilization
             echo "      Waiting for stabilization: $stabilization_wait seconds"
@@ -166,7 +171,7 @@ do
         # ssh "$FIRST_HOST" "mkdir -p $(dirname "$METADATA_FILE")"  # ensure directory exists
         echo "$metadata_json" | ssh "$FIRST_HOST" "cat > '$METADATA_FILE'"
         # Move logs to experiment directory on remote host
-        ssh "$FIRST_HOST" "mv /home/tamara/monoceros_simulations/scripts/log/* $EXP_DIR_BASE/exp_$i/"
+        # ssh "$FIRST_HOST" "mv /home/tamara/monoceros_simulations/scripts/log/* $EXP_DIR_BASE/exp_$i/"
 
         echo "  Repeat $i done. Logs and timestamps saved on $FIRST_HOST:$EXP_DIR_BASE/exp_$i"
 

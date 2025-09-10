@@ -19,7 +19,7 @@ app_request_processing_time_seconds 0.256
 
 # HELP app_memory_usage_bytes Current memory usage in bytes
 # TYPE app_memory_usage_bytes gauge
-app_memory_usage_bytes 512
+app_memory_usage_bytes %s
 
 # HELP app_cpu_load_ratio CPU load (0-1)
 # TYPE app_cpu_load_ratio gauge
@@ -61,7 +61,11 @@ func metricsHandler(w http.ResponseWriter, _ *http.Request) {
 	lock.Lock()
 	// log.Println("metrics get")
 	// log.Println(metrics)
-	fmt.Fprint(w, metrics)
+	if wasSet {
+		fmt.Fprint(w, metrics)
+	} else {
+		fmt.Fprintf(w, metrics, initVal)
+	}
 	lock.Unlock()
 }
 
@@ -73,12 +77,16 @@ func setMetricsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 	lock.Lock()
+	wasSet = true
 	metrics = string(newMetrics)
 	log.Println("metrics set")
 	log.Println(metrics)
 	lock.Unlock()
 	w.WriteHeader(http.StatusOK)
 }
+
+var initVal string = strings.Split(os.Getenv("NODE_ID"), "_")[2]
+var wasSet bool = false
 
 func main() {
 	r := http.NewServeMux()

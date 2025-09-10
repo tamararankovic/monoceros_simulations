@@ -34,7 +34,7 @@ sh stop_percent.sh 70 r1
 Connect to the clusteer:
 
     ssh nova_cluster
-    oarsub -I -l {"cluster='moltres'"}/nodes=1,walltime=3:00
+    oarsub -I -l {"cluster='moltres'"}/nodes=1,walltime=12:00
     oarsub -I -l nodes=8,walltime=3:00
     oarsub -I -l {"host in ('moltres-03', 'moltres-07', 'moltres-08', 'moltres-09', 'moltres-10')"}/nodes=5,walltime=12:00
 
@@ -49,14 +49,14 @@ scp -r nova_cluster:/home/tamara/visualize/plots ~/Documents/monitoring/impl/exp
 scp ~/Documents/monitoring/impl/visualize/msg_count.py nova_cluster:/home/tamara/visualize/msg_count.py
 
 
-scp ~/Documents/monitoring/impl/monoceros_simulations/experiments/analyze/root_fail.py nova_cluster:/home/tamara/experiments/analyze/root_fail.py
+scp ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/msg_count_cmp.py nova_cluster:/home/tamara/experiments/plot/msg_count_cmp.py
 
-scp nova_cluster:/home/tamara/experiments/plot/value.svg ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/value6.svg
+scp nova_cluster:/home/tamara/experiments/results/edit_input_100_1_values.svg ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/cmp/3_edit_input_value.svg
 
 CLUSTER EXPERIMENTS:
 
 export OAR_JOB_ID={JOB_ID}
-bash start_nodes_cluster.sh 900 2 50 200
+bash start_nodes_cluster.sh 1000 1 50 200
 bash cleanup_nodes_cluster.sh
 
 check who was promoted as root:

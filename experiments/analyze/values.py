@@ -28,21 +28,25 @@ def get_full_index(dfs: list[pd.DataFrame]) -> list[any]:
 def reindex(df: pd.DataFrame, index: list[any]) -> pd.DataFrame:
     return df.reindex(index).ffill()
 
-def average_nodes(rep_dir: Path, min_ts, max_ts) -> pd.DataFrame:
+def average_nodes(rep_dir: Path, exp_name, min_ts, max_ts) -> pd.DataFrame:
     node_dfs = []
     for node_dir in rep_dir.glob("r*_node_*"):
-        csv_file = node_dir / "results" / "total_app_memory_usage_bytes{ global=y level=global }.csv"
+        if exp_name.startswith("mc_"):
+            file_name = "avg_app_memory_usage_bytes{ func=avg level=region regionID=r1 }.csv"
+        else:
+            file_name = "value.csv"
+        csv_file = node_dir / "results" / file_name
         if csv_file.exists():
-            node_dfs.append(load_node_csv(csv_file))
+            node_df = load_node_csv(csv_file)
+            node_df.attrs["node_id"] = node_dir.name
+            node_dfs.append(node_df)
     if not node_dfs:
         raise ValueError(f"No node CSVs found in {rep_dir}")
     node_dfs = [normalize_index(df, min_ts=min_ts, max_ts=max_ts) for df in node_dfs]
     node_dfs = [reindex(df, get_full_index(node_dfs)) for df in node_dfs]
-    # for df in node_dfs:
-    #     if df["value"].iloc[-1] != 153600:
-    #         print(df.attrs["tmp_path"])
-            # print(df)
-            # break
+    for node_df in node_dfs:
+        output_file = rep_dir / node_df.attrs['node_id'] / "normalized_values.csv"
+        node_df.to_csv(output_file)
     combined = pd.concat(node_dfs)
     averaged = combined.groupby(combined.index).mean()
     return averaged
@@ -81,7 +85,7 @@ def average_nodes(rep_dir: Path, min_ts, max_ts) -> pd.DataFrame:
 #     expected_df = reindex(expected_df, full_index)
 #     return averaged, expected_df
 
-def average_repetitions(exp_dir: Path) -> Tuple[pd.DataFrame, pd.DataFrame]:
+def average_repetitions(exp_dir: Path, exp_name) -> Tuple[pd.DataFrame, pd.DataFrame]:
     rep_dfs = []
     expected_dfs = []
 
@@ -105,7 +109,7 @@ def average_repetitions(exp_dir: Path) -> Tuple[pd.DataFrame, pd.DataFrame]:
         print(rep_dir.name)
         print(max_ts)
 
-        rep_avg = average_nodes(rep_dir, min_ts, max_ts)
+        rep_avg = average_nodes(rep_dir, exp_name, min_ts, max_ts)
         rep_dfs.append(rep_avg)
 
         # --- Build expected_df for this repetition ---
@@ -118,6 +122,7 @@ def average_repetitions(exp_dir: Path) -> Tuple[pd.DataFrame, pd.DataFrame]:
             expected_records.append({"ts_rcvd": ts_norm, "value": ev["expected"]})
 
         expected_df = pd.DataFrame(expected_records).set_index("ts_rcvd").sort_index()
+        expected_df.attrs["rep_id"] = rep_dir.name
         expected_dfs.append(expected_df)
 
     # Align repetitions by index and average
@@ -128,8 +133,11 @@ def average_repetitions(exp_dir: Path) -> Tuple[pd.DataFrame, pd.DataFrame]:
     # Merge all expected_dfs
     full_index = get_full_index([averaged] + expected_dfs)
     averaged = reindex(averaged, full_index)
+    expected_dfs = [reindex(df, full_index) for df in expected_dfs]
+    for df in expected_dfs:
+        output_file = exp_dir / df.attrs["rep_id"] / "normalized_expected_values.csv"
+        df.to_csv(output_file)
     expected_all = pd.concat(expected_dfs).groupby(level=0).mean()
-    expected_all = reindex(expected_all, full_index)
 
     return averaged, expected_all
 
@@ -140,7 +148,7 @@ def main(experiment_name: str, results_dir: Path):
         raise ValueError(f"Experiment directory {exp_dir} does not exist")
     
     # Average by repetition
-    final_avg, expected = average_repetitions(exp_dir)
+    final_avg, expected = average_repetitions(exp_dir, experiment_name)
     
     print(f"Final averaged results for experiment '{experiment_name}':")
     print(final_avg)
@@ -149,10 +157,10 @@ def main(experiment_name: str, results_dir: Path):
     print(expected)
     
     # Optionally save to CSV
-    output_file = results_dir / experiment_name / f"{experiment_name}_averaged.csv"
+    output_file = results_dir / experiment_name / f"value_measured.csv"
     final_avg.to_csv(output_file)
     print(f"Averaged results saved to {output_file}")
-    output_file = results_dir / experiment_name / f"expected.csv"
+    output_file = results_dir / experiment_name / f"value_expected.csv"
     expected.to_csv(output_file)
     print(f"Expected results saved to {output_file}")
 

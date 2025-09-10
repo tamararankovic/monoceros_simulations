@@ -9,7 +9,7 @@ if len(sys.argv) != 2:
 experiment_name = sys.argv[1]
 
 # Load CSV
-df = pd.read_csv(f"/home/tamara/experiments/results/{experiment_name}/msgs_averaged.csv")
+df = pd.read_csv(f"/home/tamara/experiments/results/{experiment_name}/msg_count.csv")
 df.set_index("timestamp", inplace=True)
 
 # --- Plot counts ---
@@ -22,7 +22,7 @@ plt.title("Messages Sent/Received Over Time")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("msg_count.svg")
+plt.savefig(f"/home/tamara/experiments/results/{experiment_name}/msg_count.svg")
 plt.close()
 
 # --- Plot rates ---
@@ -35,5 +35,5 @@ plt.title("Message Rates Over Time")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("msg_rate.svg")
+plt.savefig(f"/home/tamara/experiments/results/{experiment_name}/msg_rate.svg")
 plt.close()

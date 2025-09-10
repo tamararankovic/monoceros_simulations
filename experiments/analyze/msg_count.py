@@ -80,7 +80,7 @@ def main(experiment_name: str, results_dir: Path):
     print(final_avg)
     
     # Optionally save to CSV
-    output_file = results_dir / experiment_name / f"msgs_averaged.csv"
+    output_file = results_dir / experiment_name / f"msg_count.csv"
     final_avg.to_csv(output_file)
     print(f"Averaged results saved to {output_file}")
 

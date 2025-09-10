@@ -18,8 +18,8 @@ for host in $HOSTNAMES; do
     # Run everything inside one SSH session per host
     ssh "$host" bash -c "'
         for c in \$(docker ps --format \"{{.Names}}\"); do
-            # Get first HTTP_* env var
-            env_ip=\$(docker inspect -f \"{{range .Config.Env}}{{println .}}{{end}}\" \$c | grep \"^HTTP_\" | head -n1 || true)
+            # Get first *LISTEN_* env var
+            env_ip=\$(docker inspect -f \"{{range .Config.Env}}{{println .}}{{end}}\" \$c | grep \"LISTEN_\" | head -n1 || true)
             if [[ -n \"\$env_ip\" ]]; then
                 ip_port=\${env_ip#*=}
                 ip=\${ip_port%%:*}

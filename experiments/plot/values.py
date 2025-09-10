@@ -9,10 +9,10 @@ if len(sys.argv) != 2:
 experiment_name = sys.argv[1]
 
 # Load CSV
-df_1 = pd.read_csv(f"/home/tamara/experiments/results/{experiment_name}/{experiment_name}_averaged.csv")
+df_1 = pd.read_csv(f"/home/tamara/experiments/results/{experiment_name}/value_measured.csv")
 df_1.set_index("ts_rcvd", inplace=True)
 
-df_2 = pd.read_csv(f"/home/tamara/experiments/results/{experiment_name}/expected.csv")
+df_2 = pd.read_csv(f"/home/tamara/experiments/results/{experiment_name}/value_expected.csv")
 df_2.set_index("ts_rcvd", inplace=True)
 
 # Convert index from milliseconds → seconds
@@ -29,5 +29,5 @@ plt.title("Measured VS expected value")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig("value.svg")
+plt.savefig(f"/home/tamara/experiments/results/{experiment_name}/value.svg")
 plt.close()

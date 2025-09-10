@@ -39,8 +39,11 @@ ts_ns=$(ssh "$largest_host" bash -c "'
 '")
 
 # Compute values
-expected_before=$(( num_nodes * 512 ))
-expected=$(( (num_nodes - 1) * 512 ))
+# expected_before=$(( num_nodes * 512 ))
+# expected=$(( (num_nodes - 1) * 512 ))
+
+expected_before=$(( 512 ))
+expected=$(( 512 ))
 
 # Output JSON in new schema
 jq -n \
