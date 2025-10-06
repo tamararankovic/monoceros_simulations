@@ -13,6 +13,10 @@ hosts=("$@")
 largest_container=""
 largest_host=""
 
+sum_nodes=$(( num_nodes * (num_nodes + 1) / 2 ))
+curr_num_nodes=$(( num_nodes ))
+expected_before=$(echo "scale=4; $sum_nodes/$num_nodes" | bc)
+
 # First, find the container with the largest name across all hosts
 for host in "${hosts[@]}"; do
     containers=$(ssh "$host" "docker ps --format '{{.Names}}'")
@@ -38,16 +42,15 @@ ts_ns=$(ssh "$largest_host" bash -c "'
     date +%s%N
 '")
 
-# Compute values
-# expected_before=$(( num_nodes * 512 ))
-# expected=$(( (num_nodes - 1) * 512 ))
-
-expected_before=$(( 512 ))
-expected=$(( 512 ))
+val="${largest_container##*_}"
+curr_num_nodes=$((curr_num_nodes - 1))
+sum_nodes=$((sum_nodes - val))
+expected=$(echo "scale=4; $sum_nodes/$curr_num_nodes" | bc)
 
 # Output JSON in new schema
 jq -n \
     --arg t "$ts_ns" \
     --argjson b "$expected_before" \
     --argjson e "$expected" \
-    '{expected_before: $b, events: [ {timestamp_ns: ($t|tonumber), expected: $e} ]}'
+    --arg l "$largest_container" \
+    '{expected_before: $b, events: [ {timestamp_ns: ($t|tonumber), expected: $e,  killed: [$l]} ]}'

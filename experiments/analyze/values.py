@@ -11,7 +11,7 @@ def load_node_csv(node_csv_path: Path) -> pd.DataFrame:
     df = df.drop(columns=["from"])
     df = df.drop(columns=["ts_sent"])
     df = df.set_index("ts_rcvd").sort_index()
-    df.index = df.index / 1_000_000
+    df.index = (df.index / 1_000_000_000).round().astype(int)
     df = df[~df.index.duplicated(keep='last')]
     df.attrs["tmp_path"] = node_csv_path
     return df
@@ -26,30 +26,37 @@ def get_full_index(dfs: list[pd.DataFrame]) -> list[any]:
     return sorted(set().union(*(df.index for df in dfs)))
 
 def reindex(df: pd.DataFrame, index: list[any]) -> pd.DataFrame:
-    return df.reindex(index).ffill()
+    # first_ts = df.index.min()
+    # last_ts = df.index.max()
+    # mask = (index >= first_ts) & (index <= last_ts)
+    # selected_index = index[mask]
+    df = df.reindex(index).ffill()
+    # cutoff = df.attrs.get("killed", 999999999)
+    # df.loc[df.index >= cutoff, "value"] = pd.NA
+    return df
 
-def average_nodes(rep_dir: Path, exp_name, min_ts, max_ts) -> pd.DataFrame:
-    node_dfs = []
-    for node_dir in rep_dir.glob("r*_node_*"):
-        if exp_name.startswith("mc_"):
-            file_name = "avg_app_memory_usage_bytes{ func=avg level=region regionID=r1 }.csv"
-        else:
-            file_name = "value.csv"
-        csv_file = node_dir / "results" / file_name
-        if csv_file.exists():
-            node_df = load_node_csv(csv_file)
-            node_df.attrs["node_id"] = node_dir.name
-            node_dfs.append(node_df)
-    if not node_dfs:
-        raise ValueError(f"No node CSVs found in {rep_dir}")
-    node_dfs = [normalize_index(df, min_ts=min_ts, max_ts=max_ts) for df in node_dfs]
-    node_dfs = [reindex(df, get_full_index(node_dfs)) for df in node_dfs]
-    for node_df in node_dfs:
-        output_file = rep_dir / node_df.attrs['node_id'] / "normalized_values.csv"
-        node_df.to_csv(output_file)
-    combined = pd.concat(node_dfs)
-    averaged = combined.groupby(combined.index).mean()
-    return averaged
+# def average_nodes(rep_dir: Path, exp_name, min_ts, max_ts) -> pd.DataFrame:
+#     node_dfs = []
+#     for node_dir in rep_dir.glob("r*_node_*"):
+#         if exp_name.startswith("mc_"):
+#             file_name = "avg_app_memory_usage_bytes{ func=avg level=region regionID=r1 }.csv"
+#         else:
+#             file_name = "value.csv"
+#         csv_file = node_dir / "results" / file_name
+#         if csv_file.exists():
+#             node_df = load_node_csv(csv_file)
+#             node_df.attrs["node_id"] = node_dir.name
+#             node_dfs.append(node_df)
+#     if not node_dfs:
+#         raise ValueError(f"No node CSVs found in {rep_dir}")
+#     node_dfs = [normalize_index(df, min_ts=min_ts, max_ts=max_ts) for df in node_dfs]
+#     node_dfs = [reindex(df, get_full_index(node_dfs)) for df in node_dfs]
+#     for node_df in node_dfs:
+#         output_file = rep_dir / node_df.attrs['node_id'] / "normalized_values.csv"
+#         node_df.to_csv(output_file)
+#     combined = pd.concat(node_dfs)
+#     averaged = combined.groupby(combined.index).mean()
+#     return averaged
 
 # def average_repetitions(exp_dir: Path) -> Tuple[pd.DataFrame, pd.DataFrame]:
 #     rep_dfs = []
@@ -85,7 +92,103 @@ def average_nodes(rep_dir: Path, exp_name, min_ts, max_ts) -> pd.DataFrame:
 #     expected_df = reindex(expected_df, full_index)
 #     return averaged, expected_df
 
-def average_repetitions(exp_dir: Path, exp_name) -> Tuple[pd.DataFrame, pd.DataFrame]:
+# def average_repetitions(exp_dir: Path, exp_name) -> Tuple[pd.DataFrame, pd.DataFrame]:
+#     rep_dfs = []
+#     expected_dfs = []
+
+#     for rep_dir in exp_dir.glob("exp_*"):
+#         metadata_file = rep_dir / "metadata.json"
+#         with metadata_file.open() as f:
+#             metadata = json.load(f)
+
+#         event_data = metadata["event_data"]
+#         events = event_data["events"]
+
+#         event_wait = int(metadata["plan"]["event_wait"])
+#         end_wait = int(metadata["plan"]["end_wait"])
+
+#         # We normalize relative to the *first event timestamp*
+#         first_ts = events[0]["timestamp_ns"] / 1_000_000
+#         last_ts = events[-1]["timestamp_ns"] / 1_000_000
+#         min_ts = first_ts - (event_wait * 1_000)
+#         max_ts = last_ts + (end_wait * 1_000)
+
+#         print(rep_dir.name)
+#         print(max_ts)
+
+#         rep_avg = average_nodes(rep_dir, exp_name, min_ts, max_ts)
+#         rep_dfs.append(rep_avg)
+
+#         # --- Build expected_df for this repetition ---
+#         expected_records = []
+#         # Before event: at t=0
+#         expected_records.append({"ts_rcvd": 0, "value": event_data["expected_before"]})
+#         # Each event
+#         for ev in events:
+#             ts_norm = (ev["timestamp_ns"] / 1_000_000) - min_ts
+#             expected_records.append({"ts_rcvd": ts_norm, "value": ev["expected"]})
+
+#         expected_df = pd.DataFrame(expected_records).set_index("ts_rcvd").sort_index()
+#         expected_df.attrs["rep_id"] = rep_dir.name
+#         expected_dfs.append(expected_df)
+
+#     # Align repetitions by index and average
+#     rep_dfs = [reindex(df, get_full_index(rep_dfs)) for df in rep_dfs]
+#     combined = pd.concat(rep_dfs)
+#     averaged = combined.groupby(combined.index).mean()
+
+#     # Merge all expected_dfs
+#     full_index = get_full_index([averaged] + expected_dfs)
+#     averaged = reindex(averaged, full_index)
+#     expected_dfs = [reindex(df, full_index) for df in expected_dfs]
+#     for df in expected_dfs:
+#         output_file = exp_dir / df.attrs["rep_id"] / "normalized_expected_values.csv"
+#         df.to_csv(output_file)
+#     expected_all = pd.concat(expected_dfs).groupby(level=0).mean()
+
+#     return averaged, expected_all
+
+def average_nodes(rep_dir: Path, exp_name: str, min_ts: int, max_ts: int, events: list[dict]) -> pd.DataFrame:
+    node_dfs = []
+    for node_dir in rep_dir.glob("r*_node_*"):
+        if exp_name.startswith("mc_"):
+            file_name = "avg_app_memory_usage_bytes{ func=avg level=region regionID=r1 }.csv"
+        else:
+            file_name = "value.csv"
+        csv_file = node_dir / "results" / file_name
+        if not csv_file.exists():
+            continue
+
+        node_df = load_node_csv(csv_file)
+        node_df.attrs["node_id"] = node_dir.name
+
+        # --- Apply event cutoffs ---
+        for ev in events:
+            for killed in ev.get("killed", []):
+                # match container name with node_dir
+                if killed in node_dir.name:
+                    cutoff = round((ev["timestamp_ns"] / 1_000_000_000) - min_ts)
+                    # node_df.loc[node_df.index >= cutoff, "value"] = pd.NA
+                    node_df.attrs["killed"] = cutoff
+
+        node_dfs.append(node_df)
+
+    if not node_dfs:
+        raise ValueError(f"No node CSVs found in {rep_dir}")
+
+    node_dfs = [normalize_index(df, min_ts=min_ts, max_ts=max_ts) for df in node_dfs]
+    # node_dfs = [reindex(df, get_full_index(node_dfs)) for df in node_dfs]
+
+    for node_df in node_dfs:
+        output_file = rep_dir / node_df.attrs['node_id'] / "normalized_values.csv"
+        node_df.dropna().to_csv(output_file)
+
+    combined = pd.concat(node_dfs)
+    averaged = combined.groupby(combined.index).mean()
+    return averaged
+
+
+def average_repetitions(exp_dir: Path, exp_name: str) -> Tuple[pd.DataFrame, pd.DataFrame]:
     rep_dfs = []
     expected_dfs = []
 
@@ -97,49 +200,49 @@ def average_repetitions(exp_dir: Path, exp_name) -> Tuple[pd.DataFrame, pd.DataF
         event_data = metadata["event_data"]
         events = event_data["events"]
 
-        event_wait = int(metadata["plan"]["event_wait"])
-        end_wait = int(metadata["plan"]["end_wait"])
+        event_wait = metadata["plan"]["event_wait"]
+        end_wait = metadata["plan"]["end_wait"]
 
         # We normalize relative to the *first event timestamp*
-        first_ts = events[0]["timestamp_ns"] / 1_000_000
-        last_ts = events[-1]["timestamp_ns"] / 1_000_000
-        min_ts = first_ts - (event_wait * 1_000)
-        max_ts = last_ts + (end_wait * 1_000)
+        first_ts = events[0]["timestamp_ns"] / 1_000_000_000
+        last_ts = events[-1]["timestamp_ns"] / 1_000_000_000
+        min_ts = round(first_ts - event_wait)
+        max_ts = round(last_ts + end_wait)
 
         print(rep_dir.name)
         print(max_ts)
 
-        rep_avg = average_nodes(rep_dir, exp_name, min_ts, max_ts)
+        # pass events into average_nodes
+        rep_avg = average_nodes(rep_dir, exp_name, min_ts, max_ts, events)
         rep_dfs.append(rep_avg)
 
         # --- Build expected_df for this repetition ---
         expected_records = []
-        # Before event: at t=0
         expected_records.append({"ts_rcvd": 0, "value": event_data["expected_before"]})
-        # Each event
         for ev in events:
-            ts_norm = (ev["timestamp_ns"] / 1_000_000) - min_ts
+            ts_norm =round( (ev["timestamp_ns"] / 1_000_000_000) - min_ts)
             expected_records.append({"ts_rcvd": ts_norm, "value": ev["expected"]})
 
         expected_df = pd.DataFrame(expected_records).set_index("ts_rcvd").sort_index()
+        expected_df = expected_df[~expected_df.index.duplicated(keep='last')]
         expected_df.attrs["rep_id"] = rep_dir.name
         expected_dfs.append(expected_df)
 
     # Align repetitions by index and average
-    rep_dfs = [reindex(df, get_full_index(rep_dfs)) for df in rep_dfs]
+    # rep_dfs = [reindex(df, get_full_index(rep_dfs)) for df in rep_dfs]
     combined = pd.concat(rep_dfs)
     averaged = combined.groupby(combined.index).mean()
 
-    # Merge all expected_dfs
-    full_index = get_full_index([averaged] + expected_dfs)
-    averaged = reindex(averaged, full_index)
+    full_index = get_full_index([averaged])
+    # averaged = reindex(averaged, full_index)
     expected_dfs = [reindex(df, full_index) for df in expected_dfs]
     for df in expected_dfs:
         output_file = exp_dir / df.attrs["rep_id"] / "normalized_expected_values.csv"
-        df.to_csv(output_file)
+        df.dropna().to_csv(output_file)
     expected_all = pd.concat(expected_dfs).groupby(level=0).mean()
 
     return averaged, expected_all
+
 
 
 def main(experiment_name: str, results_dir: Path):

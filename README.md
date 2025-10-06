@@ -3,8 +3,8 @@
 - metrics generator
 - simulation scripts
 
-sh start_nodes.sh 1 40 r1 r1 0
-sh start_nodes.sh 1 40 r2 r1 40
+sh start_nodes.sh 1 10 r1 r1 0
+sh start_nodes.sh 1 10 r2 r1 10
 sh start_nodes.sh 1 10 r3 r2 20
 sh start_nodes.sh 1 10 r4 r3 30
 sh start_nodes.sh 1 10 r5 r4 40
@@ -49,9 +49,11 @@ scp -r nova_cluster:/home/tamara/visualize/plots ~/Documents/monitoring/impl/exp
 scp ~/Documents/monitoring/impl/visualize/msg_count.py nova_cluster:/home/tamara/visualize/msg_count.py
 
 
-scp ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/msg_count_cmp.py nova_cluster:/home/tamara/experiments/plot/msg_count_cmp.py
+scp ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/values.py nova_cluster:/home/tamara/experiments/plot/values.py
 
-scp nova_cluster:/home/tamara/experiments/results/edit_input_100_1_values.svg ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/cmp/3_edit_input_value.svg
+scp nova_cluster:/home/tamara/experiments/results/tmp_100_1_rmse.svg ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/tmp/tmp_100_1_rmse.svg
+
+scp nova_cluster:/home/tamara/experiments/results/fu_tmp_100_1/value.svg ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/tmp/fu_100_new_value.svg
 
 CLUSTER EXPERIMENTS:
 

@@ -11,6 +11,7 @@ if len(sys.argv) != 2:
 experiment_name = sys.argv[1]
 BASE_DIR = Path("/home/tamara/experiments/results")
 
+
 def compute_average_values(exp_name: str, common_index: pd.Index) -> pd.DataFrame:
     """
     Compute expected and measured values averaged across nodes and repetitions,
@@ -22,27 +23,35 @@ def compute_average_values(exp_name: str, common_index: pd.Index) -> pd.DataFram
     expected_all, measured_all = [], []
 
     for rep_dir in repetitions:
-        # Expected values
+        # --- Expected values ---
         expected_df = pd.read_csv(rep_dir / "normalized_expected_values.csv")
-        expected_df.set_index("ts_rcvd", inplace=True)
-        expected_df = expected_df.reindex(common_index).fillna(method="bfill").fillna(method="ffill")
+        expected_df["ts_rcvd"] = expected_df["ts_rcvd"].astype(int)
+        expected_df = expected_df.drop_duplicates(subset="ts_rcvd").set_index("ts_rcvd")
+        expected_df = expected_df.reindex(common_index).ffill().bfill()
 
-        # Measured: average across nodes
+        # --- Measured: average across nodes ---
         node_files = sorted(rep_dir.glob("*/normalized_values.csv"))
         node_dfs = []
         for f in node_files:
             node_df = pd.read_csv(f)
-            node_df.set_index("ts_rcvd", inplace=True)
-            node_df = node_df.reindex(common_index).fillna(method="ffill").fillna(method="bfill")
+            node_df["ts_rcvd"] = node_df["ts_rcvd"].astype(int)
+            node_df = node_df.drop_duplicates(subset="ts_rcvd").set_index("ts_rcvd")
+
+            first_ts = node_df.index.min()
+            last_ts = node_df.index.max()
+            mask = (common_index >= first_ts) & (common_index <= last_ts)
+            selected_index = common_index[mask]
+
+            node_df = node_df.reindex(selected_index)
             node_dfs.append(node_df)
 
-        measured_df = pd.concat(node_dfs, axis=1).mean(axis=1).to_frame(name="value")
-        measured_df = measured_df.reindex(common_index)
+        if node_dfs:
+            measured_df = pd.concat(node_dfs, axis=1).mean(axis=1).to_frame(name="value")
+            measured_all.append(measured_df["value"])
 
         expected_all.append(expected_df["value"])
-        measured_all.append(measured_df["value"])
 
-    # Average across repetitions
+    # --- Average across repetitions ---
     expected_avg = pd.concat(expected_all, axis=1).mean(axis=1)
     measured_avg = pd.concat(measured_all, axis=1).mean(axis=1)
 
@@ -56,27 +65,33 @@ def get_full_index(exp_names):
         repetitions = sorted(exp_dir.glob("exp_*"))
         for rep_dir in repetitions:
             expected_df = pd.read_csv(rep_dir / "normalized_expected_values.csv")
-            ts_all.extend(expected_df["ts_rcvd"].values)
-    return pd.Index(sorted(set(ts_all)))
+            ts_all.extend(expected_df["ts_rcvd"].astype(int).values)
+    return pd.Index(sorted(set(ts_all)), dtype=int)
 
 
 # --- Build common index for both experiments ---
 common_index = get_full_index([f"fu_{experiment_name}", f"mc_{experiment_name}"])
+common_index = common_index.astype(int)  # ensure numeric for plotting
 
 # --- Compute values for both experiments ---
-fu_values = compute_average_values(f"fu_{experiment_name}", common_index)
-mc_values = compute_average_values(f"mc_{experiment_name}", common_index)
+fu_values = compute_average_values(f"fu_{experiment_name}", common_index).ffill()
+mc_values = compute_average_values(f"mc_{experiment_name}", common_index).ffill()
 
 # --- Plot ---
-plt.figure(figsize=(10,6))
-plt.plot(common_index / 1000, fu_values["expected"], label="FU Expected", linestyle="--")
-plt.plot(common_index / 1000, fu_values["measured"], label="FU Measured")
-plt.plot(common_index / 1000, mc_values["expected"], label="MC Expected", linestyle="--")
-plt.plot(common_index / 1000, mc_values["measured"], label="MC Measured")
+plt.figure(figsize=(10, 6))
+fu_values["expected"] = fu_values["expected"].round(4)
+fu_values["measured"] = fu_values["measured"].round(4)
+mc_values["expected"] = mc_values["expected"].round(4)
+mc_values["measured"] = mc_values["measured"].round(4)
+plt.plot(common_index, fu_values["expected"], label="FU Expected", linestyle="--")
+plt.plot(common_index, fu_values["measured"], label="FU Measured")
+plt.plot(common_index, mc_values["expected"], label="MC Expected", linestyle="--")
+plt.plot(common_index, mc_values["measured"], label="MC Measured")
 
 plt.xlabel("Time (s)")
 plt.ylabel("Value")
 plt.title("Measured vs Expected Values (Flow Updating vs Monoceros)")
+plt.ticklabel_format(useOffset=False, style='plain', axis='y')
 plt.legend()
 plt.grid(True)
 plt.tight_layout()

@@ -10,22 +10,34 @@ experiment_name = sys.argv[1]
 
 # Load CSV
 df_1 = pd.read_csv(f"/home/tamara/experiments/results/{experiment_name}/value_measured.csv")
-df_1.set_index("ts_rcvd", inplace=True)
-
 df_2 = pd.read_csv(f"/home/tamara/experiments/results/{experiment_name}/value_expected.csv")
-df_2.set_index("ts_rcvd", inplace=True)
 
 # Convert index from milliseconds → seconds
-df_1.index = df_1.index / 1000.0
-df_2.index = df_2.index / 1000.0
+# df_1["ts_rcvd"] = df_1["ts_rcvd"] / 1000.0
+# df_2["ts_rcvd"] = df_2["ts_rcvd"] / 1000.0
+
+# Set index
+df_1.set_index("ts_rcvd", inplace=True)
+df_2.set_index("ts_rcvd", inplace=True)
+
+# Round timestamps to avoid tiny float differences
+df_1.index = df_1.index.round(3)
+df_2.index = df_2.index.round(3)
+df_1["value"] = df_1["value"].round(4)
+df_2["value"] = df_2["value"].round(4)
+
+# Aggregate in case of duplicates
+df_1 = df_1.groupby(df_1.index).mean()
+df_2 = df_2.groupby(df_2.index).mean()
 
 # --- Plot values ---
 plt.figure(figsize=(10, 6))
 plt.plot(df_1.index, df_1["value"], label="Measured")
 plt.plot(df_2.index, df_2["value"], label="Expected")
+plt.ticklabel_format(useOffset=False, style='plain', axis='y')
 plt.xlabel("Time (s)")
 plt.ylabel("Value")
-plt.title("Measured VS expected value")
+plt.title("Measured VS Expected Value")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
