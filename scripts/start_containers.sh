@@ -15,7 +15,8 @@ EXP_NAME="$5"
 export FRONTEND_HOSTNAME=nova_cluster
 export HOSTNAME=tamara
 
-declare -A container_info  # key: container name, value: host,NODE_ID,RN_LISTEN_ADDR,GN_LISTEN_ADDR
+declare -A container_info  # container_name -> "host,NODE_ID,RN_LISTEN_ADDR,GN_LISTEN_ADDR"
+declare -A container_ips   # container_name -> IP
 
 select_random_container() {
     local prefix="$1"
@@ -48,10 +49,9 @@ select_random_container() {
     echo "GN_LISTEN_ADDR=$GN_LISTEN_ADDR"
 }
 
-# Get unique hostnames from oar-p2p net show
+# Get hostnames
 OUTPUT=$(oar-p2p net show)
 HOSTNAMES=$(echo "$OUTPUT" | awk '{print $1}' | sort -u)
-
 IMAGE="monoceros-all"
 
 # Build Docker images on each host
@@ -68,20 +68,17 @@ done
 
 per_region=$((NODES / REGIONS))
 
+# Read container IPs and host assignments
 NET_SHOW_LINES=()
 while IFS= read -r line; do
     NET_SHOW_LINES+=("$line")
 done < <(oar-p2p net show)
 
-# Start containers
+# Start containers and collect info
 declare -A host_cmds
 for ((i=0; i<NODES; i++)); do
     REGION_NUM=$(((i / per_region)+1))
-    if (( REGION_NUM == 1 )); then
-        GN_REGION_NUM=1
-    else
-        GN_REGION_NUM=$(( 1 + RANDOM % (REGION_NUM - 1) ))
-    fi
+    GN_REGION_NUM=$(( REGION_NUM == 1 ? 1 : 1 + RANDOM % (REGION_NUM - 1) ))
     REGION="r${REGION_NUM}"
     GN_REGION="r${GN_REGION_NUM}"
     REGION_IDX=$(((i % per_region)+1))
@@ -95,7 +92,7 @@ for ((i=0; i<NODES; i++)); do
     GN_LA="${IP}:7001"
     RRN_LA="${IP}:8001"
 
-    # Select RN and GN containers
+    # Select RN and GN contact nodes
     result=$(select_random_container "$REGION" "$NAME" "$GN_LA" "$RN_LA")
     eval "$result"
     RN_CONTACT_NODE_ID="$NODE_ID"
@@ -106,19 +103,6 @@ for ((i=0; i<NODES; i++)); do
     GN_CONTACT_NODE_ADDR="$GN_LISTEN_ADDR"
 
     LOG="/home/tamara/experiments/results/${EXP_NAME}/${NAME}"
-
-    echo "Node ID: ${NAME}"
-    echo "Region: ${REGION}"
-    echo "Global network region: ${GN_REGION}"
-    echo "IP address: ${IP}"
-    echo "HTTP listen addr: ${HTTP_LA}"
-    echo "RN listen addr: ${RN_LA}"
-    echo "RRN listen addr: ${RRN_LA}"
-    echo "GN listen addr: ${GN_LA}"
-    echo "RN contact node ID: ${RN_CONTACT_NODE_ID}"
-    echo "RN contact node addr: ${RN_CONTACT_NODE_ADDR}"
-    echo "GN contact node ID: ${GN_CONTACT_NODE_ID}"
-    echo "GN contact node addr: ${GN_CONTACT_NODE_ADDR}"
 
     host_cmds["$MACHINE"]+=$(cat <<EOF
 
@@ -147,12 +131,68 @@ sleep 0.3
 
 EOF
 )
+
     container_info["$NAME"]="$MACHINE,$NAME,$RN_LA,$GN_LA"
+    container_ips["$NAME"]="$IP"
 done
 
-# now execute per host
+# Start containers per host
 for host in $HOSTNAMES; do
     echo "Starting containers on $host..."
     ssh "$host" bash -s <<< "${host_cmds[$host]}"
     sleep 0.3
 done
+
+# Apply Gaussian-distributed packet loss per IP pair across all hosts
+for host in $HOSTNAMES; do
+    echo "Preparing packet loss commands for $host..."
+
+    # Find all containers on this host
+    host_containers=()
+    for c in "${!container_info[@]}"; do
+        IFS=',' read -r c_host _ _ _ <<< "${container_info[$c]}"
+        [[ "$c_host" == "$host" ]] && host_containers+=("$c")
+    done
+
+    if [[ ${#host_containers[@]} -eq 0 ]]; then
+        echo "No containers on $host, skipping"
+        continue
+    fi
+
+    # Detect host interface from first container's IP
+    first_ip="${container_ips[${host_containers[0]}]}"
+    iface=$(ssh "$host" "ip route get $first_ip | awk '{for(i=1;i<=NF;i++){if(\$i==\"dev\") print \$(i+1)}}' | head -n1")
+    if [[ -z "$iface" ]]; then
+        echo "Could not detect interface on $host, skipping"
+        continue
+    fi
+
+    # Prepare all commands for this host
+    cmds="tc qdisc del dev $iface root 2>/dev/null; tc qdisc add dev $iface root handle 1: prio;"
+
+    for src_name in "${host_containers[@]}"; do
+        src_ip="${container_ips[$src_name]}"
+
+        for dst_name in "${!container_ips[@]}"; do
+            [[ "$src_name" == "$dst_name" ]] && continue
+            dst_ip="${container_ips[$dst_name]}"
+
+            # Gaussian sample with mean=5%, stddev=5%, clipped 0-100%
+            loss=$(awk 'BEGIN{srand(); mu=5; sigma=5;
+                          x=mu+sigma*sqrt(-2*log(rand()))*cos(2*3.1415926535*rand());
+                          if(x<0)x=0; if(x>100)x=100; printf "%.2f", x}')
+
+            handle=$(( 10 + RANDOM % 90 ))
+
+            cmds+="tc qdisc add dev $iface parent 1:${handle} handle ${handle}: netem loss ${loss}%;"
+            cmds+="tc filter add dev $iface protocol ip parent 1:0 prio ${handle} u32 match ip src ${src_ip} match ip dst ${dst_ip} flowid 1:${handle};"
+        done
+    done
+
+    # Execute all commands in a single SSH call
+    ssh "$host" bash -c "$cmds"
+    echo "Packet loss configured on $host ($iface)"
+done
+
+
+echo "All containers started and random per-IP-pair packet loss configured."
