@@ -153,6 +153,8 @@ def average_nodes(rep_dir: Path, exp_name: str, min_ts: int, max_ts: int, events
     for node_dir in rep_dir.glob("r*_node_*"):
         if exp_name.startswith("mc_"):
             file_name = "avg_app_memory_usage_bytes{ func=avg level=region regionID=r1 }.csv"
+        elif exp_name.startswith("dd_"):
+            file_name = "avg_app_memory_usage_bytes{ func=avg }.csv";
         else:
             file_name = "value.csv"
         csv_file = node_dir / "results" / file_name

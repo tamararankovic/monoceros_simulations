@@ -58,6 +58,15 @@ do
             elif [[ "$protocol" == "fu" ]]; then
                 echo "      Starting cluster (flow updating) with nodes=$nodes_count, regions=$regions_count, latencies=$latency_local/$latency_global"
                 ./start_fu.sh "$nodes_count" "$regions_count" "$latency_local" "$latency_global" "$FULL_EXP_NAME/exp_$i"
+            elif [[ "$protocol" == "dd" ]]; then
+                echo "      Starting cluster (digest diffusion) with nodes=$nodes_count, regions=$regions_count, latencies=$latency_local/$latency_global"
+                ./start_dd.sh "$nodes_count" "$regions_count" "$latency_local" "$latency_global" "$FULL_EXP_NAME/exp_$i"
+            elif [[ "$protocol" == "rr" ]]; then
+                echo "      Starting cluster (randomized reports) with nodes=$nodes_count, regions=$regions_count, latencies=$latency_local/$latency_global"
+                ./start_rr.sh "$nodes_count" "$regions_count" "$latency_local" "$latency_global" "$FULL_EXP_NAME/exp_$i"
+            elif [[ "$protocol" == "ep" ]]; then
+                echo "      Starting cluster (extrema propagation) with nodes=$nodes_count, regions=$regions_count, latencies=$latency_local/$latency_global"
+                ./start_ep.sh "$nodes_count" "$regions_count" "$latency_local" "$latency_global" "$FULL_EXP_NAME/exp_$i"
             else
                 echo "      Unknown protocol: $protocol"
                 exit 1

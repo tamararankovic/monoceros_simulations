@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import pandas as pd
 import matplotlib.pyplot as plt
 import sys
@@ -9,22 +10,25 @@ if len(sys.argv) != 2:
 
 experiment_name = sys.argv[1]
 BASE_DIR = Path("/home/tamara/experiments/results")
+prefixes = ["fu", "mc", "dd", "ep", "rr"]
 
 def load_msg_df(exp_name: str) -> pd.DataFrame:
     df = pd.read_csv(BASE_DIR / exp_name / "msg_count.csv")
     df.set_index("timestamp", inplace=True)
     return df
 
-# Load both experiments
-fu_df = load_msg_df(f"fu_{experiment_name}")
-mc_df = load_msg_df(f"mc_{experiment_name}")
+# --- Load data for all prefixes ---
+msg_data = {}
+for prefix in prefixes:
+    exp_dir_name = f"{prefix}_{experiment_name}"
+    msg_data[prefix] = load_msg_df(exp_dir_name)
 
 # --- Plot counts ---
 plt.figure(figsize=(10, 6))
-plt.plot(fu_df.index, fu_df["sent"], label="Flow Updating - Sent")
-plt.plot(fu_df.index, fu_df["rcvd"], label="Flow Updating - Received")
-plt.plot(mc_df.index, mc_df["sent"], label="Monoceros - Sent", linestyle="--")
-plt.plot(mc_df.index, mc_df["rcvd"], label="Monoceros - Received", linestyle="--")
+for prefix, df in msg_data.items():
+    plt.plot(df.index, df["sent"], label=f"{prefix.upper()} - Sent")
+    plt.plot(df.index, df["rcvd"], label=f"{prefix.upper()} - Received", linestyle="--")
+
 plt.xlabel("Time (s)")
 plt.ylabel("Messages")
 plt.title("Messages Sent/Received Over Time")
@@ -36,10 +40,10 @@ plt.close()
 
 # --- Plot rates ---
 plt.figure(figsize=(10, 6))
-plt.plot(fu_df.index, fu_df["sent_rate"], label="Flow Updating - Sent Rate")
-plt.plot(fu_df.index, fu_df["rcvd_rate"], label="Flow Updating - Received Rate")
-plt.plot(mc_df.index, mc_df["sent_rate"], label="Monoceros - Sent Rate", linestyle="--")
-plt.plot(mc_df.index, mc_df["rcvd_rate"], label="Monoceros - Received Rate", linestyle="--")
+for prefix, df in msg_data.items():
+    plt.plot(df.index, df["sent_rate"], label=f"{prefix.upper()} - Sent Rate")
+    plt.plot(df.index, df["rcvd_rate"], label=f"{prefix.upper()} - Received Rate", linestyle="--")
+
 plt.xlabel("Time (s)")
 plt.ylabel("Messages per Second")
 plt.title("Message Rates Over Time")

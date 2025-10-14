@@ -38,22 +38,19 @@ Connect to the clusteer:
     oarsub -I -l nodes=8,walltime=3:00
     oarsub -I -l {"host in ('moltres-03', 'moltres-07', 'moltres-08', 'moltres-09', 'moltres-10')"}/nodes=5,walltime=12:00
 
-wait time when root is deadc
-- last + 2*Tagg - for region promotion
-- prev + wait for first aggregation result to come - for rr promotion
-
 docker stop r1_node_9 && echo "Stopped at: $(date +%s)"
 
-scp -r nova_cluster:/home/tamara/monoceros_simulations/scripts/log ~/Documents/monitoring/impl/exported
-scp -r nova_cluster:/home/tamara/visualize/plots ~/Documents/monitoring/impl/exported/exp2
-scp ~/Documents/monitoring/impl/visualize/msg_count.py nova_cluster:/home/tamara/visualize/msg_count.py
+COPY ANALYZE SCRIPTS TO REMOTE HOST
 
+scp ~/Documents/monitoring/impl/monoceros_simulations/experiments/analyze/values.py nova_cluster:/home/tamara/experiments/analyze/values.py
+scp ~/Documents/monitoring/impl/monoceros_simulations/experiments/analyze/msg_count.py nova_cluster:/home/tamara/experiments/analyze/msg_count.py
 
-scp ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/values.py nova_cluster:/home/tamara/experiments/plot/values.py
+COPY PLOT SCRIPTS TO REMOTE HOST
 
-scp nova_cluster:/home/tamara/experiments/results/tmp_100_1_rmse.svg ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/tmp/tmp_100_1_rmse.svg
-
-scp nova_cluster:/home/tamara/experiments/results/fu_tmp_100_1/value.svg ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/tmp/fu_100_new_value.svg
+scp ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/error_cmp.py nova_cluster:/home/tamara/experiments/plot/error_cmp.py
+scp ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/msg_count_cmp.py nova_cluster:/home/tamara/experiments/plot/msg_count_cmp.py
+scp ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/value_scatter_cmp.py nova_cluster:/home/tamara/experiments/plot/value_scatter_cmp.py
+scp ~/Documents/monitoring/impl/monoceros_simulations/experiments/plot/values_cmp.py nova_cluster:/home/tamara/experiments/plot/values_cmp.py
 
 CLUSTER EXPERIMENTS:
 

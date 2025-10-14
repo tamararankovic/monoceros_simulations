@@ -10,21 +10,23 @@ num_nodes="$1"
 shift  # remove num_nodes from args
 hosts=("$@")
 
-largest_container=""
-largest_host=""
-
 sum_nodes=$(( num_nodes * (num_nodes + 1) / 2 ))
 curr_num_nodes=$(( num_nodes ))
 expected_before=$(echo "scale=4; $sum_nodes/$num_nodes" | bc)
 
-# First, find the container with the largest name across all hosts
+largest_container=""
+largest_host=""
+largest_number=-1
+
 for host in "${hosts[@]}"; do
     containers=$(ssh "$host" "docker ps --format '{{.Names}}'")
     if [[ -z "$containers" ]]; then
         continue
     fi
     for c in $containers; do
-        if [[ -z "$largest_container" || "$c" > "$largest_container" ]]; then
+        num="${c##*_}"  # extract number after last underscore
+        if [[ "$num" =~ ^[0-9]+$ && "$num" -gt "$largest_number" ]]; then
+            largest_number="$num"
             largest_container="$c"
             largest_host="$host"
         fi

@@ -10,7 +10,7 @@ if len(sys.argv) != 2:
 
 experiment_name = sys.argv[1]
 BASE_DIR = Path("/home/tamara/experiments/results")
-
+prefixes = ["fu", "mc", "dd", "ep", "rr"]
 
 def compute_average_values(exp_name: str, common_index: pd.Index) -> pd.DataFrame:
     """
@@ -28,6 +28,7 @@ def compute_average_values(exp_name: str, common_index: pd.Index) -> pd.DataFram
         expected_df["ts_rcvd"] = expected_df["ts_rcvd"].astype(int)
         expected_df = expected_df.drop_duplicates(subset="ts_rcvd").set_index("ts_rcvd")
         expected_df = expected_df.reindex(common_index).ffill().bfill()
+        expected_all.append(expected_df["value"])
 
         # --- Measured: average across nodes ---
         node_files = sorted(rep_dir.glob("*/normalized_values.csv"))
@@ -49,14 +50,11 @@ def compute_average_values(exp_name: str, common_index: pd.Index) -> pd.DataFram
             measured_df = pd.concat(node_dfs, axis=1).mean(axis=1).to_frame(name="value")
             measured_all.append(measured_df["value"])
 
-        expected_all.append(expected_df["value"])
-
     # --- Average across repetitions ---
     expected_avg = pd.concat(expected_all, axis=1).mean(axis=1)
     measured_avg = pd.concat(measured_all, axis=1).mean(axis=1)
 
     return pd.DataFrame({"expected": expected_avg, "measured": measured_avg}, index=common_index)
-
 
 def get_full_index(exp_names):
     ts_all = []
@@ -68,29 +66,38 @@ def get_full_index(exp_names):
             ts_all.extend(expected_df["ts_rcvd"].astype(int).values)
     return pd.Index(sorted(set(ts_all)), dtype=int)
 
+# --- Build common index for all prefixes ---
+exp_names = [f"{prefix}_{experiment_name}" for prefix in prefixes]
+common_index = get_full_index(exp_names).astype(int)  # ensure numeric for plotting
 
-# --- Build common index for both experiments ---
-common_index = get_full_index([f"fu_{experiment_name}", f"mc_{experiment_name}"])
-common_index = common_index.astype(int)  # ensure numeric for plotting
-
-# --- Compute values for both experiments ---
-fu_values = compute_average_values(f"fu_{experiment_name}", common_index).ffill()
-mc_values = compute_average_values(f"mc_{experiment_name}", common_index).ffill()
+# --- Compute values for all prefixes ---
+values_dict = {}
+for prefix in prefixes:
+    values_dict[prefix] = compute_average_values(f"{prefix}_{experiment_name}", common_index).ffill()
+    values_dict[prefix]["expected"] = values_dict[prefix]["expected"].round(4)
+    values_dict[prefix]["measured"] = values_dict[prefix]["measured"].round(4)
 
 # --- Plot ---
 plt.figure(figsize=(10, 6))
-fu_values["expected"] = fu_values["expected"].round(4)
-fu_values["measured"] = fu_values["measured"].round(4)
-mc_values["expected"] = mc_values["expected"].round(4)
-mc_values["measured"] = mc_values["measured"].round(4)
-plt.plot(common_index, fu_values["expected"], label="FU Expected", linestyle="--")
-plt.plot(common_index, fu_values["measured"], label="FU Measured")
-plt.plot(common_index, mc_values["expected"], label="MC Expected", linestyle="--")
-plt.plot(common_index, mc_values["measured"], label="MC Measured")
+
+# Assign colors and line styles for clarity
+colors = {
+    "fu": "orange",
+    "mc": "red",
+    "dd": "purple",
+    "ep": "brown",
+    "rr": "cyan"
+}
+
+for prefix in prefixes:
+    plt.plot(common_index, values_dict[prefix]["expected"], label=f"{prefix.upper()} Expected",
+             linestyle="--", color=colors[prefix])
+    plt.plot(common_index, values_dict[prefix]["measured"], label=f"{prefix.upper()} Measured",
+             color=colors[prefix])
 
 plt.xlabel("Time (s)")
 plt.ylabel("Value")
-plt.title("Measured vs Expected Values (Flow Updating vs Monoceros)")
+plt.title("Measured vs Expected Values")
 plt.ticklabel_format(useOffset=False, style='plain', axis='y')
 plt.legend()
 plt.grid(True)

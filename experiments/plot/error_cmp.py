@@ -69,6 +69,7 @@
 # plt.close()
 
 
+#!/usr/bin/env python3
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -82,6 +83,8 @@ if len(sys.argv) != 2:
 experiment_name = sys.argv[1]
 BASE_DIR = Path("/home/tamara/experiments/results")
 
+prefixes = ["fu", "mc", "dd", "ep", "rr"]
+
 def compute_rmse(exp_name: str, common_index: pd.Index) -> pd.Series:
     """
     Compute the RMSE averaged across nodes and repetitions, aligned to a common index.
@@ -94,14 +97,14 @@ def compute_rmse(exp_name: str, common_index: pd.Index) -> pd.Series:
     for rep_dir in repetitions:
         expected_df = pd.read_csv(rep_dir / "normalized_expected_values.csv")
         expected_df.set_index("ts_rcvd", inplace=True)
-        expected_df = expected_df.reindex(common_index)#.fillna(method='bfill').fillna(method='ffill')
+        expected_df = expected_df.reindex(common_index)
 
         node_files = sorted(rep_dir.glob("*/normalized_values.csv"))
         node_dfs = []
         for f in node_files:
             node_df = pd.read_csv(f)
             node_df.set_index("ts_rcvd", inplace=True)
-            node_df = node_df.reindex(common_index)#.fillna(method='ffill').fillna(method='bfill')
+            node_df = node_df.reindex(common_index)
             node_dfs.append(node_df)
 
         measured_df = pd.concat(node_dfs, axis=1).mean(axis=1)
@@ -113,32 +116,31 @@ def compute_rmse(exp_name: str, common_index: pd.Index) -> pd.Series:
     rmse = np.sqrt(mean_square)
     return rmse
 
-
-# --- Determine common index across both experiments ---
-def get_full_index(exp_names):
+# --- Determine common index across all experiments ---
+def get_full_index(exp_name: str) -> pd.Index:
     ts_all = []
-    for exp_name in exp_names:
-        exp_dir = BASE_DIR / exp_name
+    for prefix in prefixes:
+        exp_dir = BASE_DIR / f"{prefix}_{exp_name}"
         repetitions = sorted(exp_dir.glob("exp_*"))
         for rep_dir in repetitions:
             expected_df = pd.read_csv(rep_dir / "normalized_expected_values.csv")
             ts_all.extend(expected_df["ts_rcvd"].values)
     return pd.Index(sorted(set(ts_all)))
 
+common_index = get_full_index(experiment_name)
 
-common_index = get_full_index([f"fu_{experiment_name}", f"mc_{experiment_name}"])
-
-# --- Compute aligned RMSE ---
-fu_rmse = compute_rmse(f"fu_{experiment_name}", common_index).ffill()
-mc_rmse = compute_rmse(f"mc_{experiment_name}", common_index).ffill()
-
-fu_rmse = fu_rmse.round(4)
-mc_rmse = mc_rmse.round(4)
+# --- Compute aligned RMSE for all prefixes ---
+rmse_dict = {}
+for prefix in prefixes:
+    exp_dir_name = f"{prefix}_{experiment_name}"
+    rmse_series = compute_rmse(exp_dir_name, common_index).ffill()
+    rmse_dict[prefix] = rmse_series.round(4)
 
 # --- Plot ---
 plt.figure(figsize=(10,6))
-plt.plot(common_index, fu_rmse.values, label="Flow Updating")
-plt.plot(common_index, mc_rmse.values, label="Monoceros")
+for prefix, series in rmse_dict.items():
+    plt.plot(common_index, series.values, label=prefix.upper())
+
 plt.ticklabel_format(useOffset=False, style='plain', axis='y')
 plt.xlabel("Time (s)")
 plt.ylabel("RMSE")
