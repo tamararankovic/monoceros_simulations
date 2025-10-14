@@ -112,7 +112,7 @@ docker run -dit \
     -e CONTACT_NODE_ID="$CONTACT_NODE_ID" \
     -e CONTACT_NODE_ADDR="$CONTACT_NODE_ADDR" \
     -e LISTEN_ADDR="$LA" \
-    -v "${LOG}:/var/log/fu" \
+    -v "${LOG}:/var/log/monoceros" \
     "$IMAGE"
 cd ../../
 sleep 0.3
