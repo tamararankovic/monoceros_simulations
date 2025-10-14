@@ -106,7 +106,7 @@ docker run -dit \
     --memory 250m \
     --name "$NAME" \
     --network=host \
-    --env-file rr.env" \
+    --env-file "rr.env" \
     -e NODE_REGION="$REGION" \
     -e NODE_ID="$NAME" \
     -e CONTACT_NODE_ID="$CONTACT_NODE_ID" \

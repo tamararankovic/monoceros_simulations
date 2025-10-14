@@ -15,8 +15,8 @@ EXP_NAME="$5"
 export FRONTEND_HOSTNAME=nova_cluster
 export HOSTNAME=tamara
 
-declare -A container_info  # container_name -> "host,NODE_ID,RN_LISTEN_ADDR,GN_LISTEN_ADDR"
-declare -A container_ips   # container_name -> IP
+declare -A container_info
+declare -A container_ips
 
 select_random_container() {
     local prefix="$1"
@@ -143,56 +143,56 @@ for host in $HOSTNAMES; do
     sleep 0.3
 done
 
-# Apply Gaussian-distributed packet loss per IP pair across all hosts
-for host in $HOSTNAMES; do
-    echo "Preparing packet loss commands for $host..."
+# # Apply Gaussian-distributed packet loss per IP pair across all hosts
+# for host in $HOSTNAMES; do
+#     echo "Preparing packet loss commands for $host..."
 
-    # Find all containers on this host
-    host_containers=()
-    for c in "${!container_info[@]}"; do
-        IFS=',' read -r c_host _ _ _ <<< "${container_info[$c]}"
-        [[ "$c_host" == "$host" ]] && host_containers+=("$c")
-    done
+#     # Find all containers on this host
+#     host_containers=()
+#     for c in "${!container_info[@]}"; do
+#         IFS=',' read -r c_host _ _ _ <<< "${container_info[$c]}"
+#         [[ "$c_host" == "$host" ]] && host_containers+=("$c")
+#     done
 
-    if [[ ${#host_containers[@]} -eq 0 ]]; then
-        echo "No containers on $host, skipping"
-        continue
-    fi
+#     if [[ ${#host_containers[@]} -eq 0 ]]; then
+#         echo "No containers on $host, skipping"
+#         continue
+#     fi
 
-    # Detect host interface from first container's IP
-    first_ip="${container_ips[${host_containers[0]}]}"
-    iface=$(ssh "$host" "ip route get $first_ip | awk '{for(i=1;i<=NF;i++){if(\$i==\"dev\") print \$(i+1)}}' | head -n1")
-    if [[ -z "$iface" ]]; then
-        echo "Could not detect interface on $host, skipping"
-        continue
-    fi
+#     # Detect host interface from first container's IP
+#     first_ip="${container_ips[${host_containers[0]}]}"
+#     iface=$(ssh "$host" "ip route get $first_ip | awk '{for(i=1;i<=NF;i++){if(\$i==\"dev\") print \$(i+1)}}' | head -n1")
+#     if [[ -z "$iface" ]]; then
+#         echo "Could not detect interface on $host, skipping"
+#         continue
+#     fi
 
-    # Prepare all commands for this host
-    cmds="tc qdisc del dev $iface root 2>/dev/null; tc qdisc add dev $iface root handle 1: prio;"
+#     # Prepare all commands for this host
+#     cmds="tc qdisc del dev $iface root 2>/dev/null; tc qdisc add dev $iface root handle 1: prio;"
 
-    for src_name in "${host_containers[@]}"; do
-        src_ip="${container_ips[$src_name]}"
+#     for src_name in "${host_containers[@]}"; do
+#         src_ip="${container_ips[$src_name]}"
 
-        for dst_name in "${!container_ips[@]}"; do
-            [[ "$src_name" == "$dst_name" ]] && continue
-            dst_ip="${container_ips[$dst_name]}"
+#         for dst_name in "${!container_ips[@]}"; do
+#             [[ "$src_name" == "$dst_name" ]] && continue
+#             dst_ip="${container_ips[$dst_name]}"
 
-            # Gaussian sample with mean=5%, stddev=5%, clipped 0-100%
-            loss=$(awk 'BEGIN{srand(); mu=5; sigma=5;
-                          x=mu+sigma*sqrt(-2*log(rand()))*cos(2*3.1415926535*rand());
-                          if(x<0)x=0; if(x>100)x=100; printf "%.2f", x}')
+#             # Gaussian sample with mean=5%, stddev=5%, clipped 0-100%
+#             loss=$(awk 'BEGIN{srand(); mu=5; sigma=5;
+#                           x=mu+sigma*sqrt(-2*log(rand()))*cos(2*3.1415926535*rand());
+#                           if(x<0)x=0; if(x>100)x=100; printf "%.2f", x}')
 
-            handle=$(( 10 + RANDOM % 90 ))
+#             handle=$(( 10 + RANDOM % 90 ))
 
-            cmds+="tc qdisc add dev $iface parent 1:${handle} handle ${handle}: netem loss ${loss}%;"
-            cmds+="tc filter add dev $iface protocol ip parent 1:0 prio ${handle} u32 match ip src ${src_ip} match ip dst ${dst_ip} flowid 1:${handle};"
-        done
-    done
+#             cmds+="tc qdisc add dev $iface parent 1:${handle} handle ${handle}: netem loss ${loss}%;"
+#             cmds+="tc filter add dev $iface protocol ip parent 1:0 prio ${handle} u32 match ip src ${src_ip} match ip dst ${dst_ip} flowid 1:${handle};"
+#         done
+#     done
 
-    # Execute all commands in a single SSH call
-    ssh "$host" bash -c "$cmds"
-    echo "Packet loss configured on $host ($iface)"
-done
+#     # Execute all commands in a single SSH call
+#     ssh "$host" bash -c "$cmds"
+#     echo "Packet loss configured on $host ($iface)"
+# done
 
 
-echo "All containers started and random per-IP-pair packet loss configured."
+# echo "All containers started and random per-IP-pair packet loss configured."
