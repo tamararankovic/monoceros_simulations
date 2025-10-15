@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -lt 3 ]]; then
+if [[ $# -lt 2 ]]; then
     echo "Usage: $0 <num_nodes> <host1> [host2 ...]"
     exit 1
 fi
@@ -11,101 +11,38 @@ num_iterations=5
 shift
 hosts=("$@")
 
-MEM_FILE="container_mem_values.txt"  # file to store persistent memory values
-
-# Base metrics (constant part)
-METRICS_TEMPLATE='
-# HELP app_request_processing_time_seconds Average request processing time
-# TYPE app_request_processing_time_seconds gauge
-app_request_processing_time_seconds 0.256
-
-# HELP app_cpu_load_ratio CPU load (0-1)
-# TYPE app_cpu_load_ratio gauge
-app_cpu_load_ratio 0.13
-
-# HELP app_active_sessions Current active user sessions
-# TYPE app_active_sessions gauge
-app_active_sessions 42
-
-# HELP app_queue_depth_pending_jobs Jobs waiting in queue
-# TYPE app_queue_depth_pending_jobs gauge
-app_queue_depth_pending_jobs 7
-
-# HELP app_cache_hit_ratio Cache hit ratio
-# TYPE app_cache_hit_ratio gauge
-app_cache_hit_ratio 0.82
-
-# HELP app_current_goroutines Goroutine count
-# TYPE app_current_goroutines gauge
-app_current_goroutines 33
-
-# HELP app_last_backup_timestamp_seconds Unix timestamp of last successful backup
-# TYPE app_last_backup_timestamp_seconds gauge
-app_last_backup_timestamp_seconds 1.700000e+09
-
-# HELP app_http_requests_total Total HTTP requests processed
-# TYPE app_http_requests_total counter
-app_http_requests_total 12890
-
-# HELP app_errors_total Total errors encountered
-# TYPE app_errors_total counter
-app_errors_total 17
-'
-
 declare -A container_mem
 events=()
 
-# --- Load previous mem values if file exists ---
-if [[ -f "$MEM_FILE" ]]; then
-    while read -r line; do
-        [[ -z "$line" ]] && continue
-        cname=$(awk '{print $1}' <<< "$line")
-        val=$(awk '{print $2}' <<< "$line")
-        container_mem["$cname"]="$val"
-    done < "$MEM_FILE"
-fi
-
-# --- Gather all containers ---
+# --- Gather container names from all hosts ---
 for host in "${hosts[@]}"; do
     containers=$(ssh "$host" "docker ps --format '{{.Names}}'")
     while read -r c; do
         [[ -z "$c" ]] && continue
-        if [[ -z "${container_mem[$c]+set}" ]]; then
-            # if not yet stored, initialize with container suffix
-            num="${c##*_}"
-            container_mem["$c"]="$num"
-        fi
+        num="${c##*_}"
+        container_mem["$c"]="$num"
     done <<< "$containers"
 done
 
-# --- Compute initial expected average ---
+# --- Compute initial average ---
 sum_init=0
 count=0
 for v in "${container_mem[@]}"; do
-    sum_init=$(awk "BEGIN {print $sum_init + $v}")
+    sum_init=$((sum_init + v))
     count=$((count + 1))
 done
-expected_before=$(awk "BEGIN {print $sum_init / $count}")
+expected_before=$( ((count > 0)) && echo "scale=4; $sum_init / $count" | bc || echo 0 )
 
 # --- Iterate N times ---
 for ((i=1; i<=num_iterations; i++)); do
-    echo ">>> Iteration $i / $num_iterations"
+    # echo ">>> Iteration $i / $num_iterations"
 
     for host in "${hosts[@]}"; do
         output=$(ssh "$host" "bash -s" <<'REMOTE'
 set -euo pipefail
 
-containers=($(docker ps --format '{{.Names}}'))
-total=${#containers[@]}
-if (( total == 0 )); then
-    exit 0
-fi
-
-# Select every 10th container
-selected=()
-for ((i=0; i<total; i+=10)); do
-    selected+=("${containers[$i]}")
-done
+# Select containers whose name ends with '0' (10%)
+selected=($(docker ps --format '{{.Names}}' | grep '0$'))
 
 for name in "${selected[@]}"; do
     ip_env=$(docker inspect "$name" --format '{{range .Config.Env}}{{println .}}{{end}}' | grep LISTEN_ | head -n1)
@@ -161,9 +98,14 @@ REMOTE
     done
 
     if (( i < num_iterations )); then
-        echo "Sleeping 10s before next iteration..."
+        # echo "Sleeping 10s before next iteration..."
         sleep 10
     fi
+done
+
+# --- Cleanup .mem_prev files on all hosts ---
+for host in "${hosts[@]}"; do
+    ssh "$host" "rm -f \$HOME/*.mem_prev" || echo "Warning: failed to remove .mem_prev files on $host"
 done
 
 # --- Output JSON ---

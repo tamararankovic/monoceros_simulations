@@ -57,7 +57,7 @@ CLUSTER EXPERIMENTS:
 export OAR_JOB_ID={JOB_ID}
 bash start_nodes_cluster.sh 10 1 50 200 tmp
 bash start_fu_cluster.sh 10 1 50 200 tmp
-bash start_dd_cluster.sh 10 1 50 200 tmp
+bash start_dd_cluster.sh 100 1 50 200 tmp
 bash start_rr_cluster.sh 10 1 50 200 tmp
 bash start_ep_cluster.sh 10 1 50 200 tmp
 bash cleanup_nodes_cluster.sh

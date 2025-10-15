@@ -86,7 +86,7 @@ colors = {
     "mc": "red",
     "dd": "purple",
     "ep": "brown",
-    "rr": "cyan"
+    "rr": "green"
 }
 
 for prefix in prefixes:

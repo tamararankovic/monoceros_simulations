@@ -141,7 +141,8 @@ plt.figure(figsize=(10,6))
 for prefix, series in rmse_dict.items():
     plt.plot(common_index, series.values, label=prefix.upper())
 
-plt.ticklabel_format(useOffset=False, style='plain', axis='y')
+plt.yscale("log")
+# plt.ticklabel_format(useOffset=False, style='plain', axis='y')
 plt.xlabel("Time (s)")
 plt.ylabel("RMSE")
 plt.title("RMSE comparison")

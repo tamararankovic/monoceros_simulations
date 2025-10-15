@@ -11,9 +11,11 @@ shift
 hosts=("$@")
 
 # Find the container with the largest name across all hosts
+all_containers=()
+
 largest_container=""
 largest_host=""
-all_containers=()
+largest_number=-1
 
 for host in "${hosts[@]}"; do
     containers=$(ssh "$host" "docker ps --format '{{.Names}}'")
@@ -22,7 +24,9 @@ for host in "${hosts[@]}"; do
     fi
     for c in $containers; do
         all_containers+=("$host:$c")
-        if [[ -z "$largest_container" || "$c" > "$largest_container" ]]; then
+        num="${c##*_}"
+        if [[ "$num" =~ ^[0-9]+$ && "$num" -gt "$largest_number" ]]; then
+            largest_number="$num"
             largest_container="$c"
             largest_host="$host"
         fi
